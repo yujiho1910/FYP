@@ -84,7 +84,7 @@ def type_matrix(results):
     counts = Counter(diags)
     
     # Sort the diagonal symbols by increasing frequency
-    sorted_symbols = sorted(counts, key=lambda x: (counts[x], x))
+    sorted_symbols = sorted(counts, key=lambda x: counts[x])
     
     # Build a mapping from old symbol -> new label (0, 1, 2, ...)
     mapping = {symbol: i for i, symbol in enumerate(sorted_symbols)}
@@ -93,8 +93,6 @@ def type_matrix(results):
     new_diag = [mapping[symbol] for symbol in diags]
     for i in range(dimension):
         sorted_matrix[i, i] = new_diag[i]
-
-    print(diags)
     
     # ----------------------------------------------------------------
     # Second permutation: reorder by the new diagonal labels
@@ -110,8 +108,6 @@ def type_matrix(results):
     # Apply the second permutation
     perm_matrix = Permutation(perm).to_matrix()
     sorted_matrix = perm_matrix.T @ sorted_matrix @ perm_matrix
-
-    print(sorted_diag)
     
     # ----------------------------------------------------------------
     # FINAL read of the diagonal:
@@ -121,8 +117,6 @@ def type_matrix(results):
     
     # Build intervals of consecutive identical labels on final_diag
     intervals = get_intervals(final_diag)
-
-    print(final_diag)
     
     # ----------------------------------------------------------------
     # Construct the condensed type matrix
