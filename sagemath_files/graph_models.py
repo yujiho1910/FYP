@@ -2,7 +2,9 @@
 from sage.graphs.graph import Graph  # Base graph class in Sage
 from sage.graphs.graph_generators import graphs  # For generating predefined graphs
 from sage.matrix.constructor import Matrix  # For constructing Sage matrices
-from sage.combinat.permutation import Permutation  # For permutations and permutation matrices
+from sage.combinat.permutation import (
+    Permutation,
+)  # For permutations and permutation matrices
 
 # For numerical operations
 import numpy as np
@@ -16,6 +18,7 @@ class FYP_Graph:
     A class to represent a graph for the Final Year Project (FYP) research.
     Includes graph operations, Weisfeiler-Leman (WL) refinement, and coherent rank computation.
     """
+
     def __init__(self, obj):
         """
         Initialize the graph with a SageMath Graph object.
@@ -35,6 +38,7 @@ class FYP_Graph:
         self.blocks = None
         self.total = None
         self.points_of_interest = None
+        self.config_list = None
 
     def __repr__(self):
         """
@@ -154,8 +158,6 @@ class FYP_Graph:
             list: List of submatrices (blocks).
         """
         if self.blocks is None:
-            
-
             if self.intervals is None:
                 self.get_interval()
 
@@ -192,6 +194,35 @@ class FYP_Graph:
                     if dims[0] == dims[1]:
                         visualise_matrix(matrix)
                     print()
+        return self.blocks
+
+    def get_config_list(self):
+        """
+        Return the list of configurations of the adjacency matrix.
+
+        Returns:
+            list: List of configurations of the adjacency matrix.
+        """
+        if self.config_list is not None:
+            return self.config_list
+        if self.weisfeiler_results is None:
+            self.get_weisfeiler_results()
+
+        if self.final_config_matrix is None:
+            self.get_type_matrix()
+
+        ret = []
+        for i in range(int(self.weisfeiler_results[2].split(" ")[1])):
+            temp_matrix = [[0 for _ in range(self.dimension)] for _ in range(self.dimension)]
+            for j in range(self.dimension):
+                for k in range(self.dimension):
+                    if i == self.final_config_matrix[j][k]:
+                        temp_matrix[j][k] = 1
+            ret.append(temp_matrix)
+
+        self.config_list = ret
+        return ret
+
 
     def switch_graph(self, i):
         """
@@ -282,7 +313,6 @@ class OA_Graph(FYP_Graph):
         """
         Create an Orthogonal Array Block Graph using parameters m and n.
         """
-        # Placeholder logic: Create a complete graph as an example
         return graphs.OrthogonalArrayBlockGraph(m, n)
 
 
@@ -423,7 +453,7 @@ def type_matrix(results):
             row_block.append(len(unique_vals))
         res.append(row_block)
 
-    m = len(res)  # number of blocks
+    m = len(res)  # dimension of type matrix
     diag_tm = [res[i][i] for i in range(m)]
 
     pairs = [(val, idx) for idx, val in enumerate(diag_tm)]
@@ -476,7 +506,7 @@ def visualise_matrix(sub_matrix):
     Parameters
     ----------
     sub_matrix : array-like or matrix
-        A submatrix (or full adjacency matrix) representing the graph structure. 
+        A submatrix (or full adjacency matrix) representing the graph structure.
         The entries must be numeric (e.g., 0/1 for unweighted graphs, weights for weighted graphs).
 
     Returns
