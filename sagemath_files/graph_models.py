@@ -253,6 +253,27 @@ class FYP_Graph:
                 )  # Add the edge if it doesn't exist in original graph
 
         return FYP_Graph(new_g)
+    
+    def switch_graph_edges(self, list):
+        new_g = self.obj.copy()
+        vertices_to_switch = []
+        for i in list:
+            vertices_to_switch.append(self.obj.vertices()[i])
+
+        for j in self.obj.vertex_iterator():
+            if j in vertices_to_switch:
+                continue
+
+            # now j is not in the list of vertices to switch
+            for i in vertices_to_switch:
+                if self.obj.has_edge(i, j):
+                    new_g.delete_edge(i, j)
+                else:
+                    new_g.add_edge(i, j)
+        
+
+        return FYP_Graph(new_g)
+
 
     def delete_vertex(self, i):
         """

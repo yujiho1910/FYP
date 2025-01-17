@@ -1,0 +1,231 @@
+\documentclass[12pt]{article}
+\usepackage{geometry}
+\geometry{a4paper, margin=1in}
+\usepackage{amsmath, amssymb, graphicx}
+\usepackage{booktabs}
+\usepackage{hyperref}
+\usepackage{tikz}
+\usepackage{float}
+\usepackage{minted}
+
+\begin{document}
+
+\begin{titlepage}
+    \centering
+    \vspace*{1in}
+    \Large\textbf{Investigations of Coherent Ranks in Graphs Derived from Orthogonal Arrays}
+    \vspace{1in}
+
+    \large\textbf{Ho Jing Rui}\\
+    \textbf{Supervisor: Asst Prof Gary Greaves}\\
+    % \textbf{Submission Date: January 14, 2025}
+    \vfill
+\end{titlepage}
+
+\section*{Abstract}
+The project investigates the properties of various constructions of Mutually Orthogonal Latin Squares (MOLS) and their relation to combinatorial designs. Specifically, MOLS correspond to certain 2-class association schemes, and this study explores how graph operations such as vertex switching and deletion can generalize these into coherent configurations. Using tools such as SageMath and the Weisfeiler-Lehman algorithm, the project demonstrates significant results, including the coherent rank behavior of rook graphs and the structural decomposition of adjacency matrices, revealing strong regularity. These findings contribute to the broader understanding of combinatorial objects and their symmetries.
+
+\newpage
+\tableofcontents
+\newpage
+
+\section{Introduction}
+Orthogonal arrays (OAs) are fundamental in combinatorial design theory and have applications in various fields such as coding theory and experimental design. This project focuses on:
+\begin{itemize}
+    \item Constructing \(n-1\) mutually orthogonal Latin squares (MOLS) of order \(n\).
+    \item Investigating the coherent ranks of graphs derived from orthogonal arrays and subsequently Strongly regular graphs.
+    \item Performing graph operations (Vertex Switching, Vertex Deletion) on such graphs.
+    \item Analysing the decomposition of adjacency matrices to explain coherent ranks.
+\end{itemize}
+Coherent rank and strong regularity are crucial in understanding the structure and symmetries of combinatorial objects.
+
+\section{Progress and Methodology}
+\subsection{Constructing \(n-1\) MOLS of Order \(n\)}
+Initially, the project aimed to construct \(n-1\) MOLS using finite fields of size \(n\), $\mathbb F_n$, where \(n\) is a prime power. This was achieved by leveraging the algebraic structure of finite fields to generate Latin squares and verify their orthogonality. More specifically, the \(n-1\) latin squares are constructed as such: \\
+Let \( L_k \) denote the \( k \)-th Latin square, where \( 1 \leq k < n \). The \((i, j)\)-th entry of \( L_k \) is defined as:
+\[
+L_k(i, j) = a_i + k \cdot a_j,
+\]
+where \( a_i \) and \( a_j \) are elements (constructors) in the finite field \( \mathbb{F}_n \). \\
+
+\subsubsection{Why \( L_k \) is a Latin Square} 
+
+A Latin square of order \( n \) is an \( n \times n \) array in which each symbol from a set of \( n \) distinct elements appears exactly once in each row and each column. To show that \( L_k \) satisfies these properties, consider its construction:
+
+\[
+L_k(i, j) = a_i + k \cdot a_j,
+\]
+where \( a_i, a_j \in \mathbb{F}_n \), the finite field of order \( n \).
+
+\begin{itemize}
+    \item \textbf{Row uniqueness:} Fix \( i \) and vary \( j \). The entries in row \( i \) are given by:
+    \[
+    a_i + k \cdot a_j \quad \text{for } j = 0, 1, \dots, n-1.
+    \]
+    Since \( a_j \) takes all distinct values in \( \mathbb{F}_n \) and \( k \) is a fixed non-zero scalar, the values \( k \cdot a_j \) also take all distinct values in \( \mathbb{F}_n \). Adding \( a_i \) (a fixed element) to these values results in a permutation of the elements of \( \mathbb{F}_n \). Thus, each row contains \( n \) distinct elements.
+
+    \item \textbf{Column uniqueness:} Fix \( j \) and vary \( i \). The entries in column \( j \) are given by:
+    \[
+    a_i + k \cdot a_j \quad \text{for } i = 0, 1, \dots, n-1.
+    \]
+    Since \( a_i \) takes all distinct values in \( \mathbb{F}_n \), the values \( a_i + k \cdot a_j \) are also distinct for a fixed \( k \cdot a_j \). Hence, each column contains \( n \) distinct elements.
+\end{itemize}
+
+Therefore, \( L_k \) satisfies the definition of a Latin square.
+
+\subsubsection{Why \( L_k \) and \( L_{k'} \) are Mutually Orthogonal} 
+
+Two Latin squares \( L_k \) and \( L_{k'} \) of order \( n \) are mutually orthogonal if, when superimposed, each ordered pair of symbols appears exactly once. To verify this, consider the superposition of \( L_k \) and \( L_{k'} \):
+
+\[
+\big(L_k(i, j), L_{k'}(i, j)\big) = \big(a_i + k \cdot a_j, a_i + k' \cdot a_j\big),
+\]
+where \( k \neq k' \).
+
+\begin{itemize}
+    \item For fixed \( i \) and \( j \), the pair \( (L_k(i, j), L_{k'}(i, j)) \) is uniquely determined by the values of \( a_i \) and \( a_j \).
+    \item Consider two distinct pairs \( (i, j) \) and \( (i', j') \). If \( \big(L_k(i, j), L_{k'}(i, j)\big) = \big(L_k(i', j'), L_{k'}(i', j')\big) \), then:
+    \[
+    \begin{aligned}
+    a_i + k \cdot a_j &= a_{i'} + k \cdot a_{j'}, \\
+    a_i + k' \cdot a_j &= a_{i'} + k' \cdot a_{j'}.
+    \end{aligned}
+    \]
+    Subtracting the first equation from the second yields:
+    \[
+    (k - k') \cdot a_j = (k - k') \cdot a_{j'}.
+    \]
+    Since \( k \neq k' \) and \( \mathbb{F}_n \) is a field (implying no zero divisors), it follows that \( a_j = a_{j'} \). Substituting \( a_j = a_{j'} \) back into either equation implies \( a_i = a_{i'} \). Thus, \( (i, j) = (i', j') \).
+
+    \item Therefore, each ordered pair \( \big(L_k(i, j), L_{k'}(i, j)\big) \) appears exactly once, proving that \( L_k \) and \( L_{k'} \) are mutually orthogonal.
+\end{itemize}
+
+
+
+\subsection{Generating Graphs}
+The focus then shifted to analysing block graphs derived from orthogonal arrays \(\text{OA}(m, n)\) as well as Triangular graphs, line graphs of Complete graphs. Using the Weisfeiler-Lehman (WL) algorithm \cite{k-wl}, coherent ranks were computed. The WL algorithm was implemented through a C++ codebase \cite{reichard_weisfeiler} integrated with SageMath.
+
+\subsubsection{Generating Orthogonal Array block graphs}
+We utilised the SageMath \(\texttt{graphs.OrthogonalArrayBlockGraph()}\) \cite{sagemath_OA} method to instantiate the graph object. In particular, we tested for $\text{OA}(2, n)$ and $\text{OA}(n-1,n)$. \\
+We later found that block graphs generated by $\text{OA}(2, n)$ are isomorphic to Rook graphs of size $n\times n$ and will later use this term instead.
+\begin{minted}[frame=lines, linenos, fontsize=\small]{python}
+graphs.OrthogonalArrayBlockGraph(2, n).is_isomorphic(graphs.RookGraph([n,n])
+# Output: True
+\end{minted}
+
+
+\subsubsection{Generating Triangular graphs}
+We also utilised the Sagemath \(\texttt{graphs.CompleteGraph().line\_graph()}\) \cite{sagemath_complete_graph}\cite{sagemath_line_graph} method to instantiate the graph object for triangular graphs. 
+% \begin{minted}
+% graphs.CompleteGraph(n).line_graph()    
+% \end{minted}
+
+\subsection{Deriving results from graph operations}
+By running the graphs through the WL algorithm, we obtained the coherent configuration matrices that allowed us to identify the fibres \cite{gary} and different coherent algebra of the matrix. \\
+This allowed us to form the coherent closure $\mathcal{W}(L)$ and thus show the coherent rank of the matrix. The matrix of coherent configurations were also permutated according to the fibres and analysed further to identify certain patterns that held for different $n$. They are referred to as the Type Matrix of the graph, which have examples as shwon below.
+
+\subsection{Analysis of Rook graphs}
+Rook graphs, isomorphic to \(\text{OA}(2, n)\), were shown to exhibit coherent ranks of:
+\begin{itemize}
+    \item \textbf{10 after vertex deletion.}
+    \item \textbf{15 after vertex switching.}
+\end{itemize}
+This was validated computationally and compared against theoretical predictions.
+The reduced type matrix are as follows:
+\[
+\begin{bmatrix}
+  3 & 2 \\
+    & 3
+\end{bmatrix}
+\hspace{1cm}
+\begin{bmatrix}
+  1 & 1 & 1 \\
+    & 3 & 2 \\
+    &   & 3
+\end{bmatrix}
+\]
+
+\subsection{Analysis of \(\text{OA}(n-1, n)\) graphs}
+Block graphs constructed from orthogonal arrays of size $(n-1, n)$ also exhibit same patterns as those of rook graphs, with an exception when \(n = 4\), i.e. when the Orthogonal array is of size OA\((3,4)\). Only for this case, the coherent rank of this graph is:
+\begin{itemize}
+    \item \textbf{24 after vertex deletion.}
+    \item \textbf{31 after vertex switching.}
+\end{itemize}
+with the reduced type matrices as follows:
+\[
+\begin{bmatrix}
+  2 & 2 & 2 \\
+    & 4 & 3 \\
+    &   & 4
+\end{bmatrix}
+\hspace{1cm}
+\begin{bmatrix}
+  1 & 1 & 1 & 1 \\
+    & 2 & 2 & 2 \\
+    &   & 4 & 3 \\
+    &   &   & 4
+\end{bmatrix}
+\]
+
+\subsection{Analysis of Triangular graphs}
+Triangular graphs, of large size ($n > 6$), were also shown to exhibit coherent ranks of:
+\begin{itemize}
+    \item \textbf{11 after vertex deletion.}
+    \item \textbf{16 after vertex switching.}
+\end{itemize}
+This was validated computationally and compared against theoretical predictions.
+The reduced type matrix are as follows:
+\[
+\begin{bmatrix}
+  3 & 2 \\
+    & 4
+\end{bmatrix}
+\hspace{1cm}
+\begin{bmatrix}
+  1 & 1 & 1 \\
+    & 3 & 2 \\
+    &   & 4
+\end{bmatrix}
+\]
+
+\subsection{Decomposition of Adjacency Matrices}
+In order to verify the computations from the WL Algorithm, adjacency matrix decomposition was used on Rook graphs with a deleted vertex to identify the structure that leads to the explanation of its coherent rank. Strong relations to Strongly regular designs by Sankey were observed.
+
+\section{Challenges Faced}
+\begin{itemize}
+    \item Learning and understanding Finite Fields without prior knowledge proved challenging yet rewarding.
+    \item Utilising SageMath for the first time, but picked up the syntax and relevant libraries quickly.
+    \item Interpreting the results of coherent rank calculations required significant effort, from permutating the coherent configuration matrix to scaling it into a "type matrix".
+    \item Proving strong regularity for matrix decomposition involved theoretical work which referenced many external research papers.
+\end{itemize}
+
+\section{Results and Discussion}
+Key findings include:
+\begin{itemize}
+    \item Coherent rank of rook graphs derived from \(\text{OA}(2, n)\) is 10 after deletion and 15 after vertex switching.
+    \item Decomposition of adjacency matrices reveals a strongly regular design.
+\end{itemize}
+These findings align with the project objectives and demonstrate the utility of computational tools in verifying theoretical results.
+
+\section{Future Work}
+\begin{itemize}
+    \item Explore \(\text{OA}(k, n)\) for \(k > 2\) and their graph representations.
+    \item Investigate the effect of alternative graph transformations on coherent rank.
+    \item Formalize proofs for adjacency matrix decomposition leading to strong regularity.
+    \item Extend applications of findings to broader combinatorial structures.
+\end{itemize}
+
+\section{Conclusion}
+This report summarizes the progress made in investigating coherent ranks and adjacency matrix decomposition. Significant results were obtained for rook graphs and their transformations, laying the foundation for future work in combinatorial designs and graph theory.
+
+% \section*{References}
+% \begin{enumerate}
+%     \item Relevant paper/book on orthogonal arrays and Latin squares.
+%     \item GitHub repository for the Weisfeiler-Lehman algorithm.
+%     \item SageMath documentation.
+% \end{enumerate}
+
+\bibliographystyle{unsrt}
+\bibliography{references}
+
+\end{document}
