@@ -8,12 +8,14 @@
 \usepackage{float}
 \usepackage{minted}
 
+% https://asankey.ext.unb.ca/papers/sankey-srd.pdf
+
 \begin{document}
 
 \begin{titlepage}
     \centering
     \vspace*{1in}
-    \Large\textbf{Investigations of Coherent Ranks in Graphs Derived from Orthogonal Arrays}
+    \Large\textbf{Investigations of Coherent Ranks Through Graph Operations on Strongly Regular Graphs}
     \vspace{1in}
 
     \large\textbf{Ho Jing Rui}\\
@@ -44,31 +46,31 @@ Coherent rank and strong regularity are crucial in understanding the structure a
 Initially, the project aimed to construct \(n-1\) MOLS using finite fields of size \(n\), $\mathbb F_n$, where \(n\) is a prime power. This was achieved by leveraging the algebraic structure of finite fields to generate Latin squares and verify their orthogonality. More specifically, the \(n-1\) latin squares are constructed as such: \\
 Let \( L_k \) denote the \( k \)-th Latin square, where \( 1 \leq k < n \). The \((i, j)\)-th entry of \( L_k \) is defined as:
 \[
-L_k(i, j) = a_i + k \cdot a_j,
+L_k(i, j) = a_i + a_k \cdot a_j,
 \]
-where \( a_i \) and \( a_j \) are elements (constructors) in the finite field \( \mathbb{F}_n \). \\
+where \( a_i, a_j \) and \(a_k\) are elements (constructors) in the finite field \( \mathbb{F}_n \). \\
 
 \subsubsection{Why \( L_k \) is a Latin Square} 
 
 A Latin square of order \( n \) is an \( n \times n \) array in which each symbol from a set of \( n \) distinct elements appears exactly once in each row and each column. To show that \( L_k \) satisfies these properties, consider its construction:
 
 \[
-L_k(i, j) = a_i + k \cdot a_j,
+L_k(i, j) = a_i + a_k \cdot a_j,
 \]
-where \( a_i, a_j \in \mathbb{F}_n \), the finite field of order \( n \).
+where \( a_i, a_j, a_k \in \mathbb{F}_n \), the finite field of order \( n \).
 
 \begin{itemize}
     \item \textbf{Row uniqueness:} Fix \( i \) and vary \( j \). The entries in row \( i \) are given by:
     \[
-    a_i + k \cdot a_j \quad \text{for } j = 0, 1, \dots, n-1.
+    a_i + a_k \cdot a_j \quad \text{for } j = 0, 1, \dots, n-1.
     \]
-    Since \( a_j \) takes all distinct values in \( \mathbb{F}_n \) and \( k \) is a fixed non-zero scalar, the values \( k \cdot a_j \) also take all distinct values in \( \mathbb{F}_n \). Adding \( a_i \) (a fixed element) to these values results in a permutation of the elements of \( \mathbb{F}_n \). Thus, each row contains \( n \) distinct elements.
+    Since \( a_j \) takes all distinct values in \( \mathbb{F}_n \) and \( a_k \) is a fixed non-zero element in \( \mathbb{F}_n \), the values \( a_k \cdot a_j \) also take all distinct values in \( \mathbb{F}_n \). Adding \( a_i \) (a fixed element) to these values results in a permutation of the elements of \( \mathbb{F}_n \). Thus, each row contains \( n \) distinct elements.
 
     \item \textbf{Column uniqueness:} Fix \( j \) and vary \( i \). The entries in column \( j \) are given by:
     \[
-    a_i + k \cdot a_j \quad \text{for } i = 0, 1, \dots, n-1.
+    a_i + a_k \cdot a_j \quad \text{for } i = 0, 1, \dots, n-1.
     \]
-    Since \( a_i \) takes all distinct values in \( \mathbb{F}_n \), the values \( a_i + k \cdot a_j \) are also distinct for a fixed \( k \cdot a_j \). Hence, each column contains \( n \) distinct elements.
+    Since \( a_i \) takes all distinct values in \( \mathbb{F}_n \), the values \( a_i + a_k \cdot a_j \) are also distinct for a fixed \( a_k \cdot a_j \). Hence, each column contains \( n \) distinct elements.
 \end{itemize}
 
 Therefore, \( L_k \) satisfies the definition of a Latin square.
@@ -78,7 +80,7 @@ Therefore, \( L_k \) satisfies the definition of a Latin square.
 Two Latin squares \( L_k \) and \( L_{k'} \) of order \( n \) are mutually orthogonal if, when superimposed, each ordered pair of symbols appears exactly once. To verify this, consider the superposition of \( L_k \) and \( L_{k'} \):
 
 \[
-\big(L_k(i, j), L_{k'}(i, j)\big) = \big(a_i + k \cdot a_j, a_i + k' \cdot a_j\big),
+\big(L_k(i, j), L_{k'}(i, j)\big) = \big(a_i + a_k \cdot a_j, a_i + a_{k'} \cdot a_j\big),
 \]
 where \( k \neq k' \).
 
@@ -87,15 +89,15 @@ where \( k \neq k' \).
     \item Consider two distinct pairs \( (i, j) \) and \( (i', j') \). If \( \big(L_k(i, j), L_{k'}(i, j)\big) = \big(L_k(i', j'), L_{k'}(i', j')\big) \), then:
     \[
     \begin{aligned}
-    a_i + k \cdot a_j &= a_{i'} + k \cdot a_{j'}, \\
-    a_i + k' \cdot a_j &= a_{i'} + k' \cdot a_{j'}.
+    a_i + a_k \cdot a_j &= a_{i'} + a_k \cdot a_{j'}, \\
+    a_i + a_{k'} \cdot a_j &= a_{i'} + a_{k'} \cdot a_{j'}.
     \end{aligned}
     \]
     Subtracting the first equation from the second yields:
     \[
-    (k - k') \cdot a_j = (k - k') \cdot a_{j'}.
+    (a_k - a_{k'}) \cdot a_j = (a_k - a_{k'}) \cdot a_{j'}.
     \]
-    Since \( k \neq k' \) and \( \mathbb{F}_n \) is a field (implying no zero divisors), it follows that \( a_j = a_{j'} \). Substituting \( a_j = a_{j'} \) back into either equation implies \( a_i = a_{i'} \). Thus, \( (i, j) = (i', j') \).
+    Since \( a_k \neq a_{k'} \) and \( \mathbb{F}_n \) is a field (implying no zero divisors), it follows that \( a_j = a_{j'} \). Substituting \( a_j = a_{j'} \) back into either equation implies \( a_i = a_{i'} \). Thus, \( (i, j) = (i', j') \).
 
     \item Therefore, each ordered pair \( \big(L_k(i, j), L_{k'}(i, j)\big) \) appears exactly once, proving that \( L_k \) and \( L_{k'} \) are mutually orthogonal.
 \end{itemize}
@@ -108,6 +110,7 @@ The focus then shifted to analysing block graphs derived from orthogonal arrays 
 \subsubsection{Generating Orthogonal Array block graphs}
 We utilised the SageMath \(\texttt{graphs.OrthogonalArrayBlockGraph()}\) \cite{sagemath_OA} method to instantiate the graph object. In particular, we tested for $\text{OA}(2, n)$ and $\text{OA}(n-1,n)$. \\
 We later found that block graphs generated by $\text{OA}(2, n)$ are isomorphic to Rook graphs of size $n\times n$ and will later use this term instead.
+
 \begin{minted}[frame=lines, linenos, fontsize=\small]{python}
 graphs.OrthogonalArrayBlockGraph(2, n).is_isomorphic(graphs.RookGraph([n,n])
 # Output: True
@@ -189,7 +192,8 @@ The reduced type matrix are as follows:
 \]
 
 \subsection{Decomposition of Adjacency Matrices}
-In order to verify the computations from the WL Algorithm, adjacency matrix decomposition was used on Rook graphs with a deleted vertex to identify the structure that leads to the explanation of its coherent rank. Strong relations to Strongly regular designs by Sankey were observed.
+In order to verify the computations from the WL Algorithm, adjacency matrix decomposition was used on Rook graphs with a deleted vertex to identify the structure that leads to the explanation of its coherent rank. (Currently, this has only been done for Rook graphs and analysis for other graphs are planned to follow.) \\
+After adjacency matrix decomposition for Rook graphs with a deleted vertex, strong relations to Strongly regular designs \cite{sankey_srd} by Sankey were observed.
 
 \section{Challenges Faced}
 \begin{itemize}

@@ -7,6 +7,9 @@
 \usepackage{titlesec}
 \usepackage{hyperref}
 \setcounter{MaxMatrixCols}{20}
+\newtheorem{proposition}{Proposition}
+\newtheorem{definition}{Definition}
+\newtheorem{theorem}{Theorem}
 
 \title{Obtaining a Strongly Regular Design by Deleting a Vertex from a Rook Graph}
 \author{}
@@ -74,22 +77,29 @@ In this paper, we investigate the effect of deleting a single vertex from a rook
 
 \section{Definition of a Rook Graph}
 
-A rook graph \( R_{n,n} \) is defined as a graph where:
+A rook graph is defined as a graph, \(R_{n,n} = (V_R,E_R)\), where:
 \begin{itemize}
-    \item Vertices represent the cells of an \( n \times n \) chessboard.
-    \item Two vertices are adjacent if they lie in the same row or column.
+    \item Vertices represent the cells of an \( n \times n \) chessboard, \(|V_R| = n^2\).
+    \item Two vertices are adjacent if they lie in the same row or column on the chessboard.
 \end{itemize}
+An example of \(R_{3,3}\) can be seen in Figure~\ref{fig:rook-graph}. 
 
-Alternatively, rook graphs can be constructed using an orthogonal array \( \text{OA}(2, n) \), which has the following properties:
+\section{Construction of \(R_{n,n}\)}
+
+Alternatively, \(R_{n,n}\) can be constructed using an orthogonal array of size \( \text{OA}(2, n) \), which has the following properties:
 \begin{itemize}
     \item \( \text{OA}(2, n) \) is a \( 2 \times n^2 \) matrix, where each column corresponds to a unique pair \( (x, y) \in \{1, \dots, n\} \times \{1, \dots, n\} \).
     \item For any two rows, every pair of entries appears exactly once in the same column.
 \end{itemize}
 
-The vertices of \( R_{n,n} \) correspond to the columns of \( \text{OA}(2, n) \), with edges defined by shared values in any row.
-
-\section{Construction of the Block Graph}
-
+We can visualise it as such:
+$$
+\text{OA}(2, n) = \begin{bmatrix}
+    1 & 1 & \cdots & 1 & 2 & 2 & \cdots & 2 & \cdots & n & n & \cdots & n \\
+    1 & 2 & \cdots & n & 1 & 2 & \cdots & n & \cdots & 1 & 2 & \cdots & n \\
+\end{bmatrix}
+$$
+\\
 Given \( \text{OA}(2, n) \), the associated block graph \( G = (V, E) \) is constructed as follows:
 \begin{itemize}
     \item Each vertex \( v_i \) corresponds to the \( i \)-th column of the orthogonal array, so \( |V| = n^2 \).
@@ -103,7 +113,84 @@ For example, for \( n = 3 \), the orthogonal array \( \text{OA}(2, 3) \) is:
 1 & 2 & 3 & 1 & 2 & 3 & 1 & 2 & 3
 \end{bmatrix}.
 \]
-The corresponding rook graph has 9 vertices and adjacency relations based on shared row values.
+
+The corresponding block graph constructed from OA\((2, 3)\) would have $9$ vertices in total, with each vertex being adjacent to 4 other vertices.
+(i.e. $\begin{pmatrix}
+    1\\1
+\end{pmatrix}$ is adjacent to $\begin{pmatrix}
+    1\\2
+\end{pmatrix}$, $\begin{pmatrix}
+    1\\3
+\end{pmatrix}$, $\begin{pmatrix}
+    2\\1
+\end{pmatrix}$ and $\begin{pmatrix}
+    3\\1
+\end{pmatrix}$)
+
+It can be observed that this construction of \(G\) is isomorphic to Rook graph \(R_{3,3}\), and we can generalise it to \(R_{n,n}\) as well.
+
+\begin{theorem}
+    A block graph construction of OA\((2,n)\) is isomorphic to \(R_{n,n}\).
+\end{theorem}
+
+\begin{proof} 
+We want to show that the block graph construction of OA\((2,n)\), \(G = (V,E)\), is isomorphic to the Rook graph, \(R_{n,n} = (V_R, E_R)\). \\ \\
+Given 
+\(
+\text{OA}(2, n) = \begin{bmatrix}
+    1 & 1 & \cdots & 1 & 2 & 2 & \cdots & 2 & \cdots & n & n & \cdots & n \\
+    1 & 2 & \cdots & n & 1 & 2 & \cdots & n & \cdots & 1 & 2 & \cdots & n \\
+\end{bmatrix},
+\) \\
+let $G = (V,E)$ be the block graph constructed using the steps defined above. \\
+
+We proceed as follows:
+\begin{enumerate}
+    \item \textbf{Vertex Sets}: 
+    Since the columns of OA\((2,n)\) spans \(\{1,2,\cdots,n\}^2\), \(|V| = n^2\). Similarly, the vertices of \(R_{n,n}\) correspond to the cells of an \(n \times n\) chessboard, so \(|V_R| = n^2\). Therefore, \(|V| = |V_R|\).
+
+    \item \textbf{Edge Sets}: 
+    In \(G\), two vertices are adjacent if their corresponding columns in OA\((2,n)\) share the same value in at least one row. This means that:
+    \begin{itemize}
+        \item If two vertices share the same value in the top row, they are adjacent.
+        \item If two vertices share the same value in the bottom row, they are adjacent.
+    \end{itemize}
+    This adjacency condition matches exactly how edges are defined in \(R_{n,n}\), where two cells of the chessboard are connected if they lie in the same row or column. Thus, the adjacency relationships in \(G\) and \(R_{n,n}\) are equivalent.
+
+    \item \textbf{Bijection}: 
+    Define a mapping \(f: V \to V_R\) as follows:
+    \begin{align*}
+        f(c) &= (x,y), \text{  where \( c = (x,y)^T \in V \) and \((x,y) \in V_R\). }
+    \end{align*}
+    This shows a mapping $f$ where the column of OA\((2,n)\), \(c = (x,y)^T\), which represents the vertex in $G$, is mapped to $(x,y)$, the unique position of the vertex in $R_{n,n}$. \\
+    To show that the mapping is bijective, we show the following:
+    \begin{itemize}
+        \item \textbf{Injectivitiy}: \\
+        Assume \(f(c_1) = f(c_2)\), where \(c_1 = \begin{bmatrix} x_1 \\ y_1 \end{bmatrix}\) and \(c_2 = \begin{bmatrix} x_2 \\ y_2 \end{bmatrix}\). Then:
+        \[
+        f(c_1) = (x_1, y_1) \quad \text{and} \quad f(c_2) = (x_2, y_2).
+        \]
+        Since \(f(c_1) = f(c_2)\), it follows that:
+        \[
+        (x_1, y_1) = (x_2, y_2).
+        \]
+        Thus, \(x_1 = x_2\) and \(y_1 = y_2\), which implies \(c_1 = c_2\). Therefore, \(f\) is injective.
+    
+        \item \textbf{Surjectivity}: \\
+        Since we have shown injectivity, for each \(c \in V\), there is a unique \(f(c) \in V_R\). Thus, the set of images \(\{f(c) | c \in V\} \subseteq V_R\) contains exactly \(n^2\) elements. We have also shown
+        Let \((x, y) \in V_R\) be an arbitrary vertex in \(R_{n,n}\). By the construction of OA\((2, n)\), there exists a column \(c = \begin{bmatrix} x \\ y \end{bmatrix} \in V\) such that the top row contains \(x\) and the bottom row contains \(y\). Thus, \(f(c) = (x, y)\), meaning every vertex in \(V_R\) has a preimage in \(V\). Therefore, \(f\) is surjective.
+    \end{itemize} 
+    Thus, we have shown that the mapping $f$ is a bijection.
+
+    \item \textbf{Adjacency Preservation}: 
+    If two vertices in \(G\) are adjacent, they share the same value in the top or bottom row of OA\((2,n)\). Under the mapping \(f\), this means the corresponding vertices in \(R_{n,n}\) share the same row or column. Similarly, if two vertices in \(R_{n,n}\) are adjacent, their positions share the same row or column, which corresponds to adjacency in \(G\). Thus, \(f\) preserves adjacency.
+
+\end{enumerate}
+Therefore, since $f$ is a bijection from $V\to V_R$ such that the edges are preserved, $G\cong R_{n,n}$.
+    
+\end{proof}
+
+% Since we have shown isomorphism, we will understand the rook graph using the OA(2, n) construction.
 
 \section{Deletion of One Vertex}
 
@@ -117,19 +204,20 @@ After removal:
 
 This operation partitions the vertices into two subsets:
 \begin{enumerate}
-    \item The \( 2(n-1) \) vertices adjacent to \( v_1 \), corresponding to
+    \item The \( 2(n-1) \) vertices adjacent to \( v_1 \), corresponding to the set:
     \begin{align*}
-        \begin{pmatrix} 1 \\ 2 \end{pmatrix}, \begin{pmatrix} 1 \\ 3 \end{pmatrix},..., \begin{pmatrix} 1 \\ n \end{pmatrix}, \begin{pmatrix} 2 \\ 1 \end{pmatrix}, \begin{pmatrix} 3 \\ 1 \end{pmatrix},..., \begin{pmatrix} n \\ 1 \end{pmatrix} 
-    \end{align*}
-    \item The remaining \( (n-1)^2 \) vertices, corresponding to
+        \left\{ \begin{pmatrix} 1 \\ 2 \end{pmatrix}, \begin{pmatrix} 1 \\ 3 \end{pmatrix},..., \begin{pmatrix} 1 \\ n \end{pmatrix}, \begin{pmatrix} 2 \\ 1 \end{pmatrix}, \begin{pmatrix} 3 \\ 1 \end{pmatrix},..., \begin{pmatrix} n \\ 1 \end{pmatrix} \right\}
+    \end{align*} \\
+    We shall call this set the point set, $P$.
+    \item The remaining \( (n-1)^2 \) vertices, corresponding to the set:
     \begin{align*}
-        \begin{pmatrix} 2 \\ 2 \end{pmatrix}, \begin{pmatrix} 2 \\ 3 \end{pmatrix},...,\begin{pmatrix} 2 \\ n \end{pmatrix},\begin{pmatrix} 3 \\ 2 \end{pmatrix}, \begin{pmatrix} 3 \\ 3 \end{pmatrix},...,\begin{pmatrix} 3 \\ n \end{pmatrix},...,\begin{pmatrix} n \\ 2 \end{pmatrix}, \begin{pmatrix} n \\ 3 \end{pmatrix},...,\begin{pmatrix} n \\ n \end{pmatrix}
-    \end{align*}
+        \left\{ \begin{pmatrix} 2 \\ 2 \end{pmatrix}, \begin{pmatrix} 2 \\ 3 \end{pmatrix},...,\begin{pmatrix} 2 \\ n \end{pmatrix},\begin{pmatrix} 3 \\ 2 \end{pmatrix}, \begin{pmatrix} 3 \\ 3 \end{pmatrix},...,\begin{pmatrix} 3 \\ n \end{pmatrix},...,\begin{pmatrix} n \\ 2 \end{pmatrix}, \begin{pmatrix} n \\ 3 \end{pmatrix},...,\begin{pmatrix} n \\ n \end{pmatrix} \right \}
+    \end{align*} \\
+    We shall call this set the block set, $B$.
 \end{enumerate}
 
 \section{Adjacency Matrix Partitioning}
-
-Reordering the adjacency matrix \( \mathbf{A} \) by grouping the vertices by their degrees after removing \( v_1 \) reveals a block structure:
+By grouping the vertices corresponding to $P$ and $B$ together, we end up with a matrix decomposition:
 \[
 \mathbf{A} =
 \begin{bmatrix}
@@ -139,168 +227,127 @@ Reordering the adjacency matrix \( \mathbf{A} \) by grouping the vertices by the
 \]
 where:
 \begin{itemize}
-    \item \( \mathbf{A}_1 \): Adjacency matrix of the \( 2(n-1) \) vertices adjacent to \( v_1 \).
-    \item \( \mathbf{A}_2 \): Adjacency matrix of the remaining \( (n-1)^2 \) vertices.
-    \item \( \mathbf{C} \): Matrix representing connections between the two subsets.
-\end{itemize}
+    \item \( \mathbf{A}_1 \): Adjacency matrix of the Point graph \(\Gamma_P\).
+    \item \( \mathbf{A}_2 \): Adjacency matrix of the Block graph \(\Gamma_B\).
+\end{itemize} 
+In order to observe certain properties, we aim to show that the sub-graphs \(\Gamma_P\) and \(\Gamma_B\) have specific structures:
 
-The sub-graphs \( \mathbf{A}_1 \) and \( \mathbf{A}_2 \) have the following structures:
-\begin{itemize}
-    \item \( \mathbf{A}_1 \): Two disjoint \( K_{n-1} \) graphs (coherent rank 3).
-    \item \( \mathbf{A}_2 \): An orthogonal array block graph of size \( \text{OA}(2, n-1) \) (coherent rank 3).
-    \item \( \mathbf{C} \) has a regular structure related to the above two sub-graphs.
-\end{itemize}
+\begin{proposition}
+    \(\Gamma_P\) is the graph of two disjoint Complete graphs of size \(n-1\).%\(K_{n-1}\) graphs.
+    \end{proposition}
+\begin{proof}
+    The point graph \(\Gamma_P\) contains vertices which correspond to elements in the set: \\
+    \begin{align*}
+        P = \left\{ \begin{pmatrix} 1 \\ 2 \end{pmatrix}, \begin{pmatrix} 1 \\ 3 \end{pmatrix},..., \begin{pmatrix} 1 \\ n \end{pmatrix}, \begin{pmatrix} 2 \\ 1 \end{pmatrix}, \begin{pmatrix} 3 \\ 1 \end{pmatrix},..., \begin{pmatrix} n \\ 1 \end{pmatrix} \right\}
+    \end{align*}
+    Let us split the set into subsets \(L\) and \(R\):
+    \begin{align*}
+        L &= \left\{ \begin{pmatrix} 1 \\ 2 \end{pmatrix}, \begin{pmatrix} 1 \\ 3 \end{pmatrix},..., \begin{pmatrix} 1 \\ n \end{pmatrix}\right\} = \left \{ \begin{pmatrix} 1 \\ i \end{pmatrix} \middle| \text{ }i = 2, 3, \cdots, n\right \}, \\ \\
+        R &= \left\{ \begin{pmatrix} 2 \\ 1 \end{pmatrix}, \begin{pmatrix} 3 \\ 1 \end{pmatrix},..., \begin{pmatrix} n \\ 1 \end{pmatrix} \right\} = \left \{ \begin{pmatrix} i \\ 1 \end{pmatrix} \middle| \text{ }i = 2, 3, \cdots, n\right \}
+    \end{align*}
+    \begin{itemize}
+        \item \textbf{Show disjointness of graphs}: \\
+        Let \(v_L = \begin{pmatrix} 1 \\ i \end{pmatrix}\in L\) and \(v_R = \begin{pmatrix} j \\ 1 \end{pmatrix} \in R\), such that \(i, j \in \{2,3,\cdots,n\}\). For any \(v_L\) and \(v_R\), \(i \neq 1\) and \(j \neq 1\), and thus \(v_L\) will not be adjacent to \(v_R\), showing that there are no edges between the vertex sets \(L \text{ and } R\). \\
+        Since we have shown that the vertex sets \(L\) and \(R\) do not have any edges, we can conclude that the graphs from \(L\) and \(R\) are disjoint.
+        \item \textbf{Show that the graphs \(\Gamma_L \text{ and } \Gamma_R\) are both \(K_{n-1}\)}:
+        \begin{itemize}
+            \item \(\Gamma_L\): Notice that the vertices in \(L\) are adjacent to each other as the top row are all equal to 1, \(v_L = \begin{pmatrix} 1 \\ i \end{pmatrix}\in L\). Since \(|L| = n-1\), we can conclude that a Complete graph of size \(n-1\) is formed, i.e. \(K_{n-1}\)
+            \item \(\Gamma_R\): Similar to the case of \(L\), we note that the vertices in \(R\) are adjacent to each other as the bottom row are all equal to 1, \(v_R = \begin{pmatrix} j \\ 1 \end{pmatrix} \in R\). Since \(|R| = n-1\), we can conclude that another Complete graph of size \(n-1\) is formed, i.e. \(K_{n-1}\)
+        \end{itemize}
+    \end{itemize}
+     We have shown that the sub-graphs formed by vertex sets \(L\) and \(R\) are disjoint, and that \(\Gamma_L \text{ and } \Gamma_R\) are both \(K_{n-1}\) and thus have proved the proposition above.
+\end{proof}
 
-This design structure is akin to the Strongly regular design described by Sankey\cite{sankey_srd}.
+\begin{proposition}
+    \(\Gamma_B\) is the block graph construction of OA\((2,n-1)\).
+\end{proposition}
+\begin{proof} The Block graph \(\Gamma_B\) contains vertices which correspond to elements in the set:
+\begin{align*}
+    B = \left\{ \begin{pmatrix} 2 \\ 2 \end{pmatrix}, \begin{pmatrix} 2 \\ 3 \end{pmatrix},...,\begin{pmatrix} 2 \\ n \end{pmatrix},\begin{pmatrix} 3 \\ 2 \end{pmatrix}, \begin{pmatrix} 3 \\ 3 \end{pmatrix},...,\begin{pmatrix} 3 \\ n \end{pmatrix},...,\begin{pmatrix} n \\ 2 \end{pmatrix}, \begin{pmatrix} n \\ 3 \end{pmatrix},...,\begin{pmatrix} n \\ n \end{pmatrix} \right \}
+\end{align*}
+We can generalise this set into:
+\begin{align*}
+    B &= \left \{ \begin{pmatrix} i \\ j \end{pmatrix} \middle | \text{ } i = \{2,3,\cdots,n\}, j = \{2,3,\cdots,n\}\right \} \\
+    & = \left \{ \begin{pmatrix} i-1 + 1 \\ j-1 + 1 \end{pmatrix} \middle | \text{ } i-1 = \{1,2,\cdots,n-1\}, j-1 = \{1,2,\cdots,n-1\}\right \} \\
+    &= \left \{ \begin{pmatrix} i'+1 \\ j'+1 \end{pmatrix} \middle | \text{ } i' = \{1,2,\cdots,n-1\}, j' = \{1,2,\cdots,n-1\}\right \}
+\end{align*} \\
+By mapping \(\begin{pmatrix} i'+1 \\ j'+1 \end{pmatrix}\) to \(\begin{pmatrix} i' \\ j' \end{pmatrix}\) by subtracting 1 from each row, we can show that \(\Gamma_B\) is isomorphic to a block graph constructed by OA\((2,n-1)\).
+\end{proof}
 
-% \section{Exploring the Coherent Structure and SRD Properties of Sub-matrices}
-% To understand why the adjacency matrix partitions as shown, we analyse each sub-matrix in relation to its structural and combinatorial properties.
-
-% \subsection{\( \mathbf{A_1} \): Disjoint \( K_{n-1} \) Sub-graphs}
-% The vertices in \( \mathbf{A_1} \) correspond to the coordinates in:
-% \[
-% \begin{pmatrix} 1 \\ 2 \end{pmatrix}, \begin{pmatrix} 1 \\ 3 \end{pmatrix},..., \begin{pmatrix} 1 \\ n \end{pmatrix}, \begin{pmatrix} 2 \\ 1 \end{pmatrix}, \begin{pmatrix} 3 \\ 1 \end{pmatrix},..., \begin{pmatrix} n \\ 1 \end{pmatrix}.
-% \]
-% These vertices form two disjoint complete graphs \( K_{n-1} \), one corresponding to row-wise adjacency and the other to column-wise adjacency. Each vertex is connected to \( n-2 \) other vertices within its \( K_{n-1} \), resulting in a coherent rank of 3. (1 for the first complete graph, 1 for the second complete graph, and 1 for the non-edges)
-
-% \subsection{\( \mathbf{A_2} \): Orthogonal Array Block Graph}
-% The vertices in \( \mathbf{A_2} \) correspond to:
-% \[
-% \begin{pmatrix} 2 \\ 2 \end{pmatrix}, \begin{pmatrix} 2 \\ 3 \end{pmatrix},...,\begin{pmatrix} 2 \\ n \end{pmatrix},\begin{pmatrix} 3 \\ 2 \end{pmatrix}, \begin{pmatrix} 3 \\ 3 \end{pmatrix},...,\begin{pmatrix} 3 \\ n \end{pmatrix},...,\begin{pmatrix} n \\ 2 \end{pmatrix}, \begin{pmatrix} n \\ 3 \end{pmatrix},...,\begin{pmatrix} n \\ n \end{pmatrix}.
-% \]
-% This sub-graph is isomorphic to the block graph of \( \text{OA}(2, n-1) \), leading to a known coherent rank of 3. 
-
-% \subsection{\( \mathbf{C} \): Interaction Between Sub-graphs}
-% The sub-matrix \( \mathbf{C} \), of dimensions \( 2(n-1) \times (n-1)^2 \), encodes the connections between \( \mathbf{A_1} \) and \( \mathbf{A_2} \). Splitting \( \mathbf{C} \) into two $(n-1) \times (n-1)^2$ matrices, \( \mathbf{C_1} \) and \( \mathbf{C_2} \), we observe:
-% \paragraph{}
-% For $\mathbf{C_1}$, we are concerned with
-% \[
-% \begin{pmatrix} 1 \\ 2 \end{pmatrix}, \begin{pmatrix} 1 \\ 3 \end{pmatrix},..., \begin{pmatrix} 1 \\ n \end{pmatrix},
-% \]
-% along the rows and
-% \[
-% \begin{pmatrix} 2 \\ 2 \end{pmatrix}, \begin{pmatrix} 2 \\ 3 \end{pmatrix},...,\begin{pmatrix} 2 \\ n \end{pmatrix},\begin{pmatrix} 3 \\ 2 \end{pmatrix}, \begin{pmatrix} 3 \\ 3 \end{pmatrix},...,\begin{pmatrix} 3 \\ n \end{pmatrix},...,\begin{pmatrix} n \\ 2 \end{pmatrix}, \begin{pmatrix} n \\ 3 \end{pmatrix},...,\begin{pmatrix} n \\ n \end{pmatrix}.
-% \]
-% along the columns.
-% We can observe that each row only has $n-1$ adjacent vertices by relation of its bottom coordinate, ie.
-% \[
-%     \begin{pmatrix} 1 \\ 2 \end{pmatrix} \text{ is adjacent to } \begin{pmatrix} 2 \\ 2 \end{pmatrix}, \begin{pmatrix} 3 \\ 2 \end{pmatrix}, ..., \text{ and } \begin{pmatrix} n \\ 2 \end{pmatrix}
-% \]
-% leading to a row like
-% \[
-% [\underbrace{1 \quad 0 \quad \cdots \quad 0}_{n-1 \text{ elements}} \quad 1 \quad 0 \quad \cdots \quad 0 \quad \cdots]
-% \]
-
-% When repeated for $\begin{pmatrix} 1 \\ 3 \end{pmatrix}$ onwards, we can see that there are \(n-1\) blocks of $\mathcal{}{I}_{n-1}$ for this sub-matrix $\mathbf{C}_1$. Thus, \( \mathbf{C_1} \) contains \( n-1 \) blocks of \( I_{n-1} \).
-
-
-% \begin{align*}
-%     \mathbf{C_1} 
-%     &=
-%     \begin{bmatrix}
-%         I_{n-1} & I_{n-1} & \cdots 
-%     \end{bmatrix} \\ \\
-%     &= 
-%     \begin{bmatrix}
-%     1 & 0 & \cdots & 0  & 1 & 0 & \cdots & 0 & \cdots & 1 & 0 & \cdots & 0 \\
-%     0 & 1 & \cdots & 0 & 0 & 1 & \cdots & 0 & \cdots & 0 & 1 & \cdots & 0 \\
-%     \vdots & \vdots &  \ddots & \vdots & \vdots & \vdots & \ddots & \vdots & \cdots & \vdots & \vdots & \ddots & \vdots \\
-%     0 & 0 & \cdots & 1 & 0 & 0 & \cdots & 1 & \cdots & 0 & 0 & \cdots & 1 \\
-%     \end{bmatrix}
-% \end{align*}
-
-% \paragraph{}
-% For $\mathbf{C_2}$, we are concerned with
-% \[
-% \begin{pmatrix} 2 \\ 1 \end{pmatrix}, \begin{pmatrix} 3 \\ 1 \end{pmatrix},..., \begin{pmatrix} n \\ 1 \end{pmatrix}
-% \]
-% along the rows instead, with the same vertices along the column as $\mathbf{C_1}$
-% \[
-% \begin{pmatrix} 2 \\ 2 \end{pmatrix}, \begin{pmatrix} 2 \\ 3 \end{pmatrix},...,\begin{pmatrix} 2 \\ n \end{pmatrix},\begin{pmatrix} 3 \\ 2 \end{pmatrix}, \begin{pmatrix} 3 \\ 3 \end{pmatrix},...,\begin{pmatrix} 3 \\ n \end{pmatrix},...,\begin{pmatrix} n \\ 2 \end{pmatrix}, \begin{pmatrix} n \\ 3 \end{pmatrix},...,\begin{pmatrix} n \\ n \end{pmatrix}.
-% \]
-% We can observe that for each row, it is adjacent to $n-1$ vertices as well, but the 1s are contiguous, ie
-% \[
-%     \begin{pmatrix} 2 \\ 1 \end{pmatrix} \text{ is adjacent to } \begin{pmatrix} 2 \\ 2 \end{pmatrix}, \begin{pmatrix} 2 \\ 3 \end{pmatrix}, ..., \text{ and } \begin{pmatrix} 2 \\ n \end{pmatrix}
-% \]
-% leading to a row like
-% \[
-% [\underbrace{1 \quad 1 \quad \cdots \quad 1}_{n-1 \text{ elements}} \quad 0 \quad 0 \quad 0 \quad  \cdots \quad]
-% \]
-
-% When repeated for $\begin{pmatrix} 3 \\ 1 \end{pmatrix}$ onwards, we observe a pattern for $\mathbf{C_2}$ that follows this structure,
-
-
-% \[
-% \mathbf{C_2}  = 
-%     \begin{bmatrix}
-%     1 & 1 & \cdots & 1 & 0 & 0 & \cdots & 0 & \cdots & 0 & 0 & \cdots & 0 \\
-%     0 & 0 & \cdots & 0 & 1 & 1 & \cdots & 1 & \cdots & 0 & 0 & \cdots & 0 \\
-%     \vdots & \vdots & \ddots & \vdots & \vdots & \vdots & \ddots & \vdots & \cdots & \vdots & \vdots & \ddots & \vdots \\
-%     0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & \cdots & 1 & 1 & \cdots & 1
-%     \end{bmatrix}
-% \]
-
-% putting the two matrices together, we obtain a matrix that looks like
-
-% \begin{align*}
-%     \mathbf{C}  
-%     &=
-%     \begin{bmatrix}
-%         \mathbf{C_1} \\ 
-%         \mathbf{C_2}
-%     \end{bmatrix} \\ \\ 
-%     &= 
-%     \begin{bmatrix}
-%     1 & 0 & \cdots & 0  & 1 & 0 & \cdots & 0 & \cdots & 1 & 0 & \cdots & 0 \\
-%     0 & 1 & \cdots & 0 & 0 & 1 & \cdots & 0 & \cdots & 0 & 1 & \cdots & 0 \\
-%     \vdots & \vdots &  \ddots & \vdots & \vdots & \vdots & \ddots & \vdots & \cdots & \vdots & \vdots & \ddots & \vdots \\
-%     0 & 0 & \cdots & 1 & 0 & 0 & \cdots & 1 & \cdots & 0 & 0 & \cdots & 1 \\
-%     \\
-%     1 & 1 & \cdots & 1 & 0 & 0 & \cdots & 0 & \cdots & 0 & 0 & \cdots & 0 \\
-%     0 & 0 & \cdots & 0 & 1 & 1 & \cdots & 1 & \cdots & 0 & 0 & \cdots & 0 \\
-%     \vdots & \vdots & \ddots & \vdots & \vdots & \vdots & \ddots & \vdots & \cdots & \vdots & \vdots & \ddots & \vdots \\
-%     0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & \cdots & 1 & 1 & \cdots & 1
-%     \end{bmatrix}
-% \end{align*}
+From this decomposition, we can tell that \(\Gamma_P\) and \(\Gamma_B\) both are type-3 graphs, corresponding to a \(\begin{bmatrix}
+    3 &  \\
+      & 3
+\end{bmatrix}\) type structure of the original \(\mathbf{A} = A(\Gamma)\).
+This design structure is akin to the Strongly regular design described by Sankey\cite{sankey_srd}, which has a type matrix:
+\[
+\begin{bmatrix}
+    3 & 2 \\
+    & 3
+\end{bmatrix}
+\]
 
 \section{Exploring the Coherent Structure and SRD Properties of Sub-matrices}
+To show that \(\mathbf{A}\) decomposes into the Strongly regular design of type \(\begin{bmatrix}
+    3 & 2 \\
+    & 3
+\end{bmatrix}\), we need to verify that the equations from Sankey holds. Mainly, the equations are as follows:
+\begin{definition}
+    A strongly regular design is a finite incidence structure consisting of a set \(X_1\) of points, a set \(X_2\) of blocks, and an incidence relation \(F \subseteq X_1 \times X_2\), such that the following are nonnegative integer constants:
+    \begin{itemize}
+        \item \(S_1 :=\) number of points incident with (in) each block;
+        \item \(S_2 :=\) number of blocks incident with (containing) each point;
+        \item \(a_1,b_1\) := the two distinct block intersection sizes;
+        \item \(a_2,b_2\) := the two distinct point join sizes, that is the number of blocks containing two given points;
+        \item \(N_1\) \((P_1)\) := number of points adjacent to a point \(x\) and incident with a block \(y\), provided \(x\) is (is not) incident with \(y\);
+        \item \(N_2\) \((P_2)\) := number of points containing a point \(x\) and adjacent with a block \(y\), given \(x\) is (is not) incident with \(y\);
+    \end{itemize}
+\end{definition}
+Sankey also goes on to describe that the point graph, consisting of vertices from \(X_1\), and the block graph, consisting of vertices from \(X_2\), are strongly regular. This corresponds to the earlier propositions of \(\Gamma_P\) and \(\Gamma_B\) being type-3 graphs.\\
+The only thing left is to verify the remaining piece of the puzzle, the incidence matrix \(\mathbf{C}\) as Sankey describes it.
+\begin{definition}
+    Let \(\mathbf{C}\) be the 0/1 incidence matrix with rows indexed by the \(n_1 := |X_1|\) points and columns indexed by the \(n_2 := |X_2|\) blocks. Then, letting \(I\) be the identity matrix and \(J\) be the all ones matrix of the appropriate dimensions, we have the following equations:
+    \begin{enumerate}
+        \item \(\mathbf{C}\) has row sum \(S_2\) and column sum \(S_1\);
+        \item \(\mathbf{CC^T} = (S_2-b_2)I + (a_2 - b_2)\mathbf{A_1} +b_2J\);
+        \item \(\mathbf{C^T C} = (S_1-b_1)I + (a_1-b_1)\mathbf{A_2}+b_1J\);
+        \item \(\mathbf{CA_2} = (N_2-P_2)\mathbf{C}+P_2J\);
+        \item \(\mathbf{A_1C} = (N_1-P_1)\mathbf{C}+P_1J\).
+    \end{enumerate}
+\end{definition}
 
-To understand why the adjacency matrix partitions as shown, we analyze each sub-matrix in relation to its structural and combinatorial properties.
+In order to check these statements, we first have to construct the matrix \(\mathbf{C}\).
 
-\subsection{\( \mathbf{A_1} \): Disjoint \( K_{n-1} \) Sub-graphs}
-
-The vertices in \( \mathbf{A_1} \) correspond to the coordinates:
-\[
-\begin{pmatrix} 1 \\ 2 \end{pmatrix}, \begin{pmatrix} 1 \\ 3 \end{pmatrix}, \dots, \begin{pmatrix} 1 \\ n \end{pmatrix}, \begin{pmatrix} 2 \\ 1 \end{pmatrix}, \begin{pmatrix} 3 \\ 1 \end{pmatrix}, \dots, \begin{pmatrix} n \\ 1 \end{pmatrix}.
-\]
-These vertices form two disjoint complete graphs \( K_{n-1} \), one corresponding to row-wise adjacency and the other to column-wise adjacency. Each vertex is connected to \( n-2 \) other vertices within its \( K_{n-1} \), resulting in a coherent rank of 3 (1 for the first complete graph, 1 for the second complete graph, and 1 for the non-edges).
-
-\subsection{\( \mathbf{A_2} \): Orthogonal Array Block Graph}
-
-The vertices in \( \mathbf{A_2} \) correspond to:
-\[
-\begin{pmatrix} 2 \\ 2 \end{pmatrix}, \begin{pmatrix} 2 \\ 3 \end{pmatrix}, \dots, \begin{pmatrix} 2 \\ n \end{pmatrix}, \begin{pmatrix} 3 \\ 2 \end{pmatrix}, \begin{pmatrix} 3 \\ 3 \end{pmatrix}, \dots, \begin{pmatrix} 3 \\ n \end{pmatrix}, \dots, \begin{pmatrix} n \\ 2 \end{pmatrix}, \begin{pmatrix} n \\ 3 \end{pmatrix}, \dots, \begin{pmatrix} n \\ n \end{pmatrix}.
-\]
-This sub-graph is isomorphic to the block graph of \( \text{OA}(2, n-1) \), leading to a known coherent rank of 3.
-
-\subsection{\( \mathbf{C} \): Interaction Between Sub-graphs}
-
-The sub-matrix \( \mathbf{C} \), of dimensions \( 2(n-1) \times (n-1)^2 \), encodes the connections between \( \mathbf{A_1} \) and \( \mathbf{A_2} \). Splitting \( \mathbf{C} \) into two \( (n-1) \times (n-1)^2 \) matrices, \( \mathbf{C_1} \) and \( \mathbf{C_2} \), we observe the following patterns:
+\subsection{Construction of \( \mathbf{C} \)}
+We know the rows of \(\mathbf{C}\) are indexed by the set \(P\) and columns are indexed by the set \(B\). To make things simple, we first consider the top half of \(\mathbf{C}\), denoted by \(\mathbf{C_1}\) with rows indexed by the set \(L\) and columns indexed by \(B\).
+% The sub-matrix \( \mathbf{C} \), of dimensions \( 2(n-1) \times (n-1)^2 \), encodes the connections between \( \mathbf{A_1} \) and \( \mathbf{A_2} \). Splitting \( \mathbf{C} \) into two \( (n-1) \times (n-1)^2 \) matrices, \( \mathbf{C_1} \) and \( \mathbf{C_2} \), we observe the following patterns:
 
 \paragraph{\( \mathbf{C_1} \):}
 
-For \( \mathbf{C_1} \), the rows correspond to:
-\[
-\begin{pmatrix} 1 \\ 2 \end{pmatrix}, \begin{pmatrix} 1 \\ 3 \end{pmatrix}, \dots, \begin{pmatrix} 1 \\ n \end{pmatrix},
-\]
-while the columns correspond to:
-\[
-\begin{pmatrix} 2 \\ 2 \end{pmatrix}, \begin{pmatrix} 2 \\ 3 \end{pmatrix}, \dots, \begin{pmatrix} 2 \\ n \end{pmatrix}, \begin{pmatrix} 3 \\ 2 \end{pmatrix}, \dots, \begin{pmatrix} n \\ n \end{pmatrix}.
-\]
-Each row has \( n-1 \) adjacent vertices based on the bottom coordinate. For instance:
+For \( \mathbf{C_1} \), the rows are indexed by:
+\begin{align*}
+    L &= \left\{\begin{pmatrix} 1 \\ 2 \end{pmatrix}, \begin{pmatrix} 1 \\ 3 \end{pmatrix}, \dots, \begin{pmatrix} 1 \\ n \end{pmatrix}\right\} \\
+    &= \left\{ \begin{pmatrix}1 \\ i\end{pmatrix}\middle|\text{ }i=\{2,3,\cdots,n\}\right\},
+\end{align*}
+
+while the columns are indexed by:
+\begin{align*}
+    B &= \left\{\begin{pmatrix} 2 \\ 2 \end{pmatrix}, \begin{pmatrix} 2 \\ 3 \end{pmatrix}, \dots, \begin{pmatrix} 2 \\ n \end{pmatrix}, \begin{pmatrix} 3 \\ 2 \end{pmatrix}, \dots, \begin{pmatrix} n \\ n \end{pmatrix}\right\} \\
+    &= \left\{\begin{pmatrix}j \\k\end{pmatrix}\middle|\text{ } j,k\in\{2,3\cdots,n\}\right\}.
+\end{align*}
+\begin{proposition}
+    Each vertex corresponding to an element in \(L\) has exactly \( n-1 \) adjacent vertices corresponding to \(n-1\) elements in \(B\).
+\end{proposition}
+\begin{proof}
+    We aim to show any \(v_L = \begin{pmatrix}1\\i\end{pmatrix} \in L\) is adjacent to exactly \(n-1\) \(v_B = \begin{pmatrix}j\\k\end{pmatrix} \in B\). \\
+    Given \(v_L = \begin{pmatrix}1\\i\end{pmatrix}\) and \(v_B = \begin{pmatrix}j\\k\end{pmatrix}\), when \(i = k\), \(v_L\) is adjacent to \(v_B\). This is the only case where adjacency occurs as \(j\neq 1, j\in\{2,3,\cdots,n\}\). \\
+    Furthermore, there are \(n-1\) edges for any \(v_L\). When we set \(i=k\), there are \(|\{2,3,\cdots,n\}|=n-1\) possible values of \(j\). \\
+    Thus, for any \(v_L\) there are exactly \(n-1\) adjacent vertices \(v_B\).
+\end{proof}
+For instance, when we fix \(i=k=2\):
 \[
 \begin{pmatrix} 1 \\ 2 \end{pmatrix} \text{ is adjacent to } \begin{pmatrix} 2 \\ 2 \end{pmatrix}, \begin{pmatrix} 3 \\ 2 \end{pmatrix}, \dots, \begin{pmatrix} n \\ 2 \end{pmatrix}.
 \]
+
 This adjacency results in rows of the form:
 \[
 [\underbrace{1 \quad 0 \quad \cdots \quad 0}_{n-1 \text{ elements}} \quad 1 \quad 0 \quad \cdots \quad 0 \quad \cdots].
@@ -327,11 +374,14 @@ Explicitly, \( \mathbf{C_1} \) looks like:
 
 \paragraph{\( \mathbf{C_2} \):}
 
-For \( \mathbf{C_2} \), the rows correspond to:
-\[
-\begin{pmatrix} 2 \\ 1 \end{pmatrix}, \begin{pmatrix} 3 \\ 1 \end{pmatrix}, \dots, \begin{pmatrix} n \\ 1 \end{pmatrix},
-\]
-while the columns remain the same as for \( \mathbf{C_1} \). Each row is adjacent to \( n-1 \) vertices, with \( 1 \)'s being contiguous. For instance:
+For \( \mathbf{C_2} \), the rows are indexed by:
+\begin{align*}
+R &= \left\{\begin{pmatrix} 2 \\ 1 \end{pmatrix}, \begin{pmatrix} 3 \\ 1 \end{pmatrix}, \dots, \begin{pmatrix} n \\ 1 \end{pmatrix}\right\} \\
+&= \left\{\begin{pmatrix}i \\ 1\end{pmatrix}\middle |\text{ }i\in\{2,3,\cdots,n\}\right\},
+\end{align*}
+while the columns are still indexed by \(B\). Following the same logic as in \(\mathbf{C_1}\), we simply switch the logic from the bottom row to the top row to show adjacency.\\
+
+This results in each row is adjacent to \( n-1 \) vertices, with \( 1 \)'s being contiguous. For instance:
 \[
 \begin{pmatrix} 2 \\ 1 \end{pmatrix} \text{ is adjacent to } \begin{pmatrix} 2 \\ 2 \end{pmatrix}, \begin{pmatrix} 2 \\ 3 \end{pmatrix}, \dots, \begin{pmatrix} 2 \\ n \end{pmatrix}.
 \]
@@ -376,7 +426,6 @@ Explicitly:
 \end{bmatrix}.
 \]
 
-\subsection{Exploring properties of $\mathbf{C}$}
 Specifically, we note two patterns of \(\mathbf{CC^T}\) and \(\mathbf{C^T C}\)
 
 \paragraph{\(\mathbf{CC^T}\)}
