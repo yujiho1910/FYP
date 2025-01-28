@@ -257,6 +257,8 @@ class FYP_Graph:
     def switch_graph_edges(self, list):
         new_g = self.obj.copy()
         vertices_to_switch = []
+
+        # get the vertices to switch, V
         for i in list:
             vertices_to_switch.append(self.obj.vertices()[i])
 
@@ -265,6 +267,7 @@ class FYP_Graph:
                 continue
 
             # now j is not in the list of vertices to switch
+            # meaning that j is in S/V
             for i in vertices_to_switch:
                 if self.obj.has_edge(i, j):
                     new_g.delete_edge(i, j)
@@ -288,6 +291,19 @@ class FYP_Graph:
         new_graph = self.obj.copy()
         new_graph.delete_vertex(new_graph.vertices()[i])
         return FYP_Graph(new_graph)
+    
+    def delete_vertices(self, list):
+        new_graph = self.obj.copy()
+        vertices_to_delete = []
+        for i in list:
+            vertices_to_delete.append(self.obj.vertices()[i])
+            
+        for i in vertices_to_delete:
+            new_graph.delete_vertex(i)
+
+        return FYP_Graph(new_graph)
+
+        
 
     def new_line_graph(self):
         """

@@ -10,6 +10,7 @@
 \newtheorem{proposition}{Proposition}
 \newtheorem{definition}{Definition}
 \newtheorem{theorem}{Theorem}
+\newtheorem{example}{Example}
 
 \title{Obtaining a Strongly Regular Design by Deleting a Vertex from a Rook Graph}
 \author{}
@@ -99,14 +100,20 @@ $$
     1 & 2 & \cdots & n & 1 & 2 & \cdots & n & \cdots & 1 & 2 & \cdots & n \\
 \end{bmatrix}
 $$
-\\
-Given \( \text{OA}(2, n) \), the associated block graph \( G = (V, E) \) is constructed as follows:
-\begin{itemize}
-    \item Each vertex \( v_i \) corresponds to the \( i \)-th column of the orthogonal array, so \( |V| = n^2 \).
-    \item Two vertices \( v_i \) and \( v_j \) are adjacent if they share the same value in any row of the array.
-\end{itemize}
 
-For example, for \( n = 3 \), the orthogonal array \( \text{OA}(2, 3) \) is:
+\paragraph{}
+Given \( \text{OA}(2, n) \), we define the \textbf{Orthogonal Array graph} as follows:
+
+\begin{definition}
+    The Orthogonal Array graph, \(G_{OA} = (V,E)\), is constructed by OA\((2,n)\) by the following:
+    \begin{itemize}
+        \item Each vertex \( v_i \) corresponds to the \( i \)-th column of the orthogonal array, so \( |V| = n^2 \).
+        \item Two vertices \( v_i \) and \( v_j \) are adjacent if they share the same value in any row of the array.
+    \end{itemize}
+\end{definition}
+
+\paragraph{}
+For \( n = 3 \), the orthogonal array \( \text{OA}(2, 3) \) is:
 \[
 \begin{bmatrix}
 1 & 1 & 1 & 2 & 2 & 2 & 3 & 3 & 3 \\
@@ -114,7 +121,8 @@ For example, for \( n = 3 \), the orthogonal array \( \text{OA}(2, 3) \) is:
 \end{bmatrix}.
 \]
 
-The corresponding block graph constructed from OA\((2, 3)\) would have $9$ vertices in total, with each vertex being adjacent to 4 other vertices.
+
+The Orthogonal Array graph of OA\((2, 3)\) would have $9$ vertices in total, with each vertex being adjacent to 4 other vertices.
 (i.e. $\begin{pmatrix}
     1\\1
 \end{pmatrix}$ is adjacent to $\begin{pmatrix}
@@ -128,6 +136,7 @@ The corresponding block graph constructed from OA\((2, 3)\) would have $9$ verti
 \end{pmatrix}$)
 
 It can be observed that this construction of \(G\) is isomorphic to Rook graph \(R_{3,3}\), and we can generalise it to \(R_{n,n}\) as well.
+
 
 \begin{theorem}
     A block graph construction of OA\((2,n)\) is isomorphic to \(R_{n,n}\).
@@ -158,27 +167,37 @@ We proceed as follows:
     This adjacency condition matches exactly how edges are defined in \(R_{n,n}\), where two cells of the chessboard are connected if they lie in the same row or column. Thus, the adjacency relationships in \(G\) and \(R_{n,n}\) are equivalent.
 
     \item \textbf{Bijection}: 
-    Define a mapping \(f: V \to V_R\) as follows:
+    
+    \begin{itemize}
+        \item Let \((i,j) \in V\) represent an arbitrary column in OA\((2,n)\).
+        \item Let \((r_i,c_j) \in V_R\) represent a arbitrary position on a \(n\times n\) chessboard which corresponds to the \(i\)-th row and \(j\)-th column.
+    \end{itemize}
+    We now define a mapping \(f: V \to V_R\) as follows:
     \begin{align*}
-        f(c) &= (x,y), \text{  where \( c = (x,y)^T \in V \) and \((x,y) \in V_R\). }
+        f((i,j)) &= (r_i,c_j), \text{  where \( (i,j) \in V \) and \((r_i,c_j) \in V_R\). }
     \end{align*}
-    This shows a mapping $f$ where the column of OA\((2,n)\), \(c = (x,y)^T\), which represents the vertex in $G$, is mapped to $(x,y)$, the unique position of the vertex in $R_{n,n}$. \\
+    
     To show that the mapping is bijective, we show the following:
     \begin{itemize}
         \item \textbf{Injectivitiy}: \\
-        Assume \(f(c_1) = f(c_2)\), where \(c_1 = \begin{bmatrix} x_1 \\ y_1 \end{bmatrix}\) and \(c_2 = \begin{bmatrix} x_2 \\ y_2 \end{bmatrix}\). Then:
+        Assume \(f((i,j)) = f((i',j'))\). Then:
         \[
-        f(c_1) = (x_1, y_1) \quad \text{and} \quad f(c_2) = (x_2, y_2).
+        f((i,j)) = (r_i, c_j) \quad \text{and} \quad f((i',j')) = (r_{i'}, c_{j'}).
         \]
-        Since \(f(c_1) = f(c_2)\), it follows that:
+        Since \(f((i,j)) = f((i',j'))\), it follows that:
         \[
-        (x_1, y_1) = (x_2, y_2).
+        (r_i, c_j) = (r_{i'}, c_{j'}).
         \]
-        Thus, \(x_1 = x_2\) and \(y_1 = y_2\), which implies \(c_1 = c_2\). Therefore, \(f\) is injective.
+        Thus, \(r_i = r_{i'}\) and \(c_j = c_{j'}\), which implies \((i,j) = (i',j')\). 
+        In other words, if two positions on the \(n\times n\) chessboard are the same, their corresponding columns in the OA\((2,n)\) must be the same. \\
+        Therefore, \(f\) is injective.
     
         \item \textbf{Surjectivity}: \\
-        Since we have shown injectivity, for each \(c \in V\), there is a unique \(f(c) \in V_R\). Thus, the set of images \(\{f(c) | c \in V\} \subseteq V_R\) contains exactly \(n^2\) elements. We have also shown
-        Let \((x, y) \in V_R\) be an arbitrary vertex in \(R_{n,n}\). By the construction of OA\((2, n)\), there exists a column \(c = \begin{bmatrix} x \\ y \end{bmatrix} \in V\) such that the top row contains \(x\) and the bottom row contains \(y\). Thus, \(f(c) = (x, y)\), meaning every vertex in \(V_R\) has a preimage in \(V\). Therefore, \(f\) is surjective.
+        Taking an arbitrary \((r_i,c_j) \in V_R\), we need to show that there exists a \((i,j) \in V\) such that \(f((i,j)) = (r_i,c_j)\). \\
+        Note that \((r_i,c_j)\) corresponds to the position on the chessboard with row \(i\) and column \(j\). Since \(f\) maps a column to a chessboard position uniquely, the 
+        Since we have shown injectivity, for each \((i,j) \in V\), there is a one-to-one \(f((i,j)) = (r_i,c_j) \in V_R\). Thus, the set of images \(\{f((i,j))\text{ } | \text{ }(i,j) \in V\} \subseteq V_R\) contains exactly \(n^2\) elements. We have also shown
+        Let \((x, y) \in V_R\) be an arbitrary vertex in \(R_{n,n}\). By the construction of OA\((2, n)\), there exists a column \(c = \begin{bmatrix} x \\ y \end{bmatrix} \in V\) such that the top row contains \(x\) and the bottom row contains \(y\). Thus, \(f(c) = (x, y)\), meaning every vertex in \(V_R\) has a preimage in \(V\). \\
+        Therefore, \(f\) is surjective.
     \end{itemize} 
     Thus, we have shown that the mapping $f$ is a bijection.
 
@@ -319,14 +338,13 @@ In order to check these statements, we first have to construct the matrix \(\mat
 
 \subsection{Construction of \( \mathbf{C} \)}
 We know the rows of \(\mathbf{C}\) are indexed by the set \(P\) and columns are indexed by the set \(B\). To make things simple, we first consider the top half of \(\mathbf{C}\), denoted by \(\mathbf{C_1}\) with rows indexed by the set \(L\) and columns indexed by \(B\).
-% The sub-matrix \( \mathbf{C} \), of dimensions \( 2(n-1) \times (n-1)^2 \), encodes the connections between \( \mathbf{A_1} \) and \( \mathbf{A_2} \). Splitting \( \mathbf{C} \) into two \( (n-1) \times (n-1)^2 \) matrices, \( \mathbf{C_1} \) and \( \mathbf{C_2} \), we observe the following patterns:
 
 \paragraph{\( \mathbf{C_1} \):}
 
 For \( \mathbf{C_1} \), the rows are indexed by:
 \begin{align*}
     L &= \left\{\begin{pmatrix} 1 \\ 2 \end{pmatrix}, \begin{pmatrix} 1 \\ 3 \end{pmatrix}, \dots, \begin{pmatrix} 1 \\ n \end{pmatrix}\right\} \\
-    &= \left\{ \begin{pmatrix}1 \\ i\end{pmatrix}\middle|\text{ }i=\{2,3,\cdots,n\}\right\},
+    &= \left\{ \begin{pmatrix}1 \\ i\end{pmatrix}\middle|\text{ }i\in\{2,3,\cdots,n\}\right\},
 \end{align*}
 
 while the columns are indexed by:
@@ -426,32 +444,97 @@ Explicitly:
 \end{bmatrix}.
 \]
 
-Specifically, we note two patterns of \(\mathbf{CC^T}\) and \(\mathbf{C^T C}\)
+With this constructed matrix \(\mathbf{C}\), we can now identify the parameters of a strongly regular design.
 
-\paragraph{\(\mathbf{CC^T}\)}
-Upon calculating \(\mathbf{CC^T}\), we observe this pattern
-\begin{align*}
-\mathbf{CC^T} &=
-\begin{bmatrix}
-    (n-1)I_{n-1} & J_{n-1} \\
-    J_{n-1} & (n-1)I_{n-1}
-\end{bmatrix}\\
-&= (n-2)I_{2(n-1)} + \mathbf{A_1} + J_{2(n-1)} 
-\end{align*}
+\begin{enumerate}
+    \item The row sum of \(\mathbf{C}\) is \(n-1\), which is equal to \(S_2\).
+    \item The column sum of \(\mathbf{C}\) is 2, which is equal to \(S_1\).
+\end{enumerate}
 
-\paragraph{\(\mathbf{C^T C}\)}
-Upon calculating \(\mathbf{C^T C}\), we observe this pattern
-\begin{align*}
-\mathbf{C^T C} &=
-\begin{bmatrix}
-    I_{n-1} + J_{n-1} & I_{n-1} & \cdots & I_{n-1} \\
-    I_{n-1} & I_{n-1} + J_{n-1} & \cdots & I_{n-1} \\
-    \vdots & \vdots & \ddots & \vdots \\
-    I_{n-1} & I_{n-1} & \cdots & I_{n-1} + J_{n-1}
-\end{bmatrix} \\
-&=
-2I_{(n-1)^2} + \mathbf{A_2} 
-\end{align*}
+We now calculate the following matrices in order to obtain the parameters and check if the equations hold:
+
+\begin{itemize}
+    \item \(\mathbf{CC^T}\)
+    \begin{align*}
+        \mathbf{CC^T} &=
+        \begin{bmatrix}
+            (n-1)I_{n-1} & J_{n-1} \\
+            J_{n-1} & (n-1)I_{n-1}
+        \end{bmatrix}\\
+        &= (n-2)I_{2(n-1)} + \mathbf{A_1} + J_{2(n-1)}, \text{ (which corresponds to)}\\
+        &= (S_2-b_2)I + (a_2-b_2)\mathbf{A_1} + b_2J
+    \end{align*}
+    We can form equations to identify:
+    \begin{align*}
+        n -2 &= S_2 - b_2 \\
+        a_2 - b_2 &= 1 \\
+        b_2 &= 1 \\
+        \Rightarrow a_2 &= 2 \\
+        \Rightarrow n-2 &= S_2 - 1 \\
+        \Rightarrow S_2 &= n-1
+    \end{align*}
+    So we obtain \boxed{a_2=2, b_2=1, S_2=n-1}.
+
+    \item \(\mathbf{C^T C}\)
+    \begin{align*}
+        \mathbf{C^T C} &=
+        \begin{bmatrix}
+            I_{n-1} + J_{n-1} & I_{n-1} & \cdots & I_{n-1} \\
+            I_{n-1} & I_{n-1} + J_{n-1} & \cdots & I_{n-1} \\
+            \vdots & \vdots & \ddots & \vdots \\
+            I_{n-1} & I_{n-1} & \cdots & I_{n-1} + J_{n-1}
+        \end{bmatrix} \\
+        &=
+        2I_{(n-1)^2} + \mathbf{A_2}, \text{ (which corresponds to)}\\
+        &= (S_1-b_1)I + (a_1-b_1)\mathbf{A_2} + b_1J
+    \end{align*}
+    We can form equations to identify:
+    \begin{align*}
+        2 &= S_1 - b_1 \\
+        1 &= a_1 - b_1 \\
+        0 &= b_1 \\
+        \Rightarrow a_1 &= 1 \\
+        \Rightarrow 2 &= S_1 
+    \end{align*}
+    So we obtain \boxed{a_1 = 1, b_1 = 0, S_1 = 2}.
+    Note that by this point we have confirmed the values of $S_1 \text{ and }S_2$ to be the column and row sum of $\mathbf{C}$ respectively.
+
+    \item \(\mathbf{CA_2}\)
+    \begin{align*}
+        \mathbf{CA_2} 
+        % &= \begin{bmatrix}
+        %     p
+        % \end{bmatrix} \\
+        &= (n-3)\mathbf{C} + J,
+        \text{ (which corresponds to)}\\
+        &= (N_2-P_2)\mathbf{C} + P_2J
+    \end{align*}
+    We can form equations to identify:
+    \begin{align*}
+        n-3 &= N_2 - P_2 \\
+        1 &= P_2 \\
+        \Rightarrow N_2 &= n-2
+    \end{align*}
+    So we obtain \boxed{N_2 = n-2, P_2=1}.
+
+    \item \(\mathbf{A_1C}\)
+    \begin{align*}
+        \mathbf{A_1C} 
+        % &= \begin{bmatrix}
+        %     p
+        % \end{bmatrix} \\
+        &= -\mathbf{C} + J,
+        \text{ (which corresponds to)}\\
+        &= (N_1-P_1)\mathbf{C} + P_1J
+    \end{align*}
+    We can form equations to identify:
+    \begin{align*}
+        -1 &= N_1 - P_1 \\
+        1 &= P_1 \\
+        \Rightarrow N_1 &= 0
+    \end{align*}
+    So we obtain \boxed{N_1 = 0, P_1 = 1}.
+\end{itemize}
 
 (In progress of relating it to the equations in the cited paper \cite{sankey_srd})
 
