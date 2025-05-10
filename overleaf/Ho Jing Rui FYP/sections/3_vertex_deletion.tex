@@ -1,0 +1,828 @@
+\section{Vertex Deletion and Coherent Configurations}
+In this section, we perform vertex deletion on $R(n)$ and $T(n)$ and investigate its coherent closure.
+\subsection{Deleting 1 Vertex in \texorpdfstring{$R(n)$}{R(n)}}
+Here, we apply vertex deletion on $R(n)$ witth respect to 1 vertex. We then investigate its resulting adjacency matrix structure and make a claim about its coherent closure.
+\subsubsection{Graph Construction}
+
+Rook graphs are vertex-transitive \cite{godsil2001algebraic}, so we choose any vertex to be deleted. For simplicity, let \( v_1 \), corresponding to the cell \( \begin{pmatrix} 1 \\ 1 \end{pmatrix} \), be deleted. This resulting graph will be denoted as $\Gamma_1$.
+
+We choose to partition the remaining vertices according to their adjacency with the chosen $v_1$:
+\begin{enumerate}
+    \item The \( 2(n-1) \) vertices adjacent to \( v_1 \), corresponding to the set:
+    \begin{align*}
+        \left\{ \begin{pmatrix} 1 \\ 2 \end{pmatrix}, \begin{pmatrix} 1 \\ 3 \end{pmatrix},..., \begin{pmatrix} 1 \\ n \end{pmatrix}, \begin{pmatrix} 2 \\ 1 \end{pmatrix}, \begin{pmatrix} 3 \\ 1 \end{pmatrix},..., \begin{pmatrix} n \\ 1 \end{pmatrix} \right\}.
+    \end{align*} \\
+    We shall call this set $V_1$.
+    \item The remaining \( (n-1)^2 \) vertices, corresponding to the set:
+    \begin{align*}
+        \left\{ \begin{pmatrix} 2 \\ 2 \end{pmatrix}, \begin{pmatrix} 2 \\ 3 \end{pmatrix},...,\begin{pmatrix} 2 \\ n \end{pmatrix},\begin{pmatrix} 3 \\ 2 \end{pmatrix}, \begin{pmatrix} 3 \\ 3 \end{pmatrix},...,\begin{pmatrix} 3 \\ n \end{pmatrix},...,\begin{pmatrix} n \\ 2 \end{pmatrix}, \begin{pmatrix} n \\ 3 \end{pmatrix},...,\begin{pmatrix} n \\ n \end{pmatrix} \right \}.
+    \end{align*} \\
+    We shall call this set $V_2$.
+\end{enumerate}
+
+% \subsection{Adjacency Matrix Partitioning}
+By grouping the vertices corresponding to $V_1$ and $V_2$ together, we end up with a matrix decomposition:
+\[
+A(\Gamma_1) =
+\begin{bmatrix}
+A_1 & C \\
+C^T & A_2
+\end{bmatrix},
+\]
+We will now aim to obtain the adjacency matrix $A(\Gamma_1)$ by determining the structure of matrices $A_1, A_2$ and $C$.
+
+\begin{proposition}
+    $A_1$ is the adjacency matrix of two disjoint \(K_{n-1}\).
+    \end{proposition}
+\begin{proof}
+    The set $V_1$ contains vertices: \\
+    \begin{align*}
+        V_1 = \left\{ \begin{pmatrix} 1 \\ 2 \end{pmatrix}, \begin{pmatrix} 1 \\ 3 \end{pmatrix},..., \begin{pmatrix} 1 \\ n \end{pmatrix}, \begin{pmatrix} 2 \\ 1 \end{pmatrix}, \begin{pmatrix} 3 \\ 1 \end{pmatrix},..., \begin{pmatrix} n \\ 1 \end{pmatrix} \right\}
+    \end{align*}
+    Let us split the set into disjoint subsets \(L\) and \(R\):
+    \begin{align*}
+        L &= \left\{ \begin{pmatrix} 1 \\ 2 \end{pmatrix}, \begin{pmatrix} 1 \\ 3 \end{pmatrix},..., \begin{pmatrix} 1 \\ n \end{pmatrix}\right\} = \left \{ \begin{pmatrix} 1 \\ i \end{pmatrix} : \text{ }i \in [n]\setminus\{1\}\right \}, \\ \\
+        R &= \left\{ \begin{pmatrix} 2 \\ 1 \end{pmatrix}, \begin{pmatrix} 3 \\ 1 \end{pmatrix},..., \begin{pmatrix} n \\ 1 \end{pmatrix} \right\} = \left \{ \begin{pmatrix} j \\ 1 \end{pmatrix} : \text{ }j \in [n]\setminus\{1\}\right \}
+    \end{align*}
+    \begin{itemize}
+        \item \textbf{Show disjointness of graphs}: \\
+        Let \(v_L = \begin{pmatrix} 1 \\ i \end{pmatrix}\in L\) and \(v_R = \begin{pmatrix} j \\ 1 \end{pmatrix} \in R\), such that \(i, j \in [n]\setminus\{1\}\). For any \(v_L\) and \(v_R\), \(i \neq 1\) and \(j \neq 1\), and thus \(v_L\) will not be adjacent to \(v_R\), showing that there are no edges between the vertex sets \(L \text{ and } R\) $\Longrightarrow$ Graphs induced by vertices in $L$ and $R$ are disjoint.
+        
+        \item \textbf{Show that the disjoint graphs are both \(K_{n-1}\)}:
+        \begin{itemize}
+            \item For the vertex set $L$\\
+            Notice that the vertices in \(L\) are adjacent to each other as the top row are all equal to 1, \(v_L = \begin{pmatrix} 1 \\ i \end{pmatrix}\in L\). Since \(|L| = n-1\), we conclude that the $n-1$ vertices in $L$ are adjacent to each other, which is the definition of $K_{n-1}$.
+            \item For the vertex set $R$\\
+            Similar to the case of \(L\), we note that the vertices in \(R\) are adjacent to each other as the bottom row are all equal to 1, \(v_R = \begin{pmatrix} j \\ 1 \end{pmatrix} \in R\). Since \(|R| = n-1\), we conclude that the $n-1$ vertices in $R$ are adjacent to each other, which is the definition of $K_{n-1}$.
+        \end{itemize}
+    \end{itemize}
+     We have shown that the graphs formed by vertex sets \(L\) and \(R\) are disjoint, and that each graph formed is \(K_{n-1}\). Thus we have:
+     \begin{equation*}
+         A_1 = 
+         \begin{bmatrix}
+             J_{n-1}-I & O_{n-1} \\
+             O_{n-1} & J_{n-1}-I
+         \end{bmatrix}
+     \end{equation*}
+\end{proof}
+
+\begin{proposition}
+    $A_2$ is the adjacency matrix of the square rook graph \(R(n-1)\).
+\end{proposition}
+\begin{proof} The set \(V_2\) contains vertices:
+\begin{align*}
+    V_2 = \left\{ \begin{pmatrix} 2 \\ 2 \end{pmatrix}, \begin{pmatrix} 2 \\ 3 \end{pmatrix},...,\begin{pmatrix} 2 \\ n \end{pmatrix},\begin{pmatrix} 3 \\ 2 \end{pmatrix}, \begin{pmatrix} 3 \\ 3 \end{pmatrix},...,\begin{pmatrix} 3 \\ n \end{pmatrix},...,\begin{pmatrix} n \\ 2 \end{pmatrix}, \begin{pmatrix} n \\ 3 \end{pmatrix},...,\begin{pmatrix} n \\ n \end{pmatrix} \right \}
+\end{align*}
+We can generalise this set into:
+\begin{align*}
+    V_2 &= \left \{ \begin{pmatrix} i \\ j \end{pmatrix}:\quad i \in [n]\setminus\{1\}, \quad j \in [n]\setminus\{1\}\right \} \\
+    & = \left \{ \begin{pmatrix} i \\ j \end{pmatrix} :\quad i-1 \in [n-1],\quad j-1 \in [n-1]\right \} \\
+\end{align*} \\
+We will show that it is isomorphic to $R(n-1) = (V,E)$ by forming a bijection between $V_2$ and $V$. First we state the definition of $V$:
+\begin{equation*}
+    V = \left \{ \begin{pmatrix} i' \\ j' \end{pmatrix} : \text{ } i' \in [n-1], j' \in [n-1]\right \}
+\end{equation*}
+The bijection used here is 
+\begin{equation*}
+    f:V_2 \xrightarrow{} V, f\left(\begin{pmatrix} i \\ j \end{pmatrix}\right) = \begin{pmatrix} i-1 \\ j-1 \end{pmatrix}
+\end{equation*}
+In words, each cell $\begin{pmatrix} i \\ j \end{pmatrix}\in V_2$ is mapped to the cell $\begin{pmatrix} i' \\ j' \end{pmatrix}\in V$ where $\begin{pmatrix} i' \\ j' \end{pmatrix} = \begin{pmatrix} i-1 \\ j-1 \end{pmatrix}$.
+\begin{itemize}
+    \item Show $f$ is injective \\
+    Let $\begin{pmatrix} i'_1 \\ j'_1 \end{pmatrix}, \begin{pmatrix} i'_2 \\ j'_2 \end{pmatrix}\in V$. We want to show if $\begin{pmatrix} i'_1 \\ j'_1 \end{pmatrix} = \begin{pmatrix} i'_2 \\ j'_2\end{pmatrix}$, then $\begin{pmatrix} i_1 \\ j_1 \end{pmatrix} = \begin{pmatrix} i_2 \\ j_2 \end{pmatrix}$:
+    \begin{align*}
+        \begin{pmatrix} i'_1 \\ j'_1 \end{pmatrix} = \begin{pmatrix} i'_2 \\ j'_2\end{pmatrix} \longrightarrow
+        \begin{pmatrix} i_1-1 \\ j_1-1 \end{pmatrix} = \begin{pmatrix} i_2-1 \\ j_2 -1\end{pmatrix} \longrightarrow
+        \begin{pmatrix} i_1 \\ j_1 \end{pmatrix} = \begin{pmatrix} i_2 \\ j_2 \end{pmatrix} 
+    \end{align*}
+    Thus, $f$ is injective.
+
+    \item Show $f$ surjective \\
+    We want to show
+    \begin{align*}
+        \forall \begin{pmatrix}
+            i'\\j'
+        \end{pmatrix} \in V, \quad\exists \begin{pmatrix}
+            i\\j
+        \end{pmatrix} \in V_2 \quad\text{such that}\quad f\left(\begin{pmatrix} i \\ j \end{pmatrix}\right) = \begin{pmatrix}
+            i'\\j'
+        \end{pmatrix}
+    \end{align*}
+    We have shown that \( f \) is injective. Since the domain \( V_2 \) and codomain \( V \) both have cardinality \( (n-1)^2 \), it follows that the image \( f(V_2) \subseteq V \) must also have size \( (n-1)^2 \).
+
+    Thus, \( f(V_2) = V \), and \( f \) is surjective.
+
+    \item Show Adjacency preservation\\
+    Let $E_2$ be the edge set of the graph with adjacency matrix $A_2$. Let $\left\{\begin{pmatrix}i_1\\j_1\end{pmatrix},  \begin{pmatrix}i_2\\j_2\end{pmatrix}\right\}\in E_2$. This implies $i_1=i_2$ or $j_1=j_2$. Under $f$, 
+    \begin{align*}
+        \left\{f\left(\begin{pmatrix}i_1\\j_1\end{pmatrix}\right),  f\left(\begin{pmatrix}i_2\\j_2\end{pmatrix}\right)\right\}
+        &= \left\{\begin{pmatrix}i_1-1\\j_1-1\end{pmatrix},  \begin{pmatrix}i_2-1\\j_2-1\end{pmatrix}\right\}
+    \end{align*}
+    Since $i_1=i_2$ or $j_1=j_2$, $i_1-1=i_2-1$ or $j_1-1=j_2-1$ and so
+    \begin{equation*}
+        \left\{\begin{pmatrix}i_1-1\\j_1-1\end{pmatrix},  \begin{pmatrix}i_2-1\\j_2-1\end{pmatrix}\right\} \in E
+    \end{equation*}
+    Thus adjacency is preserved under $f$ as well.
+\end{itemize}
+Since $V_2$ has a bijective mapping to $V$ and adjacency is preserved under said mapping, we have shown that the graph with adjacency matrix $A_2$ is isomorphic to $R(n-1)$. So we conclude that:
+\begin{equation*}
+    A_2 = 
+        \underbrace{
+        \left[
+        \begin{array}{cccc}
+        J_{n-1} - I & I_{n-1} & \cdots & I_{n-1} \\
+        I_{n-1} & J_{n-1} - I & \cdots & I_{n-1} \\
+        \vdots & \vdots & \ddots & \vdots \\
+        I_{n-1} & I_{n-1} & \cdots & J_{n-1} - I
+        \end{array}
+        \right]
+        }_{\text{\( n-1 \) blocks}}
+\end{equation*}
+\end{proof}
+
+We now aim to construct the matrix $C$.
+\paragraph{Construction of \texorpdfstring{$C$}{C}}
+We know the rows of \(C\) are indexed by the set \(V_1\) and columns are indexed by the set \(V_2\). To make things simple, we consider this decomposition of $C$:
+
+\begin{equation*}
+    C = \begin{bmatrix}
+        C_1\\C_2
+    \end{bmatrix}
+\end{equation*}
+
+where the top half of \(C\) is denoted by \(C_1\) with rows indexed by the set \(L\) and columns indexed by \(V_2\), while the bottom half is denoted by \(C_2\) with rows indexed by the set \(R\) and columns indexed by \(V_2\)
+
+\paragraph{\texorpdfstring{$C_1$}{C1}}
+
+For \( C_1 \), the rows are indexed by:
+\begin{align*}
+    L &= \left\{\begin{pmatrix} 1 \\ 2 \end{pmatrix}, \begin{pmatrix} 1 \\ 3 \end{pmatrix}, \dots, \begin{pmatrix} 1 \\ n \end{pmatrix}\right\} \\
+    &= \left\{ \begin{pmatrix}1 \\ i\end{pmatrix}:\quad i\in[n]\setminus\{1\}\right\},
+\end{align*}
+
+while the columns are indexed by:
+\begin{align*}
+    V_2 &= \left\{\begin{pmatrix} 2 \\ 2 \end{pmatrix}, \begin{pmatrix} 2 \\ 3 \end{pmatrix}, \dots, \begin{pmatrix} 2 \\ n \end{pmatrix}, \begin{pmatrix} 3 \\ 2 \end{pmatrix}, \dots, \begin{pmatrix} n \\ n \end{pmatrix}\right\} \\
+    &= \left\{\begin{pmatrix}j \\k\end{pmatrix}:\quad j,k\in[n]\setminus\{1\}\right\}.
+\end{align*}
+
+\begin{proposition}
+    Each vertex corresponding to an element in \(L\) has exactly \( n-1 \) adjacent vertices corresponding to \(n-1\) elements in \(V_2\).
+\end{proposition}
+\begin{proof}
+    We aim to show any \(v_L = \begin{pmatrix}1\\i\end{pmatrix} \in L\) is adjacent to exactly \(n-1\) \(v_2 = \begin{pmatrix}j\\k\end{pmatrix} \in V_2\). \\
+    Given \(v_L = \begin{pmatrix}1\\i\end{pmatrix}\) and \(v_2 = \begin{pmatrix}j\\k\end{pmatrix}\), when \(i = k\), \(v_L\) is adjacent to \(v_2\). This is the only case where adjacency occurs as \(j\neq 1, j\in[n]\setminus\{1\}\). \\
+    Furthermore, there are \(n-1\) edges for any \(v_L\). When we set \(i=k\), there are \(|[n]\setminus\{1\}|=n-1\) possible values of \(j\). \\
+    Thus, for any \(v_L\) there are exactly \(n-1\) adjacent vertices \(v_2\).
+\end{proof}
+For instance, when we fix \(i=k=2\):
+\[
+\begin{pmatrix} 1 \\ 2 \end{pmatrix} \text{ is adjacent to } \begin{pmatrix} 2 \\ 2 \end{pmatrix}, \begin{pmatrix} 3 \\ 2 \end{pmatrix}, \dots, \begin{pmatrix} n \\ 2 \end{pmatrix}.
+\]
+
+This adjacency results in rows of the form:
+\[
+[e_{1,n-1}^T \quad e_{2,n-1}^T \quad e_{3,n-1}^T \quad \cdots \quad e_{n-1,n-1}^T]. 
+\]
+
+When repeated for \( \begin{pmatrix} 1 \\ 3 \end{pmatrix} \) onwards, \( C_1 \) is composed of \( n-1 \) blocks of \( I^{(n-1)} \):
+\[
+C_1 = 
+\begin{bmatrix}
+I_{n-1} & I_{n-1} & \cdots & I_{n-1}
+\end{bmatrix}.
+\]
+
+Explicitly, \( \mathbf{C_1} \) looks like:
+\[
+C_1 = 
+\begin{bmatrix}
+1 & 0 & \cdots & 0 & 1 & 0 & \cdots & 0 & \cdots & 1 & 0 & \cdots & 0 \\
+0 & 1 & \cdots & 0 & 0 & 1 & \cdots & 0 & \cdots & 0 & 1 & \cdots & 0 \\
+\vdots & \vdots & \ddots & \vdots & \vdots & \vdots & \ddots & \vdots & \cdots & \vdots & \vdots & \ddots & \vdots \\
+0 & 0 & \cdots & 1 & 0 & 0 & \cdots & 1 & \cdots & 0 & 0 & \cdots & 1
+\end{bmatrix}.
+\]
+
+\paragraph{\texorpdfstring{$C_2$}{C2}}
+
+For \( C_2 \), the rows are indexed by:
+\begin{align*}
+R &= \left\{\begin{pmatrix} 2 \\ 1 \end{pmatrix}, \begin{pmatrix} 3 \\ 1 \end{pmatrix}, \dots, \begin{pmatrix} n \\ 1 \end{pmatrix}\right\} \\
+&= \left\{\begin{pmatrix}i \\ 1\end{pmatrix}:\quad i\in[n]\setminus\{1\}\right\},
+\end{align*}
+while the columns are still indexed by \(V_2\). Following the same logic as in \(C_1\), we simply switch the logic from the bottom row to the top row to show adjacency.\\
+
+This results in each row is adjacent to \( n-1 \) vertices, with \( 1 \)'s being contiguous. For instance:
+\[
+\begin{pmatrix} 2 \\ 1 \end{pmatrix} \text{ is adjacent to } \begin{pmatrix} 2 \\ 2 \end{pmatrix}, \begin{pmatrix} 2 \\ 3 \end{pmatrix}, \dots, \begin{pmatrix} 2 \\ n \end{pmatrix}.
+\]
+This results in rows of the form:
+\[
+[\underbrace{1 \quad 1 \quad \cdots \quad 1}_{n-1 \text{ elements}} \quad 0 \quad 0 \quad \cdots].
+\]
+
+Explicitly, \( C_2 \) looks like:
+\[
+C_2 = 
+\begin{bmatrix}
+1 & 1 & \cdots & 1 & 0 & 0 & \cdots & 0 & \cdots & 0 & 0 & \cdots & 0 \\
+0 & 0 & \cdots & 0 & 1 & 1 & \cdots & 1 & \cdots & 0 & 0 & \cdots & 0 \\
+\vdots & \vdots & \ddots & \vdots & \vdots & \vdots & \ddots & \vdots & \cdots & \vdots & \vdots & \ddots & \vdots \\
+0 & 0 & \cdots & 0 & 0 & 0 & \cdots & 0 & \cdots & 1 & 1 & \cdots & 1
+\end{bmatrix}.
+\]
+
+We can also condense this matrix $C_2$ into block form, denoted by $M_i\in\mathbb{R}^{(n-1)\times(n-1)}$, where the $i$-th row consists of 1s and 0s elsewhere.
+
+\[
+C_2 = 
+\begin{bmatrix}
+    M_1 & M_2 & M_3 &\dots& M_{n-1}
+\end{bmatrix}
+\]
+
+Since $M_i\in\mathbb{R}^{(n-1)\times(n-1)}$, we can represent it as:
+\begin{align*}
+    M_i = 
+    \begin{bmatrix}
+    0&0&0&0&0&\dots&0\\
+    \vdots&\vdots&\vdots&\vdots&\vdots&\vdots&\vdots\\
+    0&0&0&0&0&\dots&0\\
+    1&1&1&1&1&\dots&1\\
+    0&0&0&0&0&\dots&0\\
+    \vdots&\vdots&\vdots&\vdots&\vdots&\vdots&\vdots\\
+    0&0&0&0&0&\dots&0\\
+    \end{bmatrix} &= 
+    \begin{bmatrix}
+    0\\\vdots\\0\\1\\0\\\vdots\\0
+    \end{bmatrix}
+    \begin{bmatrix}
+    1&1&1&1&1&\cdots&1
+    \end{bmatrix} \\
+    &= e_{i,n-1} \otimes \mathbf{1}_{n-1}^T
+\end{align*}
+
+So finally we have 
+
+\[
+C_2 = 
+\begin{bmatrix}
+    e_{1,n-1} \otimes \mathbf{1}_{n-1}^T & e_{2,n-1} \otimes \mathbf{1}_{n-1}^T& e_{3,n-1} \otimes \mathbf{1}_{n-1}^T & \dots & e_{n-1,n-1} \otimes \mathbf{1}_{n-1}^T
+\end{bmatrix}
+\]
+
+\paragraph{\texorpdfstring{\( C \), combined}{C, combined}}
+
+Putting \( C_1 \) and \( C_2 \) together, the complete matrix \( C \) is:
+\[
+C= 
+\begin{bmatrix}
+C_1 \\ 
+C_2
+\end{bmatrix}.
+\]
+Explicitly:
+\[
+C = 
+\begin{bmatrix}
+1 & 0 & \cdots & 0 & 1 & 0 & \cdots & 0 & \cdots & 1 & 0 & \cdots & 0 \\
+0 & 1 & \cdots & 0 & 0 & 1 & \cdots & 0 & \cdots & 0 & 1 & \cdots & 0 \\
+\vdots & \vdots & \ddots & \vdots & \vdots & \vdots & \ddots & \vdots & \cdots & \vdots & \vdots & \ddots & \vdots \\
+0 & 0 & \cdots & 1 & 0 & 0 & \cdots & 1 & \cdots & 0 & 0 & \cdots & 1 \\ \\
+1 & 1 & \cdots & 1 & 0 & 0 & \cdots & 0 & \cdots & 0 & 0 & \cdots & 0 \\
+0 & 0 & \cdots & 0 & 1 & 1 & \cdots & 1 & \cdots & 0 & 0 & \cdots & 0 \\
+\vdots & \vdots & \ddots & \vdots & \vdots & \vdots & \ddots & \vdots & \cdots & \vdots & \vdots & \ddots & \vdots \\
+0 & 0 & \cdots & 0 & 0 & 0 & \cdots & 0 & \cdots & 1 & 1 & \cdots & 1
+\end{bmatrix}.
+\]
+
+Or as its block representation,
+
+\[
+C =
+\begin{bmatrix}
+    I_{n-1} & I_{n-1} & I_{n-1} & \cdots & I_{n-1} \\
+    e_{1,n-1} \otimes \mathbf{1}_{n-1}^T & e_{2,n-1} \otimes \mathbf{1}_{n-1}^T & e_{3,n-1} \otimes \mathbf{1}_{n-1}^T & \dots & e_{n-1,n-1} \otimes \mathbf{1}_{n-1}^T
+\end{bmatrix}
+\]
+
+\subsubsection{Coherent Algebra}
+We claim that the following 10 matrices,
+
+\begin{align*}
+    &W_1 = \begin{bmatrix}
+        I_{2(n-1)} & O_{2(n-1), (n-1)^2} \\
+        O_{(n-1)^2, 2(n-1)} & O_{(n-1)^2}
+    \end{bmatrix}, \quad
+    W_2 = \begin{bmatrix}
+        O_{2(n-1)} & O_{2(n-1), (n-1)^2} \\
+        O_{(n-1)^2, 2(n-1)} & I_{(n-1)^2}
+    \end{bmatrix}\\
+    &W_3 = \begin{bmatrix}
+        A_1 & O_{2(n-1), (n-1)^2} \\
+        O_{(n-1)^2, 2(n-1)} & O_{(n-1)^2}
+    \end{bmatrix}, \quad
+    W_4 = \begin{bmatrix}
+        O_{2(n-1)} & O_{2(n-1), (n-1)^2} \\
+        O_{(n-1)^2, 2(n-1)} & A_2
+    \end{bmatrix}\\
+    &W_5 = \begin{bmatrix}
+        J-I-A_1 & O_{2(n-1), (n-1)^2} \\
+        O_{(n-1)^2, 2(n-1)} & O_{(n-1)^2}
+    \end{bmatrix}, \quad
+    W_6 = \begin{bmatrix}
+        O_{2(n-1)} & O_{2(n-1), (n-1)^2} \\
+        O_{(n-1)^2, 2(n-1)} & J-I-A_2
+    \end{bmatrix}\\
+    &W_7 = \begin{bmatrix}
+        O_{2(n-1)} & C \\
+        O_{(n-1)^2, 2(n-1)} & O_{(n-1)^2}
+    \end{bmatrix}, \quad\quad\quad
+    W_8 = \begin{bmatrix}
+        O_{2(n-1)} & J-C \\
+        O_{(n-1)^2, 2(n-1)} & O_{(n-1)^2}
+    \end{bmatrix}\\
+    &W_9 = \begin{bmatrix}
+        O_{2(n-1)} & O_{2(n-1), (n-1)^2} \\
+        C^T & O_{(n-1)^2}
+    \end{bmatrix}, \quad\quad\quad
+    W_{10} = \begin{bmatrix}
+        O_{2(n-1)} & O_{2(n-1), (n-1)^2} \\
+        J-C^T & O_{(n-1)^2}
+    \end{bmatrix}\\
+\end{align*}
+
+form a basis for a coherent algebra that contains the adjacency matrix of$\Gamma_1$. We define this coherent algebra as:
+\begin{equation*}
+    \mathcal{A}(\Gamma_1) = \langle W_i: \text{ }i\in[10]\rangle.
+\end{equation*}
+
+\paragraph{Closure under Identity}
+Since $W_1+W_2 = I_{n^2-1}$, $I\in\mathcal{A}(\Gamma_1)$
+
+\paragraph{Closure under Transpose}
+It can be observed that $W_i, i\in[6]$ are self-transpose, so we show for $i\in\{7,8,9,10\}$:
+\begin{equation*}
+    W_7^T = W_9, W_8^T=W_{10}
+\end{equation*}
+
+So $\mathcal{A}(\Gamma_1)$ is closed under transposition.
+
+\paragraph{Closure under all-ones matrix}
+If we sum all the matrices $\sum_{i=1}^{10}W_i$, we actually get $J_{n^2-1}$, so the set $\mathcal{A}(\Gamma_1)$ does contain the all-ones matrix.
+
+\paragraph{Closed under matrix multiplication}
+
+Here we have to show for each pair-wise multiplication, its product is still contained in $\mathcal{A}(\Gamma_1)$. 
+
+In the Appendix (\ref{working:gamma-1}), we rigourously show that $\mathcal{A}(\Gamma_1)$ is closed under matrix multiplication.
+
+\paragraph{}
+Thus, $\mathcal{A}(\Gamma_1)$ is a coherent algebra. So we know the coherent closure $\mathcal{W}(\Gamma_1)\subseteq\mathcal{A}(\Gamma_1)$.
+
+\subsubsection{Showing Minimal Coherent Algebra}
+
+Recall that $\Gamma_1$ is the graph of $R(n)$ with a single vertex $v_1$ deleted from it. Let $\mathcal{A}$ be an arbitrary coherent algebra containing the adjacency matrix $A(\Gamma_1)$, that is $A(\Gamma_1)=A\in\mathcal{A}$. Since any coherent algebra is closed under matrix multiplication, $A^2\in\mathcal{A}$. We show that $A^2$ can be expressed as a linear combination of certain classes of matrices grouped by their unique coefficients, which we show are classes in the coherent closure by Wielandt's Principle (Theorem \ref{def:wielandt-priniple}).
+
+\begin{align*}
+    A^2 &=
+    \begin{bmatrix}
+        A_1 & C \\
+        C^T & A_2
+    \end{bmatrix}^2 \\
+    &= \begin{bmatrix}
+        A_1^2 + CC^T & A_1C + CA_2 \\
+        C^TA_1 + A_2C^T & C^TC + A_2^2
+    \end{bmatrix}.
+\end{align*}
+
+\begin{itemize}
+    \item Evaluating $A_1^2 + CC^T$\\
+    \begin{align*}
+        A_1^2 + CC^T &= (n-3)A_1 + (n-2)I + (n-2)I - A_1 + J \\
+        &= (n-3)A_1 + (2n-3)I + (J-I-A_1).
+    \end{align*}
+
+    \item Evaluating $A_1C + CA_2$\\
+    \begin{align*}
+        A_1C + CA_2 &= J-C + J+(n-3)C\\
+        &= 2(J-C) + (n-2)C
+    \end{align*}
+
+    \item Evaluating $C^TA_1 + A_2C^T$\\
+    By symmetry,
+    \begin{align*}
+        C^TA_1 + A_2C^T = 2(J-C^T) + (n-2)C^T
+    \end{align*}
+
+    \item Evaluating $C^TC + A_2^2$\\
+    \begin{align*}
+         C^TC + A_2^2 &= 2I+A_2 + 2(n-2)I + (n-3)A_2 + 2(J-I-A_2)\\
+         &= (2n-2)I + (n-2)A_2 + 2(J-I-A_2)
+    \end{align*}
+\end{itemize}
+
+Substituting back into the matrix $A^2$,
+
+\begin{align*}
+    A(\Gamma_1)^2 &= \begin{bmatrix}
+        (n-3)A_1 + (2n-3)I + (J-I-A_1) & 2(J-C) + (n-2)C \\
+        2(J-C^T) + (n-2)C^T & (2n-2)I + (n-2)A_2 + 2(J-I-A_2)
+    \end{bmatrix} \\
+    &= (n-3)\begin{bmatrix}
+        A_1 & O\\
+        O & O
+    \end{bmatrix} + (2n-3)\begin{bmatrix}
+        I & O\\O & O
+    \end{bmatrix} + \begin{bmatrix}
+        J-I-A_1 & O \\ O&O
+    \end{bmatrix}\\
+    &\quad\quad\quad+2\begin{bmatrix}
+        O&J-C\\J-C^T&J-I-A_2
+    \end{bmatrix} + (n-2)\begin{bmatrix}
+        O&C\\C^T&A_2
+    \end{bmatrix} + (2n-2)\begin{bmatrix}
+        O&O\\O&I
+    \end{bmatrix}
+\end{align*}
+
+By Wielandt's Principle, the matrices below are contained in the coherent closure $\mathcal{W}(\Gamma_1)$:
+
+\begin{align*}
+    \operatorname{span}\left\{\begin{bmatrix}
+        A_1 & O\\
+        O & O
+    \end{bmatrix},
+    \begin{bmatrix}
+        I & O\\O & O
+    \end{bmatrix},
+    \begin{bmatrix}
+        J-I-A_1 & O \\ O&O
+    \end{bmatrix},
+    \begin{bmatrix}
+        O&O\\O&I
+    \end{bmatrix},
+    \begin{bmatrix}
+        O&C\\C^T&A_2
+    \end{bmatrix},
+    \begin{bmatrix}
+        O&J-C\\J-C^T&J-I-A_2
+    \end{bmatrix}\right\} \subseteq \mathcal{W}(\Gamma_1)
+\end{align*}
+
+We can now choose any 2 matrices from the set above and repeat the process to obtain more classes:
+
+We choose to multiply $\begin{bmatrix}
+        O&J-C\\J-C^T&J-I-A_2
+    \end{bmatrix}$ and $\begin{bmatrix}
+        I & O\\O & O
+    \end{bmatrix}$,
+\begin{align*}
+    \begin{bmatrix}
+        O&J-C\\J-C^T&J-I-A_2
+    \end{bmatrix}
+    \begin{bmatrix}
+        I & O\\O & O
+    \end{bmatrix}
+    &= \begin{bmatrix}
+        O & O\\J-C^T & O
+    \end{bmatrix}.
+\end{align*}
+
+We choose to multiply $\begin{bmatrix}
+        I&O\\O&O
+    \end{bmatrix}$ and $\begin{bmatrix}
+        O&J-C\\J-C^T&J-I-A_2
+    \end{bmatrix}$,
+    
+\begin{align*}
+    \begin{bmatrix}
+        I&O\\O&O
+    \end{bmatrix}
+    \begin{bmatrix}
+        O&J-C\\J-C^T&J-I-A_2
+    \end{bmatrix} &=
+    \begin{bmatrix}
+        O&J-C\\O&O
+    \end{bmatrix}.
+\end{align*}
+
+We choose to multiply $\begin{bmatrix}
+        O&C\\C^T&A_2
+    \end{bmatrix}$ and $\begin{bmatrix}
+        I & O\\O & O
+    \end{bmatrix}$
+\begin{align*}
+    \begin{bmatrix}
+        O&C\\C^T&A_2
+    \end{bmatrix}
+    \begin{bmatrix}
+        I & O\\O & O
+    \end{bmatrix}
+    &= \begin{bmatrix}
+        O & O\\C^T & O
+    \end{bmatrix}.
+\end{align*}
+
+We choose to multiply $\begin{bmatrix}
+        I&O\\O&O
+    \end{bmatrix}$ and $\begin{bmatrix}
+        O&C\\C^T&A_2
+    \end{bmatrix}$,
+    
+\begin{align*}
+    \begin{bmatrix}
+        I&O\\O&O
+    \end{bmatrix}
+    \begin{bmatrix}
+        O&C\\C^T&A_2
+    \end{bmatrix} &=
+    \begin{bmatrix}
+        O&C\\O&O
+    \end{bmatrix}.
+\end{align*}
+
+Now, we apply the Wielandt's Principle again to show the matrices below are classes of the coherent closure:
+
+\begin{align*}
+    &\operatorname{span}\{
+    \begin{bmatrix}
+        A_1 & O\\
+        O & O
+    \end{bmatrix},
+    \begin{bmatrix}
+        I & O\\O & O
+    \end{bmatrix},
+    \begin{bmatrix}
+        J-I-A_1 & O \\ O&O
+    \end{bmatrix},
+    \begin{bmatrix}
+        O&O\\O&I
+    \end{bmatrix},
+    \begin{bmatrix}
+        O&C\\C^T&A_2
+    \end{bmatrix},\\
+    &\quad\quad\quad\begin{bmatrix}
+        O&J-C\\J-C^T&J-I-A_2
+    \end{bmatrix},
+    \begin{bmatrix}
+        O&J-C\\O&O
+    \end{bmatrix},
+    \begin{bmatrix}
+        O&O\\J-C^T&O
+    \end{bmatrix},
+    \begin{bmatrix}
+        O&C\\O&O
+    \end{bmatrix},
+    \begin{bmatrix}
+        O&O\\C&O
+    \end{bmatrix}
+    \}\\
+    \Rightarrow\quad &\operatorname{span}\{
+    \begin{bmatrix}
+        A_1 & O\\
+        O & O
+    \end{bmatrix},
+    \begin{bmatrix}
+        I & O\\O & O
+    \end{bmatrix},
+    \begin{bmatrix}
+        J-I-A_1 & O \\ O&O
+    \end{bmatrix},
+    \begin{bmatrix}
+        O&O\\O&I
+    \end{bmatrix},
+    \begin{bmatrix}
+        O&O\\O&A_2
+    \end{bmatrix},\\
+    &\quad\quad\quad\begin{bmatrix}
+        O&O\\O&J-I-A_2
+    \end{bmatrix},
+    \begin{bmatrix}
+        O&J-C\\O&O
+    \end{bmatrix},
+    \begin{bmatrix}
+        O&O\\J-C^T&O
+    \end{bmatrix},
+    \begin{bmatrix}
+        O&C\\O&O
+    \end{bmatrix},
+    \begin{bmatrix}
+        O&O\\C&O
+    \end{bmatrix}
+    \} \subseteq \mathcal{W}(\Gamma_1)\\
+    \Rightarrow&\mathcal{A} \subseteq \mathcal{W}(\Gamma_1).
+\end{align*}
+
+However, notice that $\mathcal{A} = \mathcal{A}(\Gamma_1)$, so we conclude that
+
+\begin{align*}
+    \mathcal{A}(\Gamma_1) = \mathcal{A} \subseteq \mathcal{W}(\Gamma)\\
+    \Rightarrow \mathcal{A}(\Gamma_1)\subseteq\mathcal{W}(\Gamma_1).
+\end{align*}
+
+Since $\mathcal{A}(\Gamma_1)$ was proven to be a coherent algebra, $\mathcal{W}(\Gamma_1)\subseteq\mathcal{A}(\Gamma_1)$. 
+
+Therefore, $\mathcal{W}(\Gamma_1) = \mathcal{A}(\Gamma_1)$, and the coherent rank of $\Gamma_1$ is $|\mathcal{W}(\Gamma_1)| = |\langle W_i:\quad i \in[10]\rangle| = 10$.
+
+\newpage
+\subsection{Deleting 1 Vertex in \texorpdfstring{$T(n)$}{Tn}}
+Similarly, we apply vertex deletion on $T(n)$ with respect to 1 vertex. We then investigate its resulting adjacency matrix structure and make a claim about its coherent closure.
+
+\subsubsection{Graph Construction}
+Since triangular graphs are vertex-transitive, we delete 1 vertex, $v$, from $T(n)$ and observe the resulting graph, $\Gamma_2$, to have the form:
+
+\begin{align*}
+    A(\Gamma_2) = \begin{bmatrix}
+        A(T(n-2)) & C \\
+        C^T & A(R(2,n-2))
+    \end{bmatrix}
+\end{align*}
+
+We will show why the subgraphs are isomorphic to $R(2,n-2)$ and $T(n-2)$.
+
+\begin{proposition}
+    The neighbourhood of any vertex in $T(n)$ is $R(2,n-2)$.
+\end{proposition}
+\begin{proof}
+    Let $v = \{a,b\}$ be an arbitrary vertex in $T(n)$. Two vertices in $T(n)$ are adjacent if and only if the corresponding sets intersect in exactly one element.The neighbors of $v=\{a,b\}$ are all 2-element subsets of $[n]$ that share exactly one element with $\{a,b\}$. These are:
+
+    \begin{equation*}
+        \mathcal{N}(v)=\{\{a,x\}:\quad x\in[n] \setminus \{a,b\}\}\text{  }\cup\text{  }\{\{x,b\}:\quad x\in[n]\setminus\{a,b\}\}
+    \end{equation*}
+    There are exactly $2(n-2)$ such vertices.
+
+    We can also rewrite the set $\mathcal{N}(v)$ as:
+    \begin{equation*}
+        \mathcal{N}(v)=\{\{a,x_i\}:\text{ }i\in[n-2]\}\cup\{\{x_i,b\}:\text{ }i\in[n-2]\}
+    \end{equation*}
+    where $\{x_1, x_2, \dots, x_{n-2}\} = [n]\setminus\{a,b\}$.
+
+    Let $\phi:\mathcal{N}(v) \xrightarrow[]{} [2]\times[n-2]$ be a mapping with the following rule:
+    \begin{equation*}
+        \phi(\{a,x_i\}) = (1,i)\quad\text{and}\quad \phi(\{x_i,b\}) = (2,i)
+    \end{equation*}
+    We will show why $\phi$ is a bijection and preserves adjacency.
+    \begin{itemize}
+        \item Showing Injectivity\\
+        Suppose $\phi(u_1)=\phi(u_2)$. Then both $u_1$ and $u_2$ must be mapped to the same $(r,i)$ for some $r\in[2]$ and $i\in[n-2]$. 
+        \begin{enumerate}
+            \item $r=1$
+            For any $i$, $\phi(u_1)=\phi(u_2) \iff(1,i) = (1,i) \iff \{a,x_i\} = \{a,x_i\} \iff u_1=u_2$.
+            \item $r=2$
+            For any $i$, $\phi(u_1)=\phi(u_2) \iff(2,i) = (2,i) \iff \{x_i,b\} = \{x_i,b\} \iff u_1=u_2$.
+        \end{enumerate}
+        In both cases, the injectivity condition is satisfied, thus $\phi$ is injective.
+
+        \item Showing Surjectivity\\
+        Let $(r,i)\in [2]\times[n-2]$. We can also split $r$ into 2 cases:
+        \begin{enumerate}
+            \item $r=1$
+            For any $(1,i)$, choose $u = {a,x_i}\in \mathcal{N}(v)$, then $\phi(u) = (1,i)$.
+
+            \item $r=2$
+            For any $(2,i)$, choose $u = {x_i,b}\in \mathcal{N}(v)$, then $\phi(u) = (2,i)$.
+        \end{enumerate}
+        In both cases, the surjectivity condition is satisfied, thus $\phi$ is surjective.
+
+        \item Showing Adjacency Preservation\\
+        We want to show that if $u_1\sim u_2$ in $T(n)$, then $\phi(u_1) \sim \phi(u_2)$ in $R(2,n-2)$ and if $u_1\nsim u_2$ in $T(n)$, then $\phi(u_1) \nsim \phi(u_2)$ in $R(2,n-2)$. We do this by splitting into cases:
+        \begin{enumerate}
+            \item $u_1=\{a,x_i\}, u_2=\{a,x_j\}, i\neq j$\\
+            In $T(n)$, $u_1 \sim u_2$ as they share an element $a$. Under $\phi$, $\phi(u_1) = (1,i)$, $\phi(u_2) = (1,j)$. These 2 vertices in $R(2,n-2)$ also share the same row position, leading to $\phi(u_1)\sim\phi(u_2)$. Thus adjacency is preserved.
+
+            \item $u_1=\{a,x_i\}, u_2=\{x_j,b\}, i\neq j$\\
+            In $T(n)$, $u_1 \nsim u_2$ as they do not share any element. Under $\phi$, $\phi(u_1) = (1,i)$, $\phi(u_2) = (2,j)$. These 2 vertices in $R(2,n-2)$ also do not have any common elements in the respective row and column positions, leading to $\phi(u_1)\nsim\phi(u_2)$. 
+
+            \item  $u_1=\{a,x_i\}, u_2=\{x_i,b\}$\\
+            In $T(n)$, $u_1 \sim u_2$ as they share an element $x_i$. Under $\phi$, $\phi(u_1) = (1,i)$, $\phi(u_2) = (2,i)$. These 2 vertices in $R(2,n-2)$ also share the same column position, leading to $\phi(u_1)\sim\phi(u_2)$. Thus adjacency is preserved.
+
+            \item $u_1=\{x_i,b\}, u_2=\{x_j,b\}, i\neq j$\\
+            In $T(n)$, $u_1 \sim u_2$ as they share an element $b$. Under $\phi$, $\phi(u_1) = (2,i)$, $\phi(u_2) = (2,j)$. These 2 vertices in $R(2,n-2)$ also share the same row position, leading to $\phi(u_1)\sim\phi(u_2)$. Thus adjacency is preserved.
+        \end{enumerate}
+    \end{itemize}
+    Since $\phi$ is a bijection from $\mathcal{N}(v)\xrightarrow[]{}[2]\times[n-2]$ and preserves adjacency, We conclude that the graph induced by $\mathcal{N}(v)\cong R(2,n-2)$ 
+\end{proof}
+
+\begin{proposition}
+    The non-adjacent neighbourhood of any vertex in $T(n)$ is $T(n-2)$.
+\end{proposition}
+\begin{proof}
+    Let $v = \{a,b\}$ be an arbitrary vertex in $T(n)$. Two vertices in $T(n)$ are adjacent if and only if the corresponding sets intersect in exactly one element. The non-neighbors of $v$ are all 2-element subsets of $[n] \setminus \{a, b\} $, since any vertex disjoint from $v$ cannot be adjacent to it. That is,
+    \begin{equation*}
+        \mathcal{N}^c(v) = \{\{i,j\}:\quad i,j\in[n]\setminus\{a,b\}\}
+    \end{equation*}
+    The set of non-neighbours is exactly $(n-2)(n-3)/2$ or $\binom{n-2}{2}$.
+
+    This set is precisely the vertex set of $T(n-2)$, since it contains all 2-element subsets of $[n-2]$.
+
+    Furthermore, the adjacency condition on $T(n)$ extends to this subgraph, which is the same adjacency condition in $T(n-2)$. It can therefore be seen that the subgraph formed by non-neighbouring vertices of $v$ form $T(n-2)$.
+\end{proof}
+
+\subsubsection{Coherent Algebra}
+
+We hypothesise that the type of the coherent closure containing the adjacency matrix of $\Gamma_2$ has the following form:
+
+\begin{equation*}
+    \begin{bmatrix}
+        3 & t_{12}\\
+          & 4
+    \end{bmatrix}.
+\end{equation*}
+
+We observe this as $t_{11}$ corresponds to the subset of vertices in the non-neighbourhood of $v$, and we have shown the induced subgraph is $T(n-2)$, which is strongly regular. Since it is strongly regular, it has a coherent closure of $\langle I,A, J-I-A\rangle$, where $A=A(T(n-2))$, which has a rank of 3 \cite{greaves2024coherentrankgrapheigenvalues}.
+
+Similarly for $t_{22}$, it corresponds to the subset of vertices in the neighbourhood of $v$, which is $R(2,n-2)$. The non-square rook graph is known to have 4 eigenvalues, which motivates the hypothesis that its coherent closure is of the following form: $\langle I, I\otimes(J-I),(J-I)\otimes I, (J-I)\otimes(J-I) \rangle$, which has a rank of 4.
+
+Using our implementation in SageMath, the 2-WL algorithm returned a set of 11 matrices:
+
+\begin{align*}
+    &W_1 = \begin{bmatrix}
+        I & O\\
+        O & O
+    \end{bmatrix}, \quad
+    W_2 = \begin{bmatrix}
+        A(T(n-2)) & O\\
+        O & O
+    \end{bmatrix}\\
+    &W_3 = \begin{bmatrix}
+        J-I-A(T(n-2)) & O\\
+        O & O
+    \end{bmatrix}, \quad
+    W_4 = \begin{bmatrix}
+        O & O\\
+        O & I
+    \end{bmatrix}\\
+    &W_5 = \begin{bmatrix}
+        O & O\\
+        O & I\otimes (J-I)
+    \end{bmatrix}, \quad
+    W_6 = \begin{bmatrix}
+        O & O\\
+        O & (J-I)\otimes I
+    \end{bmatrix}\\
+    &W_7 = \begin{bmatrix}
+        O & O\\
+        O & (J-I)\otimes (J-I)
+    \end{bmatrix}, \quad\quad\quad
+    W_8 = \begin{bmatrix}
+        O & C\\
+        O & O
+    \end{bmatrix}\\
+    &W_9 = \begin{bmatrix}
+        O & J-C\\
+        O & O
+    \end{bmatrix}, \quad\quad\quad
+    W_{10} = \begin{bmatrix}
+        O & O\\
+        C^T & O
+    \end{bmatrix}\\
+    &W_{11} = \begin{bmatrix}
+        O & O\\
+        J-C^T & O
+    \end{bmatrix}
+\end{align*}
+
+While the 2-WL refinement algorithm suggests a stable structure, we acknowledge that a full algebraic proof — particularly closure under matrix multiplication — remains open due to the lack of a general expression for the off-diagonal block $C$. Recursive or inductive approaches may eventually resolve this, but fall beyond the scope of this project.
+% All that is left is to obtain the matrix $\mathbf{C}$.
+
+% \begin{proposition}
+%     The matrix $\mathbf{C}$ has the following form:
+%     \begin{align*}
+%         \mathbf{C} &= \begin{bmatrix}
+%             \mathfrak{C}_{n-3} & \mathfrak{C}_{n-4} & \mathfrak{C}_{n-5} & \cdots & \mathfrak{C}_1 \\
+%             \mathfrak{C}_{n-3} & \mathfrak{C}_{n-4} & \mathfrak{C}_{n-5} & \cdots & \mathfrak{C}_1 
+%         \end{bmatrix},
+%     \end{align*}
+%     where $\mathfrak{C}_k = \begin{bmatrix}
+%         \mathbf{0}^{(n-k-3, k)} \\
+%         J^{(1,k)} \\
+%         I^{(k)}
+%     \end{bmatrix},\quad k\in[n-3]$
+% \end{proposition}
+
+% \begin{proof}
+%     TBD
+% \end{proof}
+
+% \subsubsection{Coherent Configuration}
+% We claim that the following 11 matrices $\mathcal{W}_i\in \{0,1\}^{(\frac{n(n-1)}{2} - 1)\times (\frac{n(n-1)}{2} - 1)}$ form a coherent configuration of $\Gamma_2$, $\mathcal{W}(\Gamma_2)$.
+
+% \begin{align*}
+%     &\mathcal{W}(\Gamma) = \left\langle\mathcal{W}_1, \mathcal{W}_2, \mathcal{W}_3, \mathcal{W}_4, \mathcal{W}_5, \mathcal{W}_6, \mathcal{W}_7, \mathcal{W}_8, \mathcal{W}_9, \mathcal{W}_{10}\right\rangle,\quad \text{where} \\
+%     &\mathcal{W}_1 = , \quad
+%     \mathcal{W}_2 = \\
+%     &\mathcal{W}_3 = , \quad
+%     \mathcal{W}_4 = \\
+%     &\mathcal{W}_5 = , \quad
+%     \mathcal{W}_6 = \\
+%     &\mathcal{W}_7 = , \quad
+%     \mathcal{W}_8 = \\
+%     &\mathcal{W}_9 = , \quad
+%     \mathcal{W}_{10} = \\
+%     &\mathcal{W}_{11} = 
+% \end{align*}
+
+
+

@@ -1,0 +1,294 @@
+\section{Notations and Definitions}
+
+\subsection{Notations}
+
+\begin{itemize}
+    \item We denote the set comprising of integers from 1 to $n$ as $[n]$.
+    \item We denote by \( I_n \), \( J_n \), \( O_n \), and \( \mathbf{1}_n \) the identity matrix, all-ones matrix, zero matrix, and all-ones (column) vector of order \( n \), respectively. We simply write \( I \), \( J \), \( O \), and \( \mathbf{1} \) when the order is clear from context, or in the case of \( J \) and \( O \), when the matrix is not square.
+
+    \item We denote by \( e_{i,n} \) the elementary vector of size \( n \) with a \( 1 \) in the \( i \)-th position and \( 0 \) elsewhere.
+    
+    \item \(K_{n}\) denotes a Complete Graph of size $n$.
+    
+    \item \( A \otimes B \) denotes the Kronecker product of matrices \( A \) and \( B \). If \( A \in \mathbb{Q}^{m \times n} \) and \( B \in \mathbb{Q}^{p \times q} \), then:
+    \[
+    A \otimes B =
+    \begin{bmatrix}
+    a_{11}B & \cdots & a_{1n}B \\
+    \vdots & \ddots & \vdots \\
+    a_{m1}B & \cdots & a_{mn}B
+    \end{bmatrix}
+    \in \mathbb{Q}^{mp \times nq}.
+    \]
+
+    \item For any graph $\Gamma$, we denote the adjacency matrix of the graph as $A(\Gamma)$.
+
+    \item Let $\langle A_1,\dots,A_n \rangle$ denote $\operatorname{span}\{A_1,\dots,A_n\}$, for some matrices $A_i$.
+
+    \item We denote the Complete Graph on $n$ vertices as $K_n$.
+
+    \item We will use the symbol $v_1\sim v_2$ to show adjacency between vertices $v_1$ and $v_2$.
+
+    \item For any Strongly Regular Graph with parameters $(v,k,\lambda,\mu)$, we will denote them simply as $\operatorname{SRG}(v,k,\lambda,\mu)$. It denotes a graph $G=(V,E)$ such that $|V|=v$, each vertex has a degree of $k$, with adjacent vertices having $\lambda$ common neighbours, and non-adjacent vertices having $\mu$ common neighbours.
+\end{itemize}
+
+
+\subsection{Coherent Configuration and Algebras}
+A \textit{coherent configuration} \cite{greaves2024coherentrankgrapheigenvalues} is a combinatorial and algebraic structure defined on a finite set \( V \). It provides a framework for studying symmetry and regularity in graphs and other relational structures. Formally, a coherent configuration is a pair \( (V, \mathcal{R}) \), where \( \mathcal{R} = \{R_1, \ldots, R_r\} \) is a partition of \( V \times V \) into binary relations, each represented by its adjacency matrix \( A_i \). These matrices satisfy the following axioms:
+
+\subsubsection*{Axioms of a Coherent Configuration}
+
+\begin{definition} \label{def:coherent-configuration}
+Let $V$ be a finite set and $\mathcal{R}=\{R_1,\dots,R_r\}$ be a set of binary relations. For each $R_i$, let $W_i\in\operatorname{Mat}_V(\{0,1\})$ be defined such that its $(x,y)$-th entry is 1 if $(x,y)\in R_i$ and 0 otherwise. Suppose the following 4 conditions
+\begin{itemize}
+    \item[(CC1)] \quad \( \sum_{i=1}^{r} W_i = J \);
+    \item[(CC2)] \quad For each \( i \in [r] \), there exists \( j \in [r] \) such that \( W_i^T = W_j \);
+    \item[(CC3)] \quad There exists a subset \( \Delta \subseteq [r]\) such that \( \sum_{i \in \Delta} W_i = I \);
+    \item[(CC4)] \quad \( W_i W_j = \sum_{k=1}^{r} p^k_{i,j} W_k \) for some constants \( p^k_{i,j} \in \mathbb{Z}_{\geq 0} \), for all \( i, j \in [r] \).
+\end{itemize}
+\end{definition}
+Then $(V,\mathcal{R})$ is called a \textbf{coherent configuration} of \textbf{rank} $|\mathcal{R}|=r$. The set $V$ is called the \textbf{point-set} of the coherent configuration.
+
+For each $i \in \Delta$, we call the subset $V_i := \{ x \in V : (x,x) \in R_i \}$ a \textbf{fibre} of the coherent configuration. It can be observed that the fibres form a partition of the point-set $V$. When $|\Delta| = 1$, the coherent configuration $(V, R)$ is called an \textbf{association scheme}. It follows from (CC4) that, for each $k \in [r]$, there exists $i$ and $j$ such that $R_k \subset V_i \times V_j$. Thus, each subset $\Delta' \subset \Delta$ induces a coherent configuration with point-set $\bigcup_{i \in \Delta'} V_i$. The \textbf{type} of $(V, \mathcal{R})$ is defined to be the matrix in $\mathrm{Mat}_\Delta(\mathbb{N})$ whose $(i,j)$-entry $t_{ij}$ is equal to the cardinality $|\{ k : R_k \subset V_i \times V_j \}|$. Note that the sum of the entries of the type matrix is equal to $r$. Furthermore, since the type matrix must be symmetric, we omit the entries below the diagonal. Higman~\cite{Higman19} established the following restriction on the type matrix.
+
+\begin{lemma} \label{lemma:t_ii}
+\textit{For each $i,j \in \Delta$, if $t_{ii} \leq 5$ and $t_{jj} \leq 5$ then $t_{ij} \leq \min(t_{ii}, t_{jj})$.}
+\end{lemma}
+
+\begin{definition}
+    A \textbf{coherent algebra} is a matrix algebra $\mathcal{A} \subset \mathrm{Mat}_{V}(\mathbb{C})$ that satisfies the following axioms.
+
+    \begin{itemize}
+        \item $I, J \in \mathcal{A}$;
+        \item $M^\top \in \mathcal{A}$ for each $M \in \mathcal{A}$;
+        \item $MN \in \mathcal{A}$ and $M \circ N \in \mathcal{A}$ for each $M, N \in \mathcal{A}$, where $\circ$ denotes the entrywise product.
+    \end{itemize}
+\end{definition}
+
+Each coherent algebra $\mathcal{A}$ has a unique basis of $\{0,1\}$-matrices $\{W_1, \ldots, W_r\}$ that corresponds to a coherent configuration $(V_\mathcal{A}, \mathcal{R}_\mathcal{A})$. We denote by $\mathcal{F}_\mathcal{A}$ the set of fibres of the coherent configuration $(V_\mathcal{A}, \mathcal{R}_\mathcal{A})$, and we define the \textbf{type} of $\mathcal{A}$ to be that of $(V_\mathcal{A}, \mathcal{R}_\mathcal{A})$. We note that the intersection of any two coherent algebras is itself a coherent algebra. Thus we define the \textbf{coherent closure} $\mathcal{W}(\Gamma)$ of $\Gamma$ to be the minimal coherent algebra that contains the adjacency matrix $A(\Gamma)$ of $\Gamma$. We write $\mathcal{W}(\Gamma) = \langle W_1, \ldots, W_r \rangle$, where $\{W_1, \ldots, W_r\}$ is the unique basis of $\{0,1\}$-matrices for $\mathcal{W}(\Gamma)$.
+
+% Remember to cite
+To show that a coherent algebra is minimal, we use the Wielandt's Principle \cite{wielandt} to derive a lower bound of the coherent rank.
+\begin{theorem} Wielandt's Principle \label{def:wielandt-priniple} \\
+    Let $\mathcal{A}$ be a coherent algebra and let $A\in\mathcal{A}$. For $b\in\mathbb{C}$, define the matrix $B$ such that:
+    \begin{equation*}
+        [B]_{xy}=\begin{cases}
+            1,\quad\text{if }[A]_{xy}=b,\\
+            0,\quad\text{otherwise}
+        \end{cases}
+    \end{equation*}
+    then, $B\in\mathcal{A}$.
+\end{theorem}
+
+\subsection{Weisfeiler-Leman Algorithm}
+
+The Weisfeiler-Leman (WL) refinement algorithm is a combinatorial method originally developed for graph isomorphism testing, which iteratively refines colorings on tuples of vertices based on their neighborhoods. For a given dimension \(k\), the \(k\)-WL algorithm operates on \(k\)-tuples in \(V^k\) and produces increasingly fine partitions of the tuple space as the algorithm stabilizes. In the context of coherent closure, the case \(k = 2\) is of particular interest. When applied to a graph \(\Gamma=(V,E)\), the 2-WL algorithm refines the coloring on \(V \times V\), beginning from an initial coloring that distinguishes edges, non-edges, and diagonal elements. At each iteration, the coloring of a pair \((x, y)\) is updated based on the multiset of colors of vertices \(z\) such that \((x, z)\) and \((z, y)\) are considered. This refinement continues until a stable partition is reached.
+
+The key significance of the 2-WL algorithm lies in its equivalence to generating the \emph{coherent closure} of a graph. That is, the final coloring produced by 2-WL corresponds to a coherent configuration whose basis relations partition \(V \times V\) in a way that is closed under transpose and composition — the defining properties of a coherent configuration. This connection is formalized by the following result, adapted from Theorem 4.6.19 in \cite{ponomarenko_ccnotes}, where it implies that the 2-WL refinement captures the same structure as the 2-closure of a graph, and thus the coherent closure of \(\Gamma\) may be computed via the 2-dimensional WL algorithm.
+
+To support our theoretical investigation, we leveraged computational tools to compute the coherent closure of graphs under various operations. Specifically, we utilised SageMath alongside the C++ implementation of the k-WL refinement algorithm available at \url{https://github.com/sven-reichard/stabilization/blob/master/weisfeiler.org} \cite{reichard_weisfeiler}. This allowed us to efficiently compute the 2-WL stabilization of graphs and directly obtain their coherent closures for small values of $n$. Through these computations, we observed consistent patterns in the resulting coherent ranks across different graph modifications, which in turn guided the formal proofs presented in the following sections.
+
+
+\subsection{Rook Graph}
+
+\paragraph{General Rook Graph}
+The \textbf{rook graph} \( R(m,n) = (V, E) \), where \( m \leq n \), is defined as the simple undirected graph formed possible moves of a rook on each cell of an \( m \times n \) chessboard. Formally, let 
+\begin{equation*}
+    V = \left\{\begin{pmatrix}
+        i \\ j
+    \end{pmatrix} :\quad i\in [m],j\in [n]\right\};
+\end{equation*}
+be the vertex set representing all cells on the $m\times n$ chessboard. The edge set is given by
+\begin{equation*}
+    E = \left\{
+        \left\{
+        \begin{pmatrix}i\\j\end{pmatrix}, \begin{pmatrix}k\\l\end{pmatrix}
+        \right\}
+        :\quad i=k \text{ or } j=l
+    \right\}.
+\end{equation*}
+Then $R(m,n)$ is the rook graph.
+\newpage
+
+We can think of $R(n)$ as the following:
+\begin{itemize}
+    \item Each vertex corresponds to a cell on the chessboard, so the total number of vertices is \( |V| = mn \).
+    \item Two vertices are adjacent if and only if they lie in the same row or the same column of the chessboard. 
+\end{itemize}
+
+The adjacency matrix of \( R(m,n) \) can be written in block form as:
+\[
+A(R(m,n)) = 
+\underbrace{
+\left[
+\begin{array}{cccc}
+J_{n} - I & I_n & \cdots & I_n \\
+I_n & J_n - I & \cdots & I_n \\
+\vdots & \vdots & \ddots & \vdots \\
+I_n & I_n & \cdots & J_n - I
+\end{array}
+\right]
+}_{\text{\( m \) blocks}}.
+\]
+
+\paragraph{Square Rook Graph}
+A \textbf{square rook graph} is the special case where \( m = n \). We denote this as \( R(n) \).
+An illustration of \( R(3) \) is provided in Figure~\ref{fig:rook-graph}.
+
+\paragraph{Properties of the square rook graph}
+\begin{itemize}
+    \item \( R(n) \) is a strongly regular graph with parameters:
+    \[
+    \operatorname{SRG}(n^2, 2(n - 1), n - 2, 2)\quad \text{for }n \ge 3;
+    \]
+    \item Let $A$ be the adjacency matrix $R(n)$. Since it is strongly regular, $A^2 = 2(n-1)I + (n-2)A + 2(J-I-A)$.
+\end{itemize}
+
+
+
+
+% not sure if needed
+% \paragraph{Construction of \(R(n)\)}
+
+% Alternatively, \(R_{n,n}\) can be constructed using an orthogonal array of size \( \text{OA}(2, n) \), which has the following properties:
+% \begin{itemize}
+%     \item \( \text{OA}(2, n) \) is a \( 2 \times n^2 \) matrix, where each column corresponds to a unique pair \( (x, y) \in \{1, \dots, n\} \times \{1, \dots, n\} \).
+%     \item For any two rows, every pair of entries appears exactly once in the same column.
+% \end{itemize}
+
+% We can visualise it as such:
+% $$
+% \text{OA}(2, n) = \begin{bmatrix}
+%     1 & 1 & \cdots & 1 & 2 & 2 & \cdots & 2 & \cdots & n & n & \cdots & n \\
+%     1 & 2 & \cdots & n & 1 & 2 & \cdots & n & \cdots & 1 & 2 & \cdots & n \\
+% \end{bmatrix}
+% $$
+
+% \paragraph{}
+% Given \( \text{OA}(2, n) \), we define the \textbf{Orthogonal Array graph} as follows:
+
+% \begin{definition}
+%     The Orthogonal Array graph, \(G_{OA} = (V,E)\), is constructed by OA\((2,n)\) by the following:
+%     \begin{itemize}
+%         \item Each vertex \( v_i \) corresponds to the \( i \)-th column of the orthogonal array, so \( |V| = n^2 \).
+%         \item Two vertices \( v_i \) and \( v_j \) are adjacent if they share the same value in any row of the array.
+%     \end{itemize}
+% \end{definition}
+
+% \paragraph{}
+% For \( n = 3 \), the orthogonal array \( \text{OA}(2, 3) \) is:
+% \[
+% \begin{bmatrix}
+% 1 & 1 & 1 & 2 & 2 & 2 & 3 & 3 & 3 \\
+% 1 & 2 & 3 & 1 & 2 & 3 & 1 & 2 & 3
+% \end{bmatrix}.
+% \]
+
+
+% The Orthogonal Array graph of OA\((2, 3)\) would have $9$ vertices in total, with each vertex being adjacent to 4 other vertices.
+% (i.e. $\begin{pmatrix}
+%     1\\1
+% \end{pmatrix}$ is adjacent to $\begin{pmatrix}
+%     1\\2
+% \end{pmatrix}$, $\begin{pmatrix}
+%     1\\3
+% \end{pmatrix}$, $\begin{pmatrix}
+%     2\\1
+% \end{pmatrix}$ and $\begin{pmatrix}
+%     3\\1
+% \end{pmatrix}$)
+
+% It can be observed that this construction of \(G\) is isomorphic to Rook graph \(R(3)\), and we can generalise it to \(R(n)\) as well.
+
+
+% \begin{theorem}
+%     A block graph construction of OA\((2,n)\) is isomorphic to \(R(n)\).
+% \end{theorem}
+
+% \begin{proof} 
+% We want to show that the block graph construction of OA\((2,n)\), \(G = (V_G,E_G)\), is isomorphic to the Rook graph, \(R(n) = (V_R, E_R)\). \\ \\
+% Given 
+% \(
+% \text{OA}(2, n) = \begin{bmatrix}
+%     1 & 1 & \cdots & 1 & 2 & 2 & \cdots & 2 & \cdots & n & n & \cdots & n \\
+%     1 & 2 & \cdots & n & 1 & 2 & \cdots & n & \cdots & 1 & 2 & \cdots & n \\
+% \end{bmatrix},
+% \) \\
+% let $G = (V_G,E_G)$ be the block graph constructed using the steps defined above. \\
+
+% We proceed as follows:
+% \begin{enumerate}
+%     \item \textbf{Vertex Sets}: 
+%     Since the columns of OA\((2,n)\) spans \(\{1,2,\cdots,n\}^2\), \(|V| = n^2\). Similarly, the vertices of \(R_{n,n}\) correspond to the cells of an \(n \times n\) chessboard, so \(|V_R| = n^2\). Therefore, \(|V_G| = |V_R|\).
+
+%     \item \textbf{Edge Sets}: 
+%     In \(G\), two vertices are adjacent if their corresponding columns in OA\((2,n)\) share the same value in at least one row. This means that:
+%     \begin{itemize}
+%         \item If two vertices share the same value in the top row, they are adjacent.
+%         \item If two vertices share the same value in the bottom row, they are adjacent.
+%     \end{itemize}
+%     This adjacency condition matches exactly how edges are defined in \(R(n)\), where two cells of the chessboard are connected if they lie in the same row or column. Thus, the adjacency relationships in \(G\) and \(R(n)\) are equivalent.
+
+%     \item \textbf{Bijection}: 
+    
+%     \begin{itemize}
+%         \item Let \((i,j) \in V_G\) represent an arbitrary column in OA\((2,n)\).
+%         \item Let \((r_i,c_j) \in V_R\) represent a arbitrary position on a \(n\times n\) chessboard which corresponds to the \(i\)-th row and \(j\)-th column.
+%     \end{itemize}
+%     We now define a mapping \(f: V_G \to V_R\) as follows:
+%     \begin{align*}
+%         f((i,j)) &= (r_i,c_j), \text{  where \( (i,j) \in V_G \) and \((r_i,c_j) \in V_R\). }
+%     \end{align*}
+    
+%     To show that the mapping is bijective, we show the following:
+%     \begin{itemize}
+%         \item \textbf{Injectivitiy}: \\
+%         Assume \(f((i,j)) = f((i',j'))\). Then:
+%         \[
+%         f((i,j)) = (r_i, c_j) \quad \text{and} \quad f((i',j')) = (r_{i'}, c_{j'}).
+%         \]
+%         Since \(f((i,j)) = f((i',j'))\), it follows that:
+%         \[
+%         (r_i, c_j) = (r_{i'}, c_{j'}).
+%         \]
+%         Thus, \(r_i = r_{i'}\) and \(c_j = c_{j'}\), which implies \((i,j) = (i',j')\). 
+%         In other words, if two positions on the \(n\times n\) chessboard are the same, their corresponding columns in the OA\((2,n)\) must be the same. \\
+%         Therefore, \(f\) is injective.
+    
+%         \item \textbf{Surjectivity}: \\
+%         Taking an arbitrary \((r_i,c_j) \in V_R\), we need to show that there exists a \((i,j) \in V_G\) such that \(f((i,j)) = (r_i,c_j)\). \\
+%         Note that \((r_i,c_j)\) corresponds to the position on the chessboard with row \(i\) and column \(j\). Since \(f\) maps a column to a chessboard position uniquely, the 
+%         Since we have shown injectivity, for each \((i,j) \in V_G\), there is a one-to-one \(f((i,j)) = (r_i,c_j) \in V_R\). Thus, the set of images \(\{f((i,j))\text{ } | \text{ }(i,j) \in V_G\} \subseteq V_R\) contains exactly \(n^2\) elements. We have also shown
+%         Let \((x, y) \in V_R\) be an arbitrary vertex in \(R(n)\). By the construction of OA\((2, n)\), there exists a column \(c = \begin{bmatrix} x \\ y \end{bmatrix} \in V\) such that the top row contains \(x\) and the bottom row contains \(y\). Thus, \(f(c) = (x, y)\), meaning every vertex in \(V_R\) has a preimage in \(V_G\). \\
+%         Therefore, \(f\) is surjective.
+%     \end{itemize} 
+%     Thus, we have shown that the mapping $f$ is a bijection.
+
+%     \item \textbf{Adjacency Preservation}: 
+%     If two vertices in \(G\) are adjacent, they share the same value in the top or bottom row of OA\((2,n)\). Under the mapping \(f\), this means the corresponding vertices in \(R(n)\) share the same row or column. Similarly, if two vertices in \(R(n)\) are adjacent, their positions share the same row or column, which corresponds to adjacency in \(G\). Thus, \(f\) preserves adjacency.
+
+% \end{enumerate}
+% Therefore, since $f$ is a bijection from $V_G\to V_R$ such that the edges are preserved, $G\cong R_{n,n}$.
+    
+% \end{proof}
+\subsection{Triangular Graph}
+
+The \textbf{triangular graph} \( T(n) \) is defined as the graph whose vertices correspond to the $2$-element subsets of an $n$-element set. Two vertices are adjacent if and only if the corresponding subsets intersect in exactly one element.
+
+Formally, let
+\[
+V = \left\{ \{i,j\} :\quad 1 \le i < j \le n \right\}
+\]
+be the vertex set of all unordered pairs from the set $[n] = \{1, 2, \dots, n\}$. The edge set is given by
+\[
+E = \left\{ \left\{ \{i,j\}, \{k,\ell\} \right\} :\quad |\{i,j\} \cap \{k,\ell\}| = 1 \right\}.
+\]
+Then \( T(n) = (V, E) \) is the triangular graph. An illustration of $T(4)$ and its resulting graph when we delete the vertex $\{1,2\}$ can be seen in Figures~\ref{fig:t4} and \ref{fig:t4'}.
+
+\paragraph{Properties}
+\begin{itemize}
+    \item \( T(n) \) is a \emph{strongly regular graph} with parameters
+    \[
+    \operatorname{SRG} \left( \frac{n(n-1)}{2}, 2(n-2), n-2, 4 \right), \quad \text{for } n \ge 4.
+    \]
+\end{itemize}

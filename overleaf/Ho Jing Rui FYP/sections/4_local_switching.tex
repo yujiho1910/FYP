@@ -1,0 +1,325 @@
+\section{Switching a Single Vertex and Coherent Rank Increase}
+\begin{definition}[Seidel Switching]\label{def:seidel-switching}
+    Let \( G = (V, E) \) be a simple undirected graph on \( n \) vertices with adjacency matrix \( A \in \{0,1\}^{n \times n} \), and let \( S \subseteq V \) be a subset of the vertices. Then, the Seidel switching of $G$ with respect to $S$ is a new graph $G_S = (V, E^S)$, obtained by modifying $G$ as follows:
+    \begin{itemize}
+        \item For each pair of vertices $u,v\in V$:
+        \begin{itemize}
+            \item If \textbf{both} $u,v\in S$, or both $u,v\in V-S$, then $\{u,v\}\in E \Rightarrow\{u,v\}\in E^S$ (adjacency within the sets $S$ and $V-S$).
+            \item If \textbf{exactly} one of $u$ or $v$ belongs to $S$, then:
+            \begin{itemize}
+                \item If $\{u,v\}\in E$, then $\{u,v\}\notin E^S$ (remove the edge).
+                \item If $\{u,v\}\notin E$, then $\{u,v\}\in E^S$ (add the edge).
+            \end{itemize}
+        \end{itemize}
+    \end{itemize}
+    This operation toggles the  adjacency between $S$ and $V-S$, whilst preserving adjacency within the respective sets $S$ and $V-S$.
+\end{definition}
+
+
+\subsection{Switching 1 Vertex in \texorpdfstring{$R(n)$}{R(n)}}
+In this section, we consider switching on $R(n)$ a single vertex $v$. We then observe the change in coherent configurations.
+
+\subsubsection{Switching Construction}
+As mentioned before, $R(n)$ is vertex transitive so without loss of generality, we choose an arbitrary vertex $v_{1,1}$ corresponding to the cell $\binom{1}{1}$ to be switched. As a result, we can partition the graph based on the degree sequence.
+
+Before switching, $R(n)$ is strongly regular, with a common degree of $2(n-1)$ across all vertices. After choosing to switch the vertex $v$, we end up with a degree sequence as follows:
+
+\begin{table}[h!]
+    \centering
+    \begin{tabular}{|c|c|}
+        \hline
+        \textbf{Vertex} & \textbf{Degree after switching} \\
+        \hline
+        \( v_{1,1} \) & \( (n - 1)^2 \) \\
+        \( v_{1,2}, v_{1,3}, \dots, v_{1,n} \) & \( 2n - 3 \) \\
+        \( v_{2,2}, v_{2,3}, \dots, v_{n-1,n-1} \) & \( 2n - 1 \) \\
+        \hline
+    \end{tabular}
+    \caption{Degree sequence of vertices in \( R(n) \) after switching vertex \( v = v_{1,1} \)}
+\end{table}
+
+The change in degree of each vertex can be explained by the adjacency with $v_{1,1}$.
+\begin{itemize}
+    \item For $v_{1,1}$\\
+    By switching on this vertex, its degree would be changed to
+    \begin{align*}
+        n^2-1 -2(n-1) &= n^2 -2n +1\\&=(n-1)^2
+    \end{align*}
+
+    \item For vertices adjacent to $v_{1,1}$ in $R(n)$\\
+    Since these vertices are adjacent to $v_{1,1}$ in $R(n)$, after switching in $\Gamma_3$, the adjacency will be removed, so their degree would be changed to
+    \begin{align*}
+        2(n-1) - 1 &= 2n-3
+    \end{align*}
+
+    \item For vertices not adjacent to $v_{1,1}$ in $R(n)$\\
+    Since these vertices are not adjacent to $v_{1,1}$ in $R(n)$, after switching in $\Gamma_3$, the adjacency will be added, so their degree would be changed to
+    \begin{align*}
+        2(n-1) + 1 &= 2n-1
+    \end{align*}
+\end{itemize}
+
+We note that $(n-1)^2=2n-3$ in the case of $n=2$, which would lead to $R(2)$, which is isomorphic to the Cycle graph on 4 vertices. For the purposes of our discussion we restrict $n\geq3$.
+
+By grouping the vertices together based on their degree sequence, we will have this matrix decomposition of the switched graph, $\Gamma_3$.
+
+\begin{align*}
+    A(\Gamma_3) &= \begin{bmatrix}
+        O_1 & O_{1,2(n-1)} & \mathbf{1}_{n-1}^T \\
+        O_{2(n-1),1} & A_1 & C \\
+        \mathbf{1}_{n-1} & C^T & A_2
+    \end{bmatrix}
+\end{align*}
+\begin{remark}
+    The matrices $A_1,A_2$ and $C$ are the same as the ones in graph $\Gamma_1$. This is due to the structure of $A(\Gamma_1)$ being enclosed within $A(\Gamma_3)$.
+\end{remark}
+We can take the results from the earlier section on vertex deletion to simplify our computation of the coherent configuration of the graph $\Gamma_3$. We first propose the following lemma.
+
+\begin{lemma}
+    In a coherent configuration, any fibre consisting of a single vertex supports only the identity relation. That is, the only type within such a fibre is type 1.
+\end{lemma}
+\begin{proof}
+    Let \( X \) be a coherent configuration with a fibre \( F = \{v\} \). By definition, the set of relations \( R_i \) on \( X \) partition \( X \times X \), and the identity relation \( \{(v,v)\} \) is always one of them.
+
+    Since \( F \) contains only one vertex, there can be no other ordered pairs in \( F \times F \) besides \( (v,v) \). Therefore, the only basis relation supported on \( F \times F \) is the identity relation, which must be of rank 1.
+
+    Thus, any singleton fibre supports only the identity type, $[1]$.
+\end{proof}
+
+Using this lemma, we can show that the fibre formed by vertex $v_{1,1}$ only has the identity, which implies that it is of rank 1.
+
+We also employ Higman's lemma \ref{lemma:t_ii} to help determine the off-diagonal type as well.
+
+From what we already know about the type-matrix of $\Gamma_3$, we have this form:
+\begin{equation*}
+    \begin{bmatrix}
+        1 & t_{12} & t_{13}\\
+         & 3 & 2 \\
+         & & 3
+    \end{bmatrix}
+\end{equation*}
+By Lemma \ref{lemma:t_ii}, $t_{12} \leq \min(t_{11},t_{22}) = 1$ and $t_{13} \leq \min(t_{11},t_{33}) = 1$. So we conclude that the type-matrix of $\Gamma_3$ has the form
+
+\begin{equation*}
+    \begin{bmatrix}
+        1 & 1 & 1\\
+         & 3 & 2 \\
+         & & 3
+    \end{bmatrix}
+\end{equation*}
+By symmetry of the type matrix, we can compute that the coherent rank of $\Gamma_3$ is 15.
+
+
+\subsubsection{Resulting Coherent Closure}
+Since we know that the coherent rank of the graph $\Gamma_3$ is 15, we use the results found in the earlier section and derive the coherent closure $\mathcal{W}(\Gamma_3)$.
+
+We claim that the following 15 matrices,
+
+\begin{align*}
+    &W_1 = \begin{bmatrix}
+        O_1 & O_{1,2(n-1)} & O_{1,(n-1)^2}\\
+        O_{2(n-1),1} & I_{2(n-1)} & O_{2(n-1), (n-1)^2} \\
+        O_{(n-1)^2,1} & O_{(n-1)^2, 2(n-1)} & O_{(n-1)^2}
+    \end{bmatrix}, \quad
+    W_2 = \begin{bmatrix}
+    O_1 & O_{1,2(n-1)} & O_{1,(n-1)^2}\\
+    O_{2(n-1),1} &    O_{2(n-1)} & O_{2(n-1), (n-1)^2} \\
+    O_{(n-1)^2,1} &    O_{(n-1)^2, 2(n-1)} & I_{(n-1)^2}
+    \end{bmatrix}\\
+    &W_3 = \begin{bmatrix}
+    O_1 & O_{1,2(n-1)} & O_{1,(n-1)^2}\\
+    O_{2(n-1),1} &    A_1 & O_{2(n-1), (n-1)^2} \\
+    O_{(n-1)^2,1} &    O_{(n-1)^2, 2(n-1)} & O_{(n-1)^2}
+    \end{bmatrix}, \quad
+    W_4 = \begin{bmatrix}
+    O_1 & O_{1,2(n-1)} & O_{1,(n-1)^2}\\
+    O_{2(n-1),1} &    O_{2(n-1)} & O_{2(n-1), (n-1)^2} \\
+    O_{(n-1)^2,1} &    O_{(n-1)^2, 2(n-1)} & A_2
+    \end{bmatrix}\\
+    &W_5 = \begin{bmatrix}
+    O_1 & O_{1,2(n-1)} & O_{1,(n-1)^2}\\
+    O_{2(n-1),1} &    J-I-A_1 & O_{2(n-1), (n-1)^2} \\
+    O_{(n-1)^2,1} &    O_{(n-1)^2, 2(n-1)} & O_{(n-1)^2}
+    \end{bmatrix}, \quad
+    W_6 = \begin{bmatrix}
+    O_1 & O_{1,2(n-1)} & O_{1,(n-1)^2}\\
+    O_{2(n-1),1} &    O_{2(n-1)} & O_{2(n-1), (n-1)^2} \\
+    O_{(n-1)^2,1} &    O_{(n-1)^2, 2(n-1)} & J-I-A_2
+    \end{bmatrix}\\
+    &W_7 = \begin{bmatrix}
+    O_1 & O_{1,2(n-1)} & O_{1,(n-1)^2}\\
+    O_{2(n-1),1} &    O_{2(n-1)} & C\\
+    O_{(n-1)^2,1} &    O_{(n-1)^2, 2(n-1)} & O_{(n-1)^2}
+    \end{bmatrix}, \quad
+    W_8 = \begin{bmatrix}
+    O_1 & O_{1,2(n-1)} & O_{1,(n-1)^2}\\
+    O_{2(n-1),1} &    O_{2(n-1)} & J-C \\
+    O_{(n-1)^2,1} &    O_{(n-1)^2, 2(n-1)} & O_{(n-1)^2}
+    \end{bmatrix}\\
+    &W_9 = \begin{bmatrix}
+    O_1 & O_{1,2(n-1)} & O_{1,(n-1)^2}\\
+    O_{2(n-1),1} &    O_{2(n-1)} & O_{2(n-1), (n-1)^2} \\
+    O_{(n-1)^2,1} &    C^T & O_{(n-1)^2}
+    \end{bmatrix}, \quad
+    W_{10} = \begin{bmatrix}
+    O_1 & O_{1,2(n-1)} & O_{1,(n-1)^2}\\
+    O_{2(n-1),1} &    O_{2(n-1)} & O_{2(n-1), (n-1)^2} \\
+    O_{(n-1)^2,1} &    J-C^T & O_{(n-1)^2}
+    \end{bmatrix}\\
+    &W_{11} =\begin{bmatrix}
+        1& O_{1,2(n-1)} & O_{1,(n-1)^2}\\
+    O_{2(n-1),1} &    O_{2(n-1)} & O_{2(n-1), (n-1)^2} \\
+    O_{(n-1)^2,1} &    O_{(n-1)^2, 2(n-1)} & O_{(n-1)^2}
+    \end{bmatrix},\quad
+    W_{12} = \begin{bmatrix}
+    O_1 & \mathbf{1}_{2(n-1)}^T & O_{1,(n-1)^2}\\
+    O_{2(n-1),1} &    O_{2(n-1)} & O_{2(n-1), (n-1)^2} \\
+    O_{(n-1)^2,1} &    O_{(n-1)^2, 2(n-1)} & O_{(n-1)^2}
+    \end{bmatrix} \\
+    &W_{13} =\begin{bmatrix}
+    O_1& O_{1,2(n-1)} & \mathbf{1}_{(n-1)^2}^T\\
+    O_{2(n-1),1} &    O_{2(n-1)} & O_{2(n-1), (n-1)^2} \\
+    O_{(n-1)^2,1} &    O_{(n-1)^2, 2(n-1)} & O_{(n-1)^2}
+    \end{bmatrix},\quad
+    W_{14} = \begin{bmatrix}
+    O_1 & O_{1,2(n-1)} & O_{1,(n-1)^2}\\
+    \mathbf{1}_{2(n-1)} &    O_{2(n-1)} & O_{2(n-1), (n-1)^2} \\
+    O_{(n-1)^2,1} &    O_{(n-1)^2, 2(n-1)} & O_{(n-1)^2}
+    \end{bmatrix} \\
+    &W_{15} =\begin{bmatrix}
+    O_1& O_{1,2(n-1)} & O_{1,(n-1)^2}\\
+    O_{2(n-1),1} &    O_{2(n-1)} & O_{2(n-1), (n-1)^2} \\
+    \mathbf{1}_{(n-1)^2} &    O_{(n-1)^2, 2(n-1)} & O_{(n-1)^2}
+    \end{bmatrix}
+\end{align*}
+
+form a coherent closure containing the adjacency matrix of $\Gamma_3$, $\mathcal{W}(\Gamma_3)=\langle W_i: \text{ }i\in[15]\rangle$.
+
+This approach demonstrates that key features of the coherent algebra can be recovered without direct matrix computations, using only the combinatorial structure encoded in the type matrix and fibre decomposition.
+
+% \subsubsection{Resulting Coherent Configuration}
+
+% We claim that the following 15 matrices \( \mathcal{W}_i \in \{0,1\}^{n^2 \times n^2} \) form a coherent configuration of our modified rook graph:
+
+% \[
+% \begin{aligned}
+% \mathcal{W}(\Gamma_3) &= \left\langle \mathcal{W}_i \,\middle|\, i \in [15] \right\rangle, \quad \text{where} \\[1em]
+% \mathcal{W}_1 &= 
+% \begin{bmatrix}
+% O_1 & O & O \\
+% O & I_{2(n-1)} & O \\
+% O & O & O
+% \end{bmatrix},
+% & \quad
+% \mathcal{W}_2 &= 
+% \begin{bmatrix}
+% O_1 & O & O \\
+% O & O & O \\
+% O & O & I_{(n-1)^2}
+% \end{bmatrix},
+% \\[1em]
+% \mathcal{W}_3 &= 
+% \begin{bmatrix}
+% O_1 & O & O \\
+% O & \mathbf{A_1} & O \\
+% O & O & O
+% \end{bmatrix},
+% & \quad
+% \mathcal{W}_4 &= 
+% \begin{bmatrix}
+% O_1 & O & O \\
+% O & O & O \\
+% O & O & \mathbf{A_2}
+% \end{bmatrix},
+% \\[1em]
+% \mathcal{W}_5 &= 
+% \begin{bmatrix}
+% O_1 & O & O \\
+% O & J - I - \mathbf{A_1} & O \\
+% O & O & O
+% \end{bmatrix},
+% & \quad
+% \mathcal{W}_6 &= 
+% \begin{bmatrix}
+% O_1 & O & O \\
+% O & O & O \\
+% O & O & J - I - \mathbf{A_2}
+% \end{bmatrix},
+% \\[1em]
+% \mathcal{W}_7 &= 
+% \begin{bmatrix}
+% O_1 & O & O \\
+% O & O & \mathbf{C} \\
+% O & O & O
+% \end{bmatrix},
+% & \quad
+% \mathcal{W}_8 &= 
+% \begin{bmatrix}
+% O_1 & O & O \\
+% O & O & J - \mathbf{C} \\
+% O & O & O
+% \end{bmatrix},
+% \\[1em]
+% \mathcal{W}_9 &= 
+% \begin{bmatrix}
+% O_1 & O & O \\
+% O & O & O \\
+% O & \mathbf{C}^T & O
+% \end{bmatrix},
+% & \quad
+% \mathcal{W}_{10} &= 
+% \begin{bmatrix}
+% O_1 & O & O \\
+% O & O & O \\
+% O & J - \mathbf{C}^T & O
+% \end{bmatrix},
+% \\[1em]
+% \mathcal{W}_{11} &= 
+% \begin{bmatrix}
+% 1 & O & O \\
+% O & O & O \\
+% O & O & O
+% \end{bmatrix},
+% & \quad
+% \mathcal{W}_{12} &= 
+% \begin{bmatrix}
+% O_1 & \mathbf{1}^T & O \\
+% O & O & O \\
+% O & O & O
+% \end{bmatrix},
+% \\[1em]
+% \mathcal{W}_{13} &= 
+% \begin{bmatrix}
+% O_1 & O & \mathbf{1}^T \\
+% O & O & O \\
+% O & O & O
+% \end{bmatrix},
+% & \quad
+% \mathcal{W}_{14} &= 
+% \begin{bmatrix}
+% O_1 & O & O \\
+% \mathbf{1} & O & O \\
+% O & O & O
+% \end{bmatrix},
+% \\[1em]
+% \mathcal{W}_{15} &= 
+% \begin{bmatrix}
+% O_1 & O & O \\
+% O & O & O \\
+% \mathbf{1} & O & O
+% \end{bmatrix}.
+% \end{aligned}
+% \]
+
+
+% \newpage
+% \subsection{Seidel Switching on 1 Vertex in \texorpdfstring{$T(n)$}{T(n)}}
+% \subsubsection*{4.2.1 Switching Construction via 2-subsets}
+% \subsubsection*{4.2.2 Coherent Configuration Changes and Rank Analysis}
+% \subsubsection*{4.2.3 Structural Role of the Switched Vertex}
+
+% \newpage
+% \subsection{Explaining the Coherent Rank Increase}
+% \subsubsection*{4.3.1 Singleton Fibre Induction and Type 1 Interactions}
+% \subsubsection*{4.3.2 Justification of Rank Increase Based on Fibre Interaction}
+% \subsubsection*{4.3.3 General Remarks and Observed Patterns}

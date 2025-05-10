@@ -1,0 +1,21 @@
+\section{Conclusion}
+\subsection{Summary of Observations Across Operations}
+
+This paper explored the consequences of applying specific graph operations, mainly seidel switching and vertex deletion, to the Rook Graph $R(n)$, with a focus on how these operations modify the structure of the resulting coherent closure of the respective graphs. The overarching goal - to obtain a general coherent closure when switching strongly regular graphs - was achieved through a deliberate sequence of steps. Rather than rely on pure computation, we applied well-defined graph operations, computed the resulting adjacency matrix and coherent algebras, and finally shown why the coherent algebra was minimal, allowing us to directly infer the coherent closure and rank of the graph. Furthermore, we did this both by doing it the tedious way of matrix multiplications, as well as using known structural properties of type matrices and fibre decompositions. This pipeline ensures that each result is not just observed, but mathematically justified.
+
+The main results can be summarised as follows:
+\begin{enumerate}
+    \item \textbf{Vertex deletion}: Removing a single vertex from $R(n)$ yields a coherent closure of rank 10.
+
+    \item \textbf{Seidel switching} (Single vertex): Applying Seidel switching to a single vertex results in a coherent closure of rank 15.
+
+    \item \textbf{Clique switching} (even case): Switching $n/2$ $n$-cliques in $R(n)$, where $n$ is even, yields a coherent closure of rank 6.
+
+    \item \textbf{Clique switching} (general case): For $1<k<n/2$, switching $k$ $n$-cliques in $R(n)$, regardless of whether $n$ is odd or even, yields a coherent closure of rank 12.
+\end{enumerate}
+
+These findings show an emphasis that although symmetry and regularity of the strongly regular graph $R(n)$ is deliberately broken, the resulting structures still admit a well-defined coherent closure of finite rank. 
+\subsection{Directions for Further Exploration}
+The result of obtaining a general coherent closure despite disturbing the symmetry and regularity of strongly regular graph suggests a number of interesting paths for future work. One such path is to extend this analysis to other families of strongly regular or distance regular graphs. For example, in Section 3.2, the computation of the coherent closure of $T(n)$ proved to be a more tedious and painful way than that of $R(n)$. Although a hypothesis was formed using computational power of type matrix $\begin{bmatrix}3&2\\&4\end{bmatrix}$, we were not able to prove it. Extensions to Paley Graphs and Latin Square Graphs are also worth further investigation due to their strongly regular structures as well.
+
+In summary, this work opens the floor to understanding the method to obtain a general coherent closure for graphs that have their symmetry and regularity disturbed.

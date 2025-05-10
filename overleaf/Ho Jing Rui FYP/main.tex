@@ -1,0 +1,149 @@
+\documentclass[11pt,a4paper]{article}
+
+% --- Page Setup ---
+\usepackage[a4paper, top=2.5cm, bottom=2.5cm, left=2.5cm, right=2cm]{geometry}
+\usepackage{lmodern} % Use Computer Modern font (11pt is default from document class)
+\usepackage{setspace}
+\usepackage[none]{hyphenat}
+\onehalfspacing
+
+% --- Math Packages ---
+\usepackage{amsmath, amssymb, amsthm}
+\setcounter{MaxMatrixCols}{20}
+
+% --- Theorem Environments ---
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{example}[theorem]{Example}
+\newtheorem{property}[theorem]{Property}
+
+\theoremstyle{remark}
+\newtheorem*{remark}{Remark}
+
+% --- Graphics and Diagrams ---
+\usepackage{graphicx}
+\usepackage{tikz}
+\usetikzlibrary{calc}
+
+% --- Formatting and Section Titles ---
+\usepackage{titlesec}
+\usepackage{tocloft}
+\setcounter{tocdepth}{2}
+% --- Hyperlinks ---
+\usepackage{hyperref}
+
+% % for debugging, remove for final
+% \hypersetup{
+%     colorlinks=true,
+%     linkcolor=blue,
+%     citecolor=blue,
+%     urlcolor=blue
+% }
+% % --- Show labels for debugging (remove for final) ---
+% \usepackage[notref]{showkeys}
+
+% for final
+\hypersetup{
+    colorlinks=true,
+    linkcolor=black,
+    citecolor=black,
+    urlcolor=black
+}
+
+
+
+% --- Title info ---
+\title{Calculating Coherent Configurations on Non-Distance Regular Graphs}
+\author{Ho Jing Rui}
+\date{\today}
+
+\begin{document}
+
+% --- Title Page ---
+\begin{titlepage}
+    \centering
+    \vspace{5.5cm}
+
+    {\LARGE\bfseries Obtaining Coherent Configurations on \\Non-Distance Regular Graphs \par}
+    \vspace{1.5cm}
+
+    \includegraphics[width=10cm]{images/logo.png}
+    \vspace{1.5cm}
+
+    {\large SUBMITTED BY \\ Ho Jing Rui\par}
+    \vspace{1cm}
+
+    {\large SUPERVISED BY\\ Gary R. W. Greaves\par}
+    \vspace{2.5cm}
+
+    {\large DIVISION OF MATHEMATICAL SCIENCES\\
+    SCHOOL OF PHYSICAL AND MATHEMATICAL SCIENCES}
+    \vspace{2cm}
+
+    A final year project report presented to \\
+    Nanyang Technological University \\
+    in partial fulfilment of the requirements for the \\
+    Bachelor of Science (Hons) in Mathematical and Computer Sciences
+    \vspace{0.5cm}
+
+    \vfill
+
+    \vspace{1.5cm}
+    {\large May 2025 \par}
+\end{titlepage}
+
+% --- Abstract ---
+\newpage
+\pagenumbering{roman}
+\section*{Abstract}
+Many regularly structured graphs, such as strongly regular graphs, have been extensively studied, and their spectral and algebraic properties are well documented in the literature. In contrast, the study of non-structured graphs remains limited, largely due to the difficulty of systematically constructing and analyzing them. In this paper, we explore whether simple graph operations—such as vertex deletion and switching—performed on strongly regular graphs can produce non-structured graphs, and examine how these operations affect their associated coherent configurations.
+
+We focus on two well-known families of strongly regular graphs: the Rook Graph $R(n)$ and the Triangular Graph $T(n)$. By applying specific graph modifications, we analyze the resulting adjacency algebras and track changes in their coherent configuration structure. Our experiments reveal that certain operations consistently result in configurations of fixed rank and algebraic patterns, suggesting underlying structure even within seemingly irregular graphs.
+
+\vspace{1cm}
+\input{sections/R_3_3_graph}
+
+% --- Acknowledgements ---
+\newpage
+\section*{Acknowledgements}
+I would like to express my sincere gratitude to my supervisor, Asst Prof Gary Greaves for his guidance, encouragement, and insightful discussions throughout the course of this project. His expertise in algebraic graph theory and coherent configurations provided a strong foundation upon which this work was built and motivated upon.
+
+I would also like to extend my deepest gratitude to my family, friends, and everyone who provided me with unwavering support and encouragement throughout the course of this project. Pursuing a research topic in mathematics can often feel daunting and isolating, but I was constantly uplifted by the belief and motivation offered by those around me. Their words of encouragement reminded me of the joy and beauty in mathematical thinking, especially during challenging moments.
+
+While my passion for mathematics is enduring, it is the people behind the scenes — my mom who supported me unconditionally, my brother who always gave me the breaks I needed by playing games together, my girlfriend who never failed to cheer me up when I got stuck on my progress weekly despite her hectic work schedule, and those who shared in both my doubts and breakthroughs — who gave me the resilience to see this work through. This project definitely would not have been possible without them.
+
+% --- Table of Contents ---
+\newpage
+\tableofcontents
+\newpage
+
+% --- Main Body Sections ---
+\pagenumbering{arabic}
+\input{sections/1_introduction}
+\newpage
+
+\input{sections/2_notation}
+\newpage
+
+\input{sections/3_vertex_deletion}
+\newpage
+
+\input{sections/4_local_switching}
+\newpage
+
+\input{sections/5_block_switching}
+\newpage
+
+\input{sections/6_conclusion}
+\newpage
+
+\bibliographystyle{unsrt}
+\bibliography{references}
+
+% Appendix Section
+\clearpage
+\input{sections/7_appendix}
+
+\end{document}

@@ -1,0 +1,910 @@
+\section{Block Switching in \texorpdfstring{$R(n)$}{R(n)}}
+Similar to the previous section, we consider Seidel switching on $R(n)$, but instead of a single vertex we focus on switching on cliques of size $n$ instead.
+
+The resulting adjacency matrix is as follows:
+\begin{align*}
+    A(R'(n)) = \begin{bmatrix}
+        A(R_{k,n}) & C \\
+        C^T & A(R_{n-k, n})
+    \end{bmatrix}
+\end{align*}
+
+where $C = J_{k, n-k} \otimes (J-I)_n$.
+
+\subsection{Switching Exactly Half the Vertices}
+We first consider a specific case where $n$ is even, and we switch $k$ $n$-cliques, $k=n/2$. 
+\subsubsection{Graph Construction and Symmetric Partitioning}
+Since $k = n/2$, we rewrite our adjacency matrix as:
+\begin{align*}
+    A(\Gamma_{4}) = \begin{bmatrix}
+        A(R_{k,2k}) & C \\
+        C^T & A(R_{k, 2k})
+    \end{bmatrix}
+\end{align*}
+where $C = J_{k} \otimes (J-I)_{2k}$.
+
+\subsubsection{Coherent Algebra}
+
+We claim that the following 6 matrices,
+
+\[
+\begin{aligned}
+W_1 &= 
+\begin{bmatrix}
+I_{2k^2} & O_{2k^2} \\
+O_{2k^2} & I_{2k^2}
+\end{bmatrix},
+& \quad
+W_2 &= 
+\begin{bmatrix}
+(J_k - I) \otimes (J_{2k} - I) & O_{2k^2} \\
+O_{2k^2} & (J_k - I) \otimes (J_{2k} - I)
+\end{bmatrix}, \\[1em]
+W_3 &= 
+\begin{bmatrix}
+O_{2k^2} & J_k \otimes I_{2k} \\
+J_k \otimes I_{2k} & O_{2k^2}
+\end{bmatrix},
+& \quad
+W_4 &= 
+\begin{bmatrix}
+I_k \otimes (J_{2k} - I) & O_{2k^2} \\
+O_{2k^2} & I_k \otimes (J_{2k} - I)
+\end{bmatrix}, \\[1em]
+W_5 &= 
+\begin{bmatrix}
+(J_k - I) \otimes I_{2k} & O_{2k^2} \\
+O_{2k^2} & (J_k - I) \otimes I_{2k}
+\end{bmatrix},
+& \quad
+W_6 &= 
+\begin{bmatrix}
+O_{2k^2} & J_k \otimes (J_{2k} - I) \\
+J_k \otimes (J_{2k} - I) & O_{2k^2}
+\end{bmatrix}.
+\end{aligned}
+\]
+form a basis for a coherent algebra that contains the adjacency matrix of$\Gamma_5$. We define this coherent algebra as:
+\begin{equation*}
+    \mathcal{A}(\Gamma_4) = \langle W_i: \text{ }i\in[6]\rangle.
+\end{equation*}
+
+
+\paragraph{Closure under Identity}
+Since $\mathcal{W}_1 = I_{(2k)^2}$, the identity matrix exists in $\mathcal{A}(\Gamma_4)$.
+
+\paragraph{Closure under Transpose}
+It can be observed that $W_i, \quad i\in[6]$ are self-transpose, so $\mathcal{A}(\Gamma_4)$ is closed under transposition.
+
+\paragraph{Closure under all-ones matrix}
+If we sum all the matrices $\sum_{i=1}^{6}W_i$, we actually get $J_{(2k)^2}$, so the set $\mathcal{A}(\Gamma_4)$ contains the all-ones matrix.
+
+\paragraph{Closure under matrix multiplication}
+
+Here we have to show for each pair-wise multiplication, its product is still contained in $\mathcal{A}(\Gamma_4)$. 
+
+In the appendix \ref{working:gamma-4}, we rigourously show that $\mathcal{A}(\Gamma_4)$ is closed under matrix multiplication.
+
+Thus, $\mathcal{A}(\Gamma_4)$ is a coherent algebra. So we know the coherent closure $\mathcal{W}(\Gamma_4) \subseteq \mathcal{A}(\Gamma_4)$.
+
+\subsubsection{Showing Minimal Coherent Algebra}
+
+Recall that $\Gamma_4$ is the graph of $R(n)$ with $n/2$ $n$-cliques switched. Let $\mathcal{A}$ be an arbitrary coherent algebra containing the adjacency matrix $A(\Gamma_4)$, that is $A(\Gamma_4)=A\in\mathcal{A}$. Since any coherent algebra is closed under matrix multiplication, $A^2\in\mathcal{A}$. We show that $A^2$ can be expressed as a linear combination of certain classes of matrices grouped by their unique coefficients, which we show are classes in the coherent closure by Wielandt's Principle (Theorem \ref{def:wielandt-priniple}).
+
+\begin{align*}
+    A(\Gamma_4)^2 
+    &= \begin{bmatrix}
+        I_k\otimes (J_{2k}-I) + (J_k-I)\otimes I_{2k} & J_k\otimes (J_{2k}-I) \\
+        J_k\otimes (J_{2k}-I) & I_k\otimes (J_{2k}-I) + (J_k-I)\otimes I_{2k}
+    \end{bmatrix}^2 \\
+    &= \begin{bmatrix}
+        M_1 & M_2 \\
+        M_2 & M_1
+    \end{bmatrix}^2 \\
+    &= \begin{bmatrix}
+        M_1^2+M_2^2 & M_1M_2 + M_2M_1 \\
+        M_1M_2 + M_2M_1 & M_1^2+M_2^2
+    \end{bmatrix}
+\end{align*}
+
+We isolate the terms and solve it before substituting back into the matrix:
+\begin{align*}
+    M_1^2+M_2^2
+    &= (I_k\otimes (J_{2k}-I) + (J_k-I)\otimes I_{2k})(I_k\otimes (J_{2k}-I) + (J_k-I)\otimes I_{2k})\\
+    &\quad\quad\quad + (J_k\otimes (J_{2k}-I))(J_k\otimes (J_{2k}-I))\\
+    &= (I_k\otimes (J_{2k}-I))(I_k\otimes (J_{2k}-I)) + (I_k\otimes (J_{2k}-I))(J_k-I)\otimes I_{2k}\\
+    &\quad\quad\quad + ((J_k-I)\otimes I_{2k})(I_k\otimes (J_{2k}-I)) + ((J_k-I)\otimes I_{2k})((J_k-I)\otimes I_{2k})\\
+    &\quad\quad\quad +(J^2_k\otimes (J_{2k}-I)^2)\\
+    &= (I_k\otimes (J_{2k}-I)^2) + ((J_k-I)\otimes(J_{2k}-I))\\
+    &\quad\quad\quad + ((J_k-I)\otimes(J_{2k}-I)) + ((J_k-I)^2 \otimes I_{2k})\\
+    &\quad\quad\quad+(k(J_k-I)+k(I_k))\otimes ((2k-2)(J_{2k}-I) + (2k-1)(I_{2k}))\\
+    &=(I_k\otimes ((2k-2)(J_{2k}-I) + (2k-1)I_{2k}))\\
+    &\quad\quad\quad+2((J_k-I)\otimes(J_{2k}-I)) + ((k-2)(J_k-I) + (k-1)I_k)\otimes I_{2k}\\
+    &\quad\quad\quad+k(2k-2)(J_k-I)\otimes(J_{2k}-I) + k(2k-2)I_k\otimes(J_{2k}-I) \\
+    &\quad\quad\quad +k(2k-1)(J_k-I)\otimes I_{2k} + k(2k-1)I_k\otimes I_{2k}\\
+    &= (2k^2+2k-2)I_k\otimes I_{2k}\\
+    &\quad\quad\quad +(2k^2-2)(I_k\otimes(J_{2k}-I) + (J_k-I)\otimes I_{2k})\\
+    &\quad\quad\quad+(2k^2-2k+2)(J_k-I)\otimes(J_{2k}-I)
+\end{align*}
+
+\begin{align*}
+     M_1M_2 + M_2M_1
+     &= (I_k\otimes (J_{2k}-I) + (J_k-I)\otimes I_{2k})(J_k\otimes (J_{2k}-I)) \\
+     &\quad\quad\quad+(J_k\otimes (J_{2k}-I))(I_k\otimes (J_{2k}-I) + (J_k-I)\otimes I_{2k}) \\
+     &= J_k\otimes (J_{2k}-I)^2 + (J_k-I)J_k\otimes (J_{2k}-I) \\
+     &\quad\quad\quad+J_k\otimes (J_{2k}-I)^2 + J_k(J_k-I)\otimes (J_{2k}-I)\\
+     &= 2(J_k\otimes (J_{2k}-I)^2 + (J_k-I)J_k\otimes (J_{2k}-I)) \\
+     &=2(J_k\otimes [(2k-2)(J_{2k}-I)+(2k-1)I_{2k}] + (k-1)J_k\otimes (J_{2k}-I))\\
+     &=2((2k-2+k-1)J_k\otimes (J_{2k}-I) + (2k-1)J_k\otimes I_{2k})\\
+     &= (6k-6)J_k\otimes (J_{2k}-I) + (4k-2)J_k\otimes I_{2k}
+\end{align*}
+
+Substituting back into the matrix $A^2$,
+\begin{align*}
+    A(\Gamma_4)^2
+    &= \begin{bmatrix}
+        M_1^2+M_2^2 & M_1M_2 + M_2M_1 \\
+        M_1M_2 + M_2M_1 & M_1^2+M_2^2
+    \end{bmatrix}\\
+    &= \begin{bmatrix}
+        (2k^2+2k-2)I_k\otimes I_{2k}\\
+     +(2k^2-2)(I_k\otimes(J_{2k}-I) + (J_k-I)\otimes I_{2k}) & (6k-6)J_k\otimes (J_{2k}-I)\\
+    +(2k^2-2k+2)(J_k-I)\otimes(J_{2k}-I) & + (4k-2)J_k\otimes I_{2k} \\\\
+        &(2k^2+2k-2)I_k\otimes I_{2k}\\
+        (6k-6)J_k\otimes (J_{2k}-I) & +(2k^2-2)(I_k\otimes(J_{2k}-I) + (J_k-I)\otimes I_{2k}) \\
+        +(4k-2)J_k\otimes I_{2k} & +(2k^2-2k+2)(J_k-I)\otimes(J_{2k}-I)
+    \end{bmatrix} \\\\
+    &= (2k^2+2k-2)\begin{bmatrix}
+        I_k\otimes I_{2k} & O\\
+        O & I_k\otimes I_{2k}
+    \end{bmatrix} \\
+    &\quad\quad+(2k^2-2k+2)\begin{bmatrix}
+        (J_k-I)\otimes(J_{2k}-I) & O\\
+        O & (J_k-I)\otimes(J_{2k}-I)
+    \end{bmatrix} \\
+    &\quad\quad(2k^2-2)\begin{bmatrix}
+        (I_k\otimes(J_{2k}-I) + (J_k-I)\otimes I_{2k}) & O\\
+        O & (I_k\otimes(J_{2k}-I) + (J_k-I)\otimes I_{2k})
+    \end{bmatrix}\\
+    &\quad\quad + (6k-6)\begin{bmatrix}
+        O & J_k\otimes (J_{2k}-I)\\
+        J_k\otimes (J_{2k}-I) & O
+    \end{bmatrix} + (4k-2)\begin{bmatrix}
+        O & J_k\otimes I_{2k}\\
+        J_k\otimes I_{2k} & O
+    \end{bmatrix}
+\end{align*}
+
+By Wielandt's Principle, the matrices below are classes of the coherent closure $\mathcal{W}(\Gamma_5)$:
+\begin{align*}
+    \operatorname{span}\{
+    &\begin{bmatrix}
+        I_k\otimes I_{2k} & O\\
+        O & I_k\otimes I_{2k}
+    \end{bmatrix}, 
+    \begin{bmatrix}
+        (J_k-I)\otimes(J_{2k}-I) & O\\
+        O & (J_k-I)\otimes(J_{2k}-I)
+    \end{bmatrix},\\
+    &\begin{bmatrix}
+        O & J_k\otimes (J_{2k}-I)\\
+        J_k\otimes (J_{2k}-I) & O
+    \end{bmatrix},
+    \begin{bmatrix}
+        O & J_k\otimes I_{2k}\\
+        J_k\otimes I_{2k} & O
+    \end{bmatrix}\\
+    &\begin{bmatrix}
+        (I_k\otimes(J_{2k}-I) + (J_k-I)\otimes I_{2k}) & O\\
+        O & (I_k\otimes(J_{2k}-I) + (J_k-I)\otimes I_{2k})
+    \end{bmatrix}
+    \}\subseteq\mathcal{W}(\Gamma_4).
+\end{align*}
+
+We can now choose any 2 matrices from the set above and repeat the process to obtain more classes:
+
+We choose to square $\begin{bmatrix}
+        (I_k\otimes(J_{2k}-I) + (J_k-I)\otimes I_{2k}) & O\\
+        O & (I_k\otimes(J_{2k}-I) + (J_k-I)\otimes I_{2k})
+    \end{bmatrix}$,
+
+\begin{align*}
+    &\begin{bmatrix}
+        (I_k\otimes(J_{2k}-I) + (J_k-I)\otimes I_{2k}) & O\\
+        O & (I_k\otimes(J_{2k}-I) + (J_k-I)\otimes I_{2k})
+    \end{bmatrix}^2.\\\\
+    &=\begin{bmatrix}
+        (I_k\otimes(J_{2k}-I) + (J_k-I)\otimes I_{2k})^2 & O\\
+        O & (I_k\otimes(J_{2k}-I) + (J_k-I)\otimes I_{2k})^2
+    \end{bmatrix} \\
+    &=\begin{bmatrix}
+        I_k\otimes (J_{2k}-I)^2+ (J_k-I)^2\otimes I_{2k} & O\\
+        + 2(J_k-I)\otimes(J_{2k}-I) & \\
+        O & I_k\otimes (J_{2k}-I)^2+ (J_k-I)^2\otimes I_{2k}\\
+        &  + 2(J_k-I)\otimes(J_{2k}-I) 
+    \end{bmatrix}\\
+    &=\begin{bmatrix}
+        I_k\otimes ((2k-2)(J_{2k}-I) + (2k-1)I_{2k}) & O\\
+        + ((k-2)(J_k-I) + (k-1)I_k)\otimes I_{2k}& \\
+        + 2(J_k-I)\otimes(J_{2k}-I) & \\
+        O & I_k\otimes ((2k-2)(J_{2k}-I)\\
+        & + ((k-2)(J_k-I) + (k-1)I_k)\otimes I_{2k}\\
+        &  + 2(J_k-I)\otimes(J_{2k}-I) 
+    \end{bmatrix}\\
+    &=\begin{bmatrix}
+        (3k-2)I_k\otimes I_{2k} & \\
+        + (2k-2)I_k\otimes (J_{2k}-I)& \\
+        + (k-2)(J_k-I)\otimes I_{2k} & O\\
+        + 2(J_k-I)\otimes(J_{2k}-I)&\\
+        & (3k-2)I_k\otimes I_{2k}\\
+        & + (2k-2)I_k\otimes (J_{2k}-I)\\
+        O&  + (k-2)(J_k-I)\otimes I_{2k} \\
+        & + 2(J_k-I)\otimes(J_{2k}-I)
+    \end{bmatrix}\\
+    &= (3k-2)\begin{bmatrix}
+        I_k\otimes I_{2k} & O\\
+        O & I_k\otimes I_{2k}
+    \end{bmatrix} + (2k-2)\begin{bmatrix}
+        I_k\otimes (J_{2k}-I) & O\\
+        O & I_k\otimes (J_{2k}-I)
+    \end{bmatrix}\\
+    +& (k-2)\begin{bmatrix}
+        (J_k-I)\otimes I_{2k} & O\\
+        O & (J_k-I)\otimes I_{2k}
+    \end{bmatrix} + 2\begin{bmatrix}
+        (J_k-I)\otimes(J_{2k}-I) & O\\
+        O & (J_k-I)\otimes(J_{2k}-I)
+    \end{bmatrix}
+\end{align*}
+
+Now we apply the Wielandt's Principle again to show the matrices below are classes of the coherent closure:
+
+\begin{align*}
+    \operatorname{span}\{
+    &\begin{bmatrix}
+        I_k\otimes I_{2k} & O\\
+        O & I_k\otimes I_{2k}
+    \end{bmatrix},
+    \begin{bmatrix}
+        I_k\otimes (J_{2k}-I) & O\\
+        O & I_k\otimes (J_{2k}-I)
+    \end{bmatrix}\\
+    &\begin{bmatrix}
+        (J_k-I)\otimes I_{2k} & O\\
+        O & I_k\otimes (J_k-I)\otimes I_{2k}
+    \end{bmatrix}\\
+    &\begin{bmatrix}
+        (J_k-I)\otimes(J_{2k}-I) & O\\
+        O & (J_k-I)\otimes(J_{2k}-I)
+    \end{bmatrix},\\
+    &\begin{bmatrix}
+        O & J_k\otimes (J_{2k}-I)\\
+        J_k\otimes (J_{2k}-I) & O
+    \end{bmatrix},
+    \begin{bmatrix}
+        O & J_k\otimes I_{2k}\\
+        J_k\otimes I_{2k} & O
+    \end{bmatrix}
+    \}\subseteq\mathcal{W}(\Gamma_4)\\
+    \Rightarrow &\mathcal{A}\subseteq\mathcal{W}(\Gamma_4).
+\end{align*}
+
+However, notice that $\mathcal{A}=\mathcal{A}(\Gamma_4)$, so we conclude that
+\begin{align*}
+    \mathcal{A}(\Gamma_4)=\mathcal{A}\subseteq\mathcal{W}(\Gamma_4)\\
+    \Rightarrow\mathcal{A}(\Gamma_4)\subseteq\mathcal{W}(\Gamma_4).
+\end{align*}
+
+Since $\mathcal{A}(\Gamma_4)$ was proven to be a coherent algebra, $\mathcal{W}(\Gamma_4)\subseteq\mathcal{A}(\Gamma_4)$.
+Therefore, $\mathcal{W}(\Gamma_4)=\mathcal{A}(\Gamma_4)$, and the coherent rank of $\Gamma_4$ is $|\mathcal{W}(\Gamma_4)| = |\langle W_i:\quad i\in[6]\rangle|=6$.
+
+% To use the Wielandt Principle \ref{def:wielandt-priniple}, we let $A = A(\Gamma_4)\in\mathcal{A}$, so we know that $A^2\in\mathcal{A}$ as well.
+
+% Detailed workings can be found in the Appendix \ref{working:lb-gamma-4}. For simplicity we will just state the relevant conclusions.
+
+
+% \begin{align*}
+%     A^2 
+%     &= \begin{bmatrix}
+%         I_k\otimes (J_{2k}-I) + (J_k-I)\otimes I_{2k} & J_k\otimes (J_{2k}-I) \\
+%         J_k\otimes (J_{2k}-I) & I_k\otimes (J_{2k}-I) + (J_k-I)\otimes I_{2k}
+%     \end{bmatrix}^2 \\\\
+%     &= (2k^2+2k-2)\begin{bmatrix}
+%         I_k\otimes I_{2k} & O\\
+%         O & I_k\otimes I_{2k}
+%     \end{bmatrix} \\
+%     &\quad\quad+(2k^2-2k+2)\begin{bmatrix}
+%         (J_k-I)\otimes(J_{2k}-I) & O\\
+%         O & (J_k-I)\otimes(J_{2k}-I)
+%     \end{bmatrix} \\
+%     &\quad\quad(2k^2-2)\begin{bmatrix}
+%         (I_k\otimes(J_{2k}-I) + (J_k-I)\otimes I_{2k}) & O\\
+%         O & (I_k\otimes(J_{2k}-I) + (J_k-I)\otimes I_{2k})
+%     \end{bmatrix}\\
+%     &\quad\quad + (6k-6)\begin{bmatrix}
+%         O & J_k\otimes (J_{2k}-I)\\
+%         J_k\otimes (J_{2k}-I) & O
+%     \end{bmatrix} + (4k-2)\begin{bmatrix}
+%         O & J_k\otimes I_{2k}\\
+%         J_k\otimes I_{2k} & O
+%     \end{bmatrix}
+% \end{align*}
+
+% By Wielandt's Principle, 
+% \begin{align*}
+%     &\begin{bmatrix}
+%         I_k\otimes I_{2k} & O\\
+%         O & I_k\otimes I_{2k}
+%     \end{bmatrix},\begin{bmatrix}
+%         (J_k-I)\otimes(J_{2k}-I) & O\\
+%         O & (J_k-I)\otimes(J_{2k}-I)
+%     \end{bmatrix},\\
+%     &\begin{bmatrix}
+%         O & J_k\otimes (J_{2k}-I)\\
+%         J_k\otimes (J_{2k}-I) & O
+%     \end{bmatrix},\begin{bmatrix}
+%         O & J_k\otimes I_{2k}\\
+%         J_k\otimes I_{2k} & O
+%     \end{bmatrix},\\
+%     &\begin{bmatrix}
+%         (I_k\otimes(J_{2k}-I) + (J_k-I)\otimes I_{2k}) & O\\
+%         O & (I_k\otimes(J_{2k}-I) + (J_k-I)\otimes I_{2k})
+%     \end{bmatrix} \in \mathcal{W}(\Gamma_4)
+% \end{align*}
+
+% Applying it one more time using the matrix 
+
+% \[
+% \begin{bmatrix}
+%         (I_k\otimes(J_{2k}-I) + (J_k-I)\otimes I_{2k}) & O\\
+%         O & (I_k\otimes(J_{2k}-I) + (J_k-I)\otimes I_{2k})
+%     \end{bmatrix} \in \mathcal{W}(\Gamma_4)\subseteq\mathcal{A},
+% \]
+    
+% \begin{align*}
+%     &\begin{bmatrix}
+%         (I_k\otimes(J_{2k}-I) + (J_k-I)\otimes I_{2k}) & O\\
+%         O & (I_k\otimes(J_{2k}-I) + (J_k-I)\otimes I_{2k})
+%     \end{bmatrix}^2\in\mathcal{A}(\Gamma_4)\\\\
+%     =& (3k-2)\begin{bmatrix}
+%         I_k\otimes I_{2k} & O\\
+%         O & I_k\otimes I_{2k}
+%     \end{bmatrix} + (2k-2)\begin{bmatrix}
+%         I_k\otimes (J_{2k}-I) & O\\
+%         O & I_k\otimes (J_{2k}-I)
+%     \end{bmatrix}\\
+%     +& (k-2)\begin{bmatrix}
+%         (J_k-I)\otimes I_{2k} & O\\
+%         O & (J_k-I)\otimes I_{2k}
+%     \end{bmatrix} + 2\begin{bmatrix}
+%         (J_k-I)\otimes(J_{2k}-I) & O\\
+%         O & (J_k-I)\otimes(J_{2k}-I)
+%     \end{bmatrix}
+% \end{align*}
+
+% By Wielandt's Principle, 
+% \begin{align*}
+%     &\begin{bmatrix}
+%         I_k\otimes I_{2k} & O\\
+%         O & I_k\otimes I_{2k}
+%     \end{bmatrix},\begin{bmatrix}
+%         I_k\otimes (J_{2k}-I) & O\\
+%         O & I_k\otimes (J_{2k}-I)
+%     \end{bmatrix}\\
+%     &\begin{bmatrix}
+%         (J_k-I)\otimes I_{2k} & O\\
+%         O & (J_k-I)\otimes I_{2k}
+%     \end{bmatrix}, \begin{bmatrix}
+%         (J_k-I)\otimes(J_{2k}-I) & O\\
+%         O & (J_k-I)\otimes(J_{2k}-I)
+%     \end{bmatrix}\\
+%     &\begin{bmatrix}
+%         O & J_k\otimes (J_{2k}-I)\\
+%         J_k\otimes (J_{2k}-I) & O
+%     \end{bmatrix},\begin{bmatrix}
+%         O & J_k\otimes I_{2k}\\
+%         J_k\otimes I_{2k} & O
+%     \end{bmatrix}\in\mathcal{W}(\Gamma_4)
+% \end{align*}
+
+% We have shown that there are at least 6 different classes in the coherent closure, so the coherent rank of this switched graph is $|\mathcal{W}(\Gamma_4)| = 6$. We can also conclude that 
+
+% \[
+% \mathcal{W}(\Gamma_4) = \langle W_1,W_2,W_3,W_4,W_5,W_6\rangle.
+% \]
+
+\newpage
+\subsection{Switching \texorpdfstring{$k$}{k} Blocks of \texorpdfstring{$n$}{n} Vertices}
+Now for a more general case, we choose to switch $k$ $n$-cliques from $R(n)$, $1<k<\lfloor n/2\rfloor$. 
+
+\begin{remark}
+    We restrict $k < \lfloor n/2 \rfloor$ as switching $k$ $n$-cliques is equivalent to switching $n-k$ $n$-cliques by symmetry of $R(n)$.
+\end{remark}
+
+\subsubsection{Graph Construction}
+The resulting adjacency matrix is as follows:
+\begin{align*}
+     A(\Gamma_5) = \begin{bmatrix}
+        A(R_{k,n}) & C \\
+        C^T & A(R_{n-k, n})
+    \end{bmatrix}
+\end{align*}
+
+where $C = J_{k, n-k} \otimes (J-I)_n$.
+
+\subsubsection{Coherent Algebra}
+We claim that the following 12 matrices,
+
+\[
+\begin{aligned}
+W_1 &= 
+\begin{bmatrix}
+I_{kn} & O_{kn, (n-k)n} \\
+O_{(n-k)n,kn} & O_{(n-k)n}
+\end{bmatrix},
+& \quad
+W_2 &= 
+\begin{bmatrix}
+I_k \otimes (J_n - I) & O_{kn, (n-k)n} \\
+O_{(n-k)n,kn} & O_{(n-k)n}
+\end{bmatrix}, \\[1em]
+W_3 &= 
+\begin{bmatrix}
+(J_k - I) \otimes I_n & O_{kn, (n-k)n} \\
+O_{(n-k)n,kn} & O_{(n-k)n}
+\end{bmatrix},
+& \quad
+W_4 &= 
+\begin{bmatrix}
+(J_k - I) \otimes (J_n - I) & O_{kn, (n-k)n} \\
+O_{(n-k)n,kn} & O_{(n-k)n}
+\end{bmatrix}, \\[1em]
+W_5 &= 
+\begin{bmatrix}
+O_{kn} & O_{kn, (n-k)n} \\
+O_{(n-k)n,kn} & I_{(n - k)n}
+\end{bmatrix},
+& \quad
+W_6 &= 
+\begin{bmatrix}
+O_{kn} & O_{kn, (n-k)n} \\
+O_{(n-k)n,kn} & I_{n - k} \otimes (J_n - I)
+\end{bmatrix}, \\[1em]
+W_7 &= 
+\begin{bmatrix}
+O_{kn} & O_{kn, (n-k)n} \\
+O_{(n-k)n,kn} & (J_{n - k} - I) \otimes I_n
+\end{bmatrix},
+& \quad
+W_8 &= 
+\begin{bmatrix}
+O_{kn} & O_{kn, (n-k)n} \\
+O_{(n-k)n,kn} & (J_{n - k} - I) \otimes (J_n - I)
+\end{bmatrix}, \\[1em]
+W_9 &= 
+\begin{bmatrix}
+O_{kn} & J_{k,n-k} \otimes I_n \\
+O_{(n-k)n,kn} & O_{(n-k)n}
+\end{bmatrix},
+& \quad
+W_{10} &=
+\begin{bmatrix}
+O_{kn} & J_{k,n-k} \otimes (J_n - I) \\
+O_{(n-k)n,kn} & O_{(n-k)n}
+\end{bmatrix}, \\[1em]
+W_{11} &=
+\begin{bmatrix}
+O_{kn} & O_{kn, (n-k)n} \\
+J_{n-k, k}\otimes I_n & O_{(n-k)n}
+\end{bmatrix}, 
+& \quad
+W_{12} &=
+\begin{bmatrix}
+O_{kn} & O_{kn, (n-k)n} \\
+J_{n-k, k}\otimes (J_n-I) & O_{(n-k)n}
+\end{bmatrix}
+\end{aligned}
+\]
+form a basis for a coherent algebra that contains the adjacency matrix of$\Gamma_5$. We define this coherent algebra as:
+\begin{equation*}
+    \mathcal{A}(\Gamma_5) = \langle W_i: \text{ }i\in[12]\rangle.
+\end{equation*}
+
+\paragraph{Closure under Identity}
+Since $\mathcal{W}_1 + \mathcal{W}_5 = I_{n^2}$, the identity matrix exists in $\mathcal{A}(\Gamma_5)$.
+
+\paragraph{Closure under Transpose}
+It can be observed that $W_i,\quad i\in[8]$ are self-transpose, and we verify that
+\begin{align*}
+    W_9^T = W_{11} \quad\text{and}\quad W_{10}^T = W_{12}
+\end{align*}
+so $\mathcal{A}(\Gamma_5)$ is closed under transposition.
+
+\paragraph{Closure under all-ones matrix}
+If we sum all the matrices $\sum_{i=1}^{12}W_i$, we actually get $J_{n^2}$, so the set $\mathcal{A}(\Gamma_5)$ contains the all-ones matrix.
+
+\paragraph{Closure under matrix multiplication}
+
+Here we have to show for each pair-wise multiplication, its product is still contained in $\mathcal{A}(\Gamma_5)$. 
+
+In the appendix \ref{working:gamma-5}, we rigourously show that $\mathcal{A}(\Gamma_5)$ is closed under matrix multiplication.
+
+Thus, $\mathcal{A}(\Gamma_5)$ is a coherent algebra. So we know the coherent closure $\mathcal{W}(\Gamma_5)\subseteq\mathcal{A}(\Gamma_5)$.
+
+\subsubsection{Showing Minimal Coherent Algebra}
+
+Recall that $\Gamma_5$ is the graph of $R(n)$ with $k$ $n$-cliques switched, $1<k<n/2$. Let $\mathcal{A}$ be an arbitrary coherent algebra containing the adjacency matrix $A(\Gamma_5)$, that is $A(\Gamma_5)=A\in\mathcal{A}$. Since any coherent algebra is closed under matrix multiplication, $A^2\in\mathcal{A}$. We show that $A^2$ can be expressed as a linear combination of certain classes of matrices grouped by their unique coefficients, which we show are classes in the coherent closure by Wielandt's Principle (Theorem \ref{def:wielandt-priniple}).
+
+\begin{align*}
+    A(\Gamma_5)^2
+    &= \begin{bmatrix}
+        I_k \otimes (J_n-I) + (J_k-I) \otimes I_n & J_{k,n-k}\otimes (J_n-I) \\
+        J_{n-k,k}\otimes (J_n-I) & I_{n-k} \otimes (J_n-I) + (J_{n-k}-I)\otimes I_n
+    \end{bmatrix}^2\\
+    &= \begin{bmatrix}
+        M_1 & M_2\\
+        M_3 & M_4
+    \end{bmatrix}^2\\
+    &= \begin{bmatrix}
+        M_1^2 + M_2M_3 & M_1M_2 + M_2M_4\\
+        M_3M_1 + M_4M_3 & M_3M_2 + M_4^2
+    \end{bmatrix}
+\end{align*}
+
+We isolate the terms and solve it before substituting back into the matrix:
+
+\begin{align*}
+    &M_1^2 + M_2M_3\\ 
+    &= (I_k \otimes (J_n-I) + (J_k-I) \otimes I_n)^2 + (J_{k,n-k}\otimes (J_n-I))(J_{n-k,k}\otimes (J_n-I))\\
+    &= (I_k \otimes (J_n-I)^2) + ((J_k-I)^2 \otimes I_n) + 2((J_k-I) \otimes(J_n-I)) + (J_{k,n-k}J_{n-k,k}\otimes (J_n-I)^2)\\
+    &= (n-2)I_k\otimes(J_n-I) + (n-1)I_k\otimes I_n + (k-2)(J_k-I)\otimes I_n + (k-1)I_k\otimes I_n\\
+    &\quad\quad+2((J_k-I) \otimes(J_n-I)) + (n-k)(n-2)(J_k-I) \otimes (J_n-I) + (n-k)(n-1)(J_k-I) \otimes I_n\\
+    &\quad\quad\quad +(n-k)(n-2)I_k\otimes(J_n-I) + (n-k)(n-1)I_k\otimes I_n\\
+    &= (n^2-kn+2k-2)I_k\otimes I_n \\
+    &\quad\quad +(n^2-kn-n+2k-2)(I_k\otimes(J_n-I) + (J_k-I) \otimes I_n)\\
+    &\quad\quad +(n^2-kn-2n+2k+2)((J_k-I) \otimes(J_n-I)).
+\end{align*}
+
+\begin{align*}
+    &M_1M_2 + M_2M_4 \\
+    &= (I_k \otimes (J_n-I) + (J_k-I) \otimes I_n)(J_{k,n-k}\otimes (J_n-I))\\
+    &\quad\quad + (J_{k,n-k}\otimes (J_n-I))(I_{n-k} \otimes (J_n-I) + (J_{n-k}-I)\otimes I_n)\\
+    &= J_{k,n-k}\otimes (J_n-I)^2 + (J_k-I)J_{k,n-k}\otimes (J_n-I)\\
+    &\quad\quad + J_{k,n-k}\otimes (J_n-I)^2 + J_{k,n-k}(J_{n-k}-I)\otimes (J_n-I)\\
+    &= 2J_{k,n-k}\otimes (J_n-I)^2 + (k-1 +n-k-1)J_{k,n-k}\otimes (J_n-I)\\
+    &= 2(n-2)J_{k,n-k}\otimes (J_n-I) + 2(n-1)J_{k,n-k}\otimes I_n\\
+    &\quad\quad + (n-2)J_{k,n-k}\otimes (J_n-I)\\
+    &= (2n-2)J_{k,n-k}\otimes I_n + (3n-6)J_{k,n-k}\otimes (J_n-I).
+\end{align*}
+
+\begin{align*}
+    &M_3M_1 + M_4M_3 \\
+    &= (J_{n-k,k}\otimes (J_n-I))(I_k \otimes (J_n-I) + (J_k-I) \otimes I_n)\\
+    &\quad\quad + (I_{n-k} \otimes (J_n-I) + (J_{n-k}-I)\otimes I_n)(J_{n-k,k}\otimes (J_n-I))\\
+    &= J_{n-k,k}\otimes (J_n-I)^2 + J_{n-k,k}(J_k-I)\otimes (J_n-I) \\
+    &\quad\quad + J_{n-k,k}\otimes (J_n-I)^2 + (J_{n-k}-I)J_{n-k,k}\otimes (J_n-I)\\
+    &= 2J_{n-k,k}\otimes (J_n-I)^2 + (k-1 +n-k-1)J_{n-k,k}\otimes (J_n-I)\\
+    &= 2(n-2)J_{n-k,k}\otimes (J_n-I) + 2(n-1)J_{n-k,k}\otimes I_n\\
+    &\quad\quad + (n-2)J_{n-k,k}\otimes (J_n-I)\\
+    &= (2n-2)J_{n-k,k}\otimes I_n + (3n-6)J_{n-k,k}\otimes (J_n-I).
+    % &= ((M_3M_1 + M_4M_3)^T)^T\\
+    % &= (M_1^TM_3^T + M_3^TM_4^T)^T\\
+    % &= (M_1M_2+M_2M_4)^T\quad\text{(notice that }M_2 = M_3^T)\\
+    % &= (
+\end{align*}
+
+\begin{align*}
+    &M_3M_2 + M_4^2\\
+    &= (J_{n-k,k}\otimes (J_n-I))(J_{k,n-k}\otimes (J_n-I)) + (I_{n-k} \otimes (J_n-I) + (J_{n-k}-I)\otimes I_n)^2\\
+    &= J_{n-k,k}J_{k,n-k}\otimes (J_n-I)^2 + I_{n-k} \otimes (J_n-I)^2 + (J_{n-k}-I)^2\otimes I_n \\
+    &\quad\quad + 2(J_{n-k}-I)\otimes(J_n-I)\\
+    &= k(n-2)(J_{n-k}-I)\otimes(J_n-I) +  k(n-1)(J_{n-k}-I)\otimes I_n + k(n-2)I_k\otimes (J_n-I)\\
+    &\quad\quad +k(n-1)I_k\otimes I_n + (n-2)I_{n-k}\otimes(J_n-I) + (n-1)I_{n-k}\otimes I_n\\
+    &\quad\quad+ (n-k-2)(J_{n-k}-I)\otimes I_n + (n-k-1)I_{n-k}\otimes I_n + 2(J_{n-k}-I)\otimes(J_n-I)\\
+    &= (kn-2k+2n-2)I_{n-k}\otimes I_n\\
+    &\quad\quad+(kn-2k+n-2)(I_{n-k}\otimes(J_n-I)+(J_{n-k}-I)\otimes I_n)\\
+    &\quad\quad+(kn-2k+2)(J_{n-k}-I)\otimes(J_n-I).
+\end{align*}
+
+Substituting back into the matrix $A^2$, 
+
+\begin{align*}
+    &A(\Gamma_5) ^2\\
+    % &= \begin{bmatrix}
+    %     (n^2-kn+2k-2)I_k\otimes I_n &\\
+    % +(n^2-kn-n+2k-2)(I_k\otimes(J_n-I) + (J_k-I) \otimes I_n)& (2n-2)J_{k,n-k}\otimes I_n\\
+    % +(n^2-kn-2n+2k+2)((J_k-I) \otimes(J_n-I))& + (3n-6)J_{k,n-k}\otimes (J_n-I) \\\\
+    % &(kn-2k+2n-2)I_{n-k}\otimes I_n\\
+    % (2n-2)J_{n-k,k}\otimes I_n  &+(kn-2k+n-2)(I_{n-k}\otimes(J_n-I)+(J_{n-k}-I)\otimes I_n)\\
+    % + (3n-6)J_{n-k,k}\otimes (J_n-I)\otimes (J_n-I)&+ (kn-2k+2)(J_{n-k}-I)\otimes(J_n-I)
+    % \end{bmatrix}\\
+    &= (n^2-kn+2k-2)\begin{bmatrix}
+        I_{kn} & O_{kn, (n-k)n} \\
+        O_{(n-k)n,kn} & O_{(n-k)n}
+    \end{bmatrix}\\
+    &\quad+(n^2-kn-2n+2k+2)\begin{bmatrix}
+        (J_k - I) \otimes (J_n - I) & O_{kn, (n-k)n} \\
+        O_{(n-k)n,kn} & O_{(n-k)n}
+    \end{bmatrix}\\
+    &\quad+(n^2-kn-n+2k-2)\begin{bmatrix}
+        I_k\otimes(J_n-I) + (J_k-I) \otimes I_n & O_{kn, (n-k)n} \\
+        O_{(n-k)n,kn} & O_{(n-k)n}
+    \end{bmatrix}\\
+    &\quad+(2n-2)\begin{bmatrix}
+        O_{kn} & J_{k,n-k} \otimes I_n \\
+        J_{n-k,k}\otimes I_n & O_{(n-k)n}
+    \end{bmatrix} + (3n-6)\begin{bmatrix}
+        O_{kn} & J_{k,n-k} \otimes (J_n-I) \\
+        J_{n-k,k}\otimes (J_n-I) & O_{(n-k)n}
+    \end{bmatrix} \\
+    &\quad +(kn-2k+2n-2)\begin{bmatrix}
+        O_{kn} & O_{kn, (n-k)n} \\
+        O_{(n-k)n,kn} & I_{(n - k)n}
+    \end{bmatrix} + (kn-2k+2)\begin{bmatrix}
+        O_{kn} & O_{kn, (n-k)n} \\
+        O_{(n-k)n,kn} & (J_{n - k} - I) \otimes (J_n - I)
+    \end{bmatrix}\\
+    &\quad+(kn-2k+n-2)\begin{bmatrix}
+        O_{kn} & O_{kn, (n-k)n} \\
+        O_{(n-k)n,kn} & I_{n-k}\otimes(J_n-I)+(J_{n-k}-I)\otimes I_n
+    \end{bmatrix}.
+\end{align*}
+
+By Wielandt's Principle, the matrices below are classes of the coherent closure $\mathcal{W}(\Gamma_5)$:
+
+\begin{align*}
+    \operatorname{span}\{
+    &\begin{bmatrix}
+        I_{kn} & O_{kn, (n-k)n} \\
+        O_{(n-k)n,kn} & O_{(n-k)n}
+    \end{bmatrix},
+    \begin{bmatrix}
+        (J_k - I) \otimes (J_n - I) & O_{kn, (n-k)n} \\
+        O_{(n-k)n,kn} & O_{(n-k)n}
+    \end{bmatrix},\\
+    &\begin{bmatrix}
+        I_k\otimes(J_n-I) + (J_k-I) \otimes I_n & O_{kn, (n-k)n} \\
+        O_{(n-k)n,kn} & O_{(n-k)n}
+    \end{bmatrix},
+    \begin{bmatrix}
+        O_{kn} & J_{k,n-k} \otimes I_n \\
+        J_{n-k,k}\otimes I_n & O_{(n-k)n}
+    \end{bmatrix},\\
+    &\begin{bmatrix}
+        O_{kn} & J_{k,n-k} \otimes (J_n-I) \\
+        J_{n-k,k}\otimes (J_n-I) & O_{(n-k)n}
+    \end{bmatrix},
+    \begin{bmatrix}
+        O_{kn} & O_{kn, (n-k)n} \\
+        O_{(n-k)n,kn} & I_{(n - k)n}
+    \end{bmatrix},\\
+    &\begin{bmatrix}
+        O_{kn} & O_{kn, (n-k)n} \\
+        O_{(n-k)n,kn} & (J_{n - k} - I) \otimes (J_n - I)
+    \end{bmatrix},
+    \begin{bmatrix}
+        O_{kn} & O_{kn, (n-k)n} \\
+        O_{(n-k)n,kn} & I_{n-k}\otimes(J_n-I)+(J_{n-k}-I)\otimes I_n
+    \end{bmatrix}
+    \}\subseteq\mathcal{W}(\Gamma_5).
+\end{align*}
+
+We can now choose any 2 matrices from the set above and repeat the process to obtain more classes:
+
+We choose to square $\begin{bmatrix}
+        I_k\otimes(J_n-I) + (J_k-I) \otimes I_n & O_{kn, (n-k)n} \\
+        O_{(n-k)n,kn} & O_{(n-k)n}
+    \end{bmatrix}$,
+\begin{align*}
+    &\begin{bmatrix}
+        I_k\otimes(J_n-I) + (J_k-I) \otimes I_n & O_{kn, (n-k)n} \\
+        O_{(n-k)n,kn} & O_{(n-k)n}
+    \end{bmatrix}^2\\
+    &= \begin{bmatrix}
+        I_k\otimes(J_n-I)^2 + (J_k-I)^2 \otimes I_n & \\
+        +2(J_k-I)\otimes(J_n-I)&O_{kn, (n-k)n} \\
+        O_{(n-k)n,kn} & O_{(n-k)n}
+    \end{bmatrix}\\
+    &= \begin{bmatrix}
+        (n-2)I_k\otimes(J_n-I) + (n-1)I_k\otimes I_n + (k-2)(J_k-I) \otimes I_n  & \\
+        + (k-1)I_k\otimes I_n +2(J_k-I)\otimes(J_n-I)&O_{kn, (n-k)n} \\
+        O_{(n-k)n,kn} & O_{(n-k)n}
+    \end{bmatrix}\\
+    &= (n-k-2)\begin{bmatrix}
+        I_{kn} & O_{kn, (n-k)n} \\
+        O_{(n-k)n,kn} & O_{(n-k)n}
+    \end{bmatrix} + (n-2)\begin{bmatrix}
+        I_k\otimes(J_n-I) & O_{kn, (n-k)n} \\
+        O_{(n-k)n,kn} & O_{(n-k)n}
+    \end{bmatrix}\\
+    &\quad + (k-2)\begin{bmatrix}
+        (J_k-I) \otimes I_n & O_{kn, (n-k)n} \\
+        O_{(n-k)n,kn} & O_{(n-k)n}
+    \end{bmatrix} + 2\begin{bmatrix}
+        (J_k-I)\otimes(J_n-I) & O_{kn, (n-k)n} \\
+        O_{(n-k)n,kn} & O_{(n-k)n}
+    \end{bmatrix}.
+\end{align*}
+
+We choose to square $\begin{bmatrix},
+        O_{kn} & O_{kn, (n-k)n} \\
+        O_{(n-k)n,kn} & I_{n-k}\otimes(J_n-I)+(J_{n-k}-I)\otimes I_n
+    \end{bmatrix}$
+\begin{align*}
+    &\begin{bmatrix}
+        O_{kn} & O_{kn, (n-k)n} \\
+        O_{(n-k)n,kn} & I_{n-k}\otimes(J_n-I)+(J_{n-k}-I)\otimes I_n
+    \end{bmatrix}^2\\
+    &= \begin{bmatrix}
+        O_{kn} & O_{kn, (n-k)n} \\
+        O_{(n-k)n,kn} & I_{n-k}\otimes(J_n-I)^2 + (J_{n-k}-I)^2 \otimes I_n \\
+        &+2(J_{n-k}-I)\otimes(J_n-I)
+    \end{bmatrix}\\
+    &= \begin{bmatrix}
+        O_{kn} & O_{kn, (n-k)n} \\
+        O_{(n-k)n,kn} & (n-2)I_{n-k}\otimes(J_n-I) + (n-1)I_{n-k}\otimes I_n + (n-k-2)(J_{n-k}-I) \otimes I_n \\
+        &+(n-k-1)I_{n-k}\otimes I_n +2(J_{n-k}-I)\otimes(J_n-I)
+    \end{bmatrix}\\
+    &= (2n-k-2)\begin{bmatrix}
+        O_{kn} & O_{kn, (n-k)n} \\
+        O_{(n-k)n,kn} & I_{(n-k)n}
+    \end{bmatrix} + (n-2)\begin{bmatrix}
+         O_{kn} & O_{kn, (n-k)n} \\
+        O_{(n-k)n,kn} & I_{n-k}\otimes(J_n-I)
+    \end{bmatrix}\\
+    &\quad + (n-k-2)\begin{bmatrix}
+         O_{kn} & O_{kn, (n-k)n} \\
+        O_{(n-k)n,kn} &(J_{n-k}-I) \otimes I_n
+    \end{bmatrix} + 2\begin{bmatrix}
+         O_{kn} & O_{kn, (n-k)n} \\
+        O_{(n-k)n,kn} & (J_{n-k}-I)\otimes(J_n-I)
+    \end{bmatrix}.
+\end{align*}
+
+We choose to multiply $\begin{bmatrix}
+        O_{kn} & J_{k,n-k} \otimes I_n \\
+        J_{n-k,k}\otimes I_n & O_{(n-k)n}
+    \end{bmatrix}$ with $\begin{bmatrix}
+        I_{kn} & O_{kn, (n-k)n} \\
+        O_{(n-k)n,kn} & O_{(n-k)n}
+    \end{bmatrix}$ and \\$\begin{bmatrix}
+        O_{kn} & O_{kn, (n-k)n} \\
+        O_{(n-k)n,kn} & I_{(n - k)n}
+    \end{bmatrix}$ respectively,
+
+\begin{align*}
+    &\begin{bmatrix}
+        O_{kn} & J_{k,n-k} \otimes I_n \\
+        J_{n-k,k}\otimes I_n & O_{(n-k)n}
+    \end{bmatrix}\begin{bmatrix}
+        I_{kn} & O_{kn, (n-k)n} \\
+        O_{(n-k)n,kn} & O_{(n-k)n}
+    \end{bmatrix}\\
+    &=\begin{bmatrix}
+        O_{kn} & O_{kn, (n-k)n} \\
+        J_{n-k,k}\otimes I_n & O_{(n-k)n}
+    \end{bmatrix}.\\\\
+    &\begin{bmatrix}
+        O_{kn} & J_{k,n-k} \otimes I_n \\
+        J_{n-k,k}\otimes I_n & O_{(n-k)n}
+    \end{bmatrix}\begin{bmatrix}
+        O_{kn} & O_{kn, (n-k)n} \\
+        O_{(n-k)n,kn} & I_{(n - k)n}
+    \end{bmatrix}\\
+    &= \begin{bmatrix}
+        O_{kn} & J_{k,n-k} \otimes I_n \\
+        O_{(n-k)n,kn} & O_{(n-k)n}
+    \end{bmatrix}.
+\end{align*}
+
+Similarly, we choose to multiply $\begin{bmatrix}
+        O_{kn} & J_{k,n-k} \otimes (J_n-I) \\
+        J_{n-k,k}\otimes (J_n-I) & O_{(n-k)n}
+    \end{bmatrix}$ with $\begin{bmatrix}
+        I_{kn} & O_{kn, (n-k)n} \\
+        O_{(n-k)n,kn} & O_{(n-k)n}
+    \end{bmatrix}$ and \\$\begin{bmatrix}
+        O_{kn} & O_{kn, (n-k)n} \\
+        O_{(n-k)n,kn} & I_{(n - k)n}
+    \end{bmatrix}$ respectively,
+
+\begin{align*}
+    &\begin{bmatrix}
+        O_{kn} & J_{k,n-k} \otimes (J_n-I) \\
+        J_{n-k,k}\otimes (J_n-I) & O_{(n-k)n}
+    \end{bmatrix}\begin{bmatrix}
+        I_{kn} & O_{kn, (n-k)n} \\
+        O_{(n-k)n,kn} & O_{(n-k)n}
+    \end{bmatrix}\\
+    &=\begin{bmatrix}
+        O_{kn} & O_{kn, (n-k)n} \\
+        J_{n-k,k}\otimes (J_n-I) & O_{(n-k)n}
+    \end{bmatrix}.\\\\
+    &\begin{bmatrix}
+        O_{kn} & J_{k,n-k} \otimes (J_n-I) \\
+        J_{n-k,k}\otimes (J_n-I) & O_{(n-k)n}
+    \end{bmatrix}\begin{bmatrix}
+        O_{kn} & O_{kn, (n-k)n} \\
+        O_{(n-k)n,kn} & I_{(n - k)n}
+    \end{bmatrix}\\
+    &= \begin{bmatrix}
+        O_{kn} & J_{k,n-k} \otimes (J_n-I) \\
+        O_{(n-k)n,kn} & O_{(n-k)n}
+    \end{bmatrix}.
+\end{align*}
+
+Now, we apply the Wielandt's Principle again to show the matrices below are classes of the coherent closure:
+
+\begin{align*}
+    \operatorname{span}\{
+    &\begin{bmatrix}
+        I_{kn} & O_{kn, (n-k)n} \\
+        O_{(n-k)n,kn} & O_{(n-k)n}
+    \end{bmatrix},
+    \begin{bmatrix}
+        I_k\otimes(J_n-I) & O_{kn, (n-k)n} \\
+        O_{(n-k)n,kn} & O_{(n-k)n}
+    \end{bmatrix},\\
+    &\begin{bmatrix}
+        (J_k-I)\otimes I_n & O_{kn, (n-k)n} \\
+        O_{(n-k)n,kn} & O_{(n-k)n}
+    \end{bmatrix},
+    \begin{bmatrix}
+        (J_k-I)\otimes (J_n-I) & O_{kn, (n-k)n} \\
+        O_{(n-k)n,kn} & O_{(n-k)n}
+    \end{bmatrix},\\
+    &\begin{bmatrix}
+        O_{kn} & O_{kn, (n-k)n} \\
+        O_{(n-k)n,kn} & I_{(n-k)n}
+    \end{bmatrix},
+    \begin{bmatrix}
+         O_{kn} & O_{kn, (n-k)n} \\
+        O_{(n-k)n,kn} & I_{n-k}\otimes(J_n-I)
+    \end{bmatrix},\\
+    &\begin{bmatrix}
+         O_{kn} & O_{kn, (n-k)n} \\
+        O_{(n-k)n,kn} &(J_{n-k}-I) \otimes I_n
+    \end{bmatrix},
+    \begin{bmatrix}
+         O_{kn} & O_{kn, (n-k)n} \\
+        O_{(n-k)n,kn} & (J_{n-k}-I)\otimes(J_n-I)
+    \end{bmatrix},\\
+    &\begin{bmatrix}
+        O_{kn} & J_{k,n-k} \otimes I_n \\
+        O_{(n-k)n,kn} & O_{(n-k)n}
+    \end{bmatrix},
+    \begin{bmatrix}
+        O_{kn} & O_{kn, (n-k)n} \\
+        J_{n-k,k}\otimes I_n & O_{(n-k)n}
+    \end{bmatrix},\\
+    &\begin{bmatrix}
+        O_{kn} & J_{k,n-k} \otimes (J_n-I) \\
+        O_{(n-k)n,kn} & O_{(n-k)n}
+    \end{bmatrix},
+    \begin{bmatrix}
+        O_{kn} & O_{kn, (n-k)n} \\
+        J_{n-k,k}\otimes (J_n-I) & O_{(n-k)n}
+    \end{bmatrix}
+    \}\subseteq\mathcal{W}(\Gamma_5)\\
+    \Rightarrow &\mathcal{A}\subseteq\mathcal{W}(\Gamma_5).
+\end{align*}
+
+However, notice that $\mathcal{A}=\mathcal{A}(\Gamma_5)$, so we conclude that
+\begin{align*}
+    \mathcal{A}(\Gamma_5)=\mathcal{A}\subseteq\mathcal{W}(\Gamma_5)\\
+    \Rightarrow\mathcal{A}(\Gamma_5)\subseteq\mathcal{W}(\Gamma_5).
+\end{align*}
+
+Since $\mathcal{A}(\Gamma_5)$ was proven to be a coherent algebra, $\mathcal{W}(\Gamma_5)\subseteq\mathcal{A}(\Gamma_5)$.
+Therefore, $\mathcal{W}(\Gamma_5)=\mathcal{A}(\Gamma_5)$, and the coherent rank of $\Gamma_5$ is $|\mathcal{W}(\Gamma_5)| = |\langle W_i:\quad i\in[12]\rangle|=12$.
+
+
+% To use the Wielandt Principle \ref{def:wielandt-priniple}, we let $A=A(\Gamma_5)\in\mathcal{A}$, so we know that $A^2\in\mathcal{A}$ we well.
+
+% Detailed workings can be found in the appendix \ref{working:lb-gamma-5}. For simplicity we will just state the relevant conclusions.
+
+% We have shown that there are at least 12 different classes in the coherent closure, so the coherent rank of this switched graph is $|\mathcal{W}(\Gamma_5)| = 12$. We can also conclude that
+
+% \begin{equation*}
+%     \mathcal{W}(\Gamma_5) = \langle W_1, W_2, W_3, W_4, W_5, W_6, W_7, W_8, W_9, W_{10}, W_{11}, W_{12} \rangle.
+% \end{equation*}
