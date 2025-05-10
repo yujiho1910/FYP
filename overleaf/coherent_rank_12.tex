@@ -1,0 +1,1102 @@
+\documentclass{article}
+\usepackage{amsmath, amssymb, amsthm}
+\usepackage{geometry}
+\usepackage{graphicx}
+\usepackage{tikz}
+\geometry{a4paper, margin=1in}
+\usepackage{titlesec}
+\usepackage{hyperref}
+\setcounter{MaxMatrixCols}{20}
+\newtheorem{proposition}{Proposition}
+\newtheorem{definition}{Definition}
+\newtheorem{theorem}{Theorem}
+\newtheorem{example}{Example}
+\newtheorem{property}{Property}
+
+\title{Showing Coherent Algebra}
+\author{Ho Jing Rui}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+\newpage
+
+\section*{Definition of a Rook Graph}
+
+A rook graph is defined as a graph, \(R_{m,n} = (V_R,E_R), \quad m\leq n\), where:
+\begin{itemize}
+    \item Vertices represent the cells of an \( m \times n \) chessboard, \(|V_R| = mn\).
+    \item Two vertices are adjacent if they lie in the same row or column on the chessboard.
+    \item The resulting adjacency matrix is as follows:
+    \begin{align*}
+        \mathbf{A}(R_{m,n}) = \begin{bmatrix}
+            J-I & I & \cdots & I \\
+            I & J-I & \cdots & I \\
+            \vdots & \vdots & \ddots & \vdots \\
+            I & I & \cdots & J-I
+        \end{bmatrix}
+    \end{align*}
+    where each block is of size $n\times n$, and there are $m$ blocks on each row and column.
+\end{itemize}
+
+\section*{Resulting Matrix Decomposition}
+
+Similarly to how we switch 1 vertex from $R_{n,n}$, we switch $k$-blocks of $n$ vertices ($k<\lfloor n/2\rfloor$ by symmetry) from $R_{n,n}$ and have decomposed the matrix into the form:
+
+\begin{align*}
+    \mathbf{A}(\Gamma) = \begin{bmatrix}
+        \mathbf{A}(R_{k,n}) & C \\
+        C^T & \mathbf{A}(R_{n-k, n})
+    \end{bmatrix}
+\end{align*}
+
+where $C = J_{k\times n-k} \otimes I$ and $\otimes$ is the Kronecker product.
+
+\subsection*{}
+
+We want to show that this resulting graph has rank 12. We do this in 2 steps.
+
+\begin{enumerate}
+    \item Show the upper bound by constructing a coherent algebra.
+    \item Show the lower bound using the Wielandt principle.
+\end{enumerate}
+
+\section{Constructing a Coherent Algebra}
+
+We wish to show that the set
+
+% \begin{align*}
+%     \mathcal{W}(\Gamma) = \langle
+%     &\begin{bmatrix}
+%         I_{kn\times kn} & 0 \\
+%         0 & 0
+%     \end{bmatrix},
+%     \begin{bmatrix}
+%         I_{k\times k} \otimes (J-I)_{n\times n} & 0 \\
+%         0 & 0
+%     \end{bmatrix},
+%     \begin{bmatrix}
+%         (J-I)_{k\times k} \otimes I_{n\times n} & 0 \\
+%         0 & 0
+%     \end{bmatrix},
+%     \begin{bmatrix}
+%         (J-I)_{k\times k} \otimes (J-I)_{n\times n} & 0 \\
+%         0 & 0
+%     \end{bmatrix}, \\
+%     &\begin{bmatrix}
+%         0 & 0 \\
+%         0 & I_{n(n-k)\times n(n-k)}
+%     \end{bmatrix},
+%     \begin{bmatrix}
+%         0 & 0 \\
+%         0 & I_{n-k\times n-k} \otimes (J-I)_{n\times n}
+%     \end{bmatrix},
+%     \begin{bmatrix}
+%         0 & 0 \\
+%         0 & (J-I)_{n-k\times n-k} \otimes I_{n\times n}
+%     \end{bmatrix},
+%     \begin{bmatrix}
+%         0 & 0 \\
+%         0 & (J-I)_{n-k\times n-k} \otimes (J-I)_{n\times n}
+%     \end{bmatrix}, \\
+%     &\begin{bmatrix}
+%         0 & C \\
+%         0 & 0
+%     \end{bmatrix},
+%     \begin{bmatrix}
+%         0 & J-C \\
+%         0 & 0
+%     \end{bmatrix}, \\
+%     &\begin{bmatrix}
+%         0 & 0 \\
+%         C^T & 0
+%     \end{bmatrix},
+%     \begin{bmatrix}
+%         0 & 0 \\
+%         J-C^T & 0
+%     \end{bmatrix},
+%     \rangle
+% \end{align*}
+
+\begin{align*}
+    \mathcal{W}(\Gamma) = \langle
+    &\begin{bmatrix}
+        I & 0 \\
+        0 & 0
+    \end{bmatrix},
+    \begin{bmatrix}
+        I \otimes (J-I) & 0 \\
+        0 & 0
+    \end{bmatrix},
+    \begin{bmatrix}
+        (J-I) \otimes I & 0 \\
+        0 & 0
+    \end{bmatrix},
+    \begin{bmatrix}
+        (J-I) \otimes (J-I) & 0 \\
+        0 & 0
+    \end{bmatrix}, \\
+    &\begin{bmatrix}
+        0 & 0 \\
+        0 & I
+    \end{bmatrix},
+    \begin{bmatrix}
+        0 & 0 \\
+        0 & I \otimes (J-I)
+    \end{bmatrix},
+    \begin{bmatrix}
+        0 & 0 \\
+        0 & (J-I) \otimes I
+    \end{bmatrix},
+    \begin{bmatrix}
+        0 & 0 \\
+        0 & (J-I) \otimes (J-I)
+    \end{bmatrix}, \\
+    &\begin{bmatrix}
+        0 & J\otimes I \\
+        0 & 0
+    \end{bmatrix},
+    \begin{bmatrix}
+        0 & J\otimes (J-I) \\
+        0 & 0
+    \end{bmatrix}, 
+    \begin{bmatrix}
+        0 & 0 \\
+        J\otimes I & 0
+    \end{bmatrix},
+    \begin{bmatrix}
+        0 & 0 \\
+        J\otimes (J-I) & 0
+    \end{bmatrix}
+    \rangle
+\end{align*}
+
+satisfies the following axioms:
+
+\subsection*{Axioms of a Coherent Configuration}
+
+\textbf{Coherent Configuration Axioms:}
+
+\begin{itemize}
+    \item[(CC1)] \quad \( \sum_{i=1}^{r} A_i = J \).
+    \item[(CC2)] \quad For each \( i \in \{1, \dots, r\} \), there exists \( j \in \{1, \dots, r\} \) such that \( A_i^T = A_j \).
+    \item[(CC3)] \quad There exists a subset \( \Delta \subset \{1, \dots, r\} \) such that \( \sum_{i \in \Delta} A_i = I \).
+    \item[(CC4)] \quad \( A_i A_j = \sum_{k=1}^{r} p^k_{i,j} A_k \), for each \( i, j \in \{1, \dots, r\} \).
+\end{itemize}
+
+\textbf{Coherent Algebra Axioms:}
+
+A \textit{coherent algebra} is a matrix algebra \( \mathcal{A} \subseteq \text{Mat}_X(\mathbb{C}) \) that satisfies the following axioms:
+
+\begin{itemize}
+    \item[(A1)] \quad \( I, J \in \mathcal{A} \).
+    \item[(A2)] \quad \( M^T \in \mathcal{A} \) for each \( M \in \mathcal{A} \).
+    \item[(A3)] \quad \( MN \in \mathcal{A} \) and \( M \circ N \in \mathcal{A} \) for each \( M, N \in \mathcal{A} \), where \( \circ \) denotes the entrywise product.
+\end{itemize}
+
+We do so by splitting up the set $\mathcal{W}(\Gamma)$ into subsets for easier reference:
+
+\begin{align*}
+    \mathcal{W}(A_1) = &\langle \begin{bmatrix}
+        I & 0 \\
+        0 & 0
+    \end{bmatrix},
+    \begin{bmatrix}
+        I \otimes (J-I) & 0 \\
+        0 & 0
+    \end{bmatrix},
+    \begin{bmatrix}
+        (J-I) \otimes I & 0 \\
+        0 & 0
+    \end{bmatrix},
+    \begin{bmatrix}
+        (J-I) \otimes (J-I) & 0 \\
+        0 & 0
+    \end{bmatrix}
+    \rangle, \\ 
+    =&\langle M_{11}, M_{12}, M_{13}, M_{14} \rangle \\ \\
+    \mathcal{W}(A_2) = &\langle \begin{bmatrix}
+        0 & 0 \\
+        0 & I
+    \end{bmatrix},
+    \begin{bmatrix}
+        0 & 0 \\
+        0 & I \otimes (J-I)
+    \end{bmatrix},
+    \begin{bmatrix}
+        0 & 0 \\
+        0 & (J-I) \otimes I
+    \end{bmatrix},
+    \begin{bmatrix}
+        0 & 0 \\
+        0 & (J-I) \otimes (J-I)
+    \end{bmatrix}
+    \rangle, \\
+    =&\langle M_{21}, M_{22}, M_{23}, M_{24}\rangle \\ \\
+    \mathcal{W}(C) = &\langle \begin{bmatrix}
+        0 & J\otimes I \\
+        0 & 0
+    \end{bmatrix},
+    \begin{bmatrix}
+        0 & J\otimes (J-I) \\
+        0 & 0
+    \end{bmatrix}
+    \rangle, \\
+    =&\langle M_{31}, M_{32} \rangle \\ \\
+    \mathcal{W}(C^T) = &\langle \begin{bmatrix}
+        0 & 0 \\
+        J\otimes I & 0
+    \end{bmatrix},
+    \begin{bmatrix}
+        0 & 0 \\
+        J\otimes (J-I) & 0
+    \end{bmatrix}
+    \rangle \\
+    =&\langle M_{41}, M_{42}\rangle
+\end{align*}
+
+\begin{itemize}
+    \item We can observe that the elements in $\mathcal{W}(\Gamma)$ are partitions of the matrix $J$, and as such (CC1) is fulfilled.
+    \item Each element in $\mathcal{W}(A_1)$ and $\mathcal{W}(A_2)$ is self-transpose, and each element in $\mathcal{W}(C)$ has its transpose in $\mathcal{W}(C^T)$ (i.e. $M_{3i} = M_{4i}^T$, $i \in\{1,2\}$), so (CC2) is also fulfilled, which also fulfils (A2).
+    \item $M_{11} + M_{21} = I$, which shows the existence of a subset of $\mathcal{W}(\Gamma)$ such that the sum of the elements in the subset $\Delta = \{M_{11}, M_{21}\}$ is the identity matrix, $I$. This fulfils (CC3) and since (CC1) is also fulfilled, we have shown $I,J \in \mathcal{W}(\Gamma)$, so (A1) is fulfilled. 
+    \item We just need to show (CC4) and (A3), but showing (A3) also shows (CC4), so we will choose to show that instead of both.
+\end{itemize}
+
+% M◦N ∈ A
+\subsection{Entrywise product} 
+We start with the trivial part, the entrywise product. We observe that each element in $\mathcal{W}(\Gamma)$ are partitions of $J$, with no overlapping entries that are both non-zero. As such, for any matrix $M,N \in \mathcal{W}(\Gamma)$
+
+\begin{align*}
+    M\circ N = \mathbf{0}, \quad\text{ where } \mathbf{0} \text{ is the all-zeros matrix}
+\end{align*}
+
+Thus, we have shown for any matrix $M,N \in \mathcal{W}(\Gamma)$, $M\circ N \in \mathcal{W}(\Gamma)$
+
+% MN ∈ A
+\subsection{Matrix Multiplication}
+
+We will be using the following proposition to "ignore" the commutative multiplications:
+
+\begin{proposition}\label{prop:commutative_kronecker}
+    Given matrices $A,B,C,D$ of compatible dimensions such that $AC=CA \text{ and } BD=DB$, it follows that $(A \otimes B)(C \otimes D) = (C\otimes D)(A\otimes B)$.
+\end{proposition}
+
+\begin{proof} Starting from that assumption that $AC=CA \text{ and } BD=DB$,
+\begin{align*}
+    (A \otimes B)(C \otimes D) &= AC \otimes BD \\
+    &= CA\otimes DB \\
+    &= (C\otimes D)(A\otimes B)
+\end{align*}
+\end{proof}
+
+
+We will first consider the multiplications of the elements within their subsets, $\mathcal{W}(A_1), \mathcal{W}(A_2), \mathcal{W}(C), \mathcal{W}(C^T)$. To simplify the calculations, we will be using the respective block matrices to represent the actual matrices, as given by:
+
+\begin{align*}
+    \mathcal{W'}(A_1) 
+    &= \langle I_{kn\times kn}, I_{k\times k} \otimes (J-I),(J-I)_{k\times k} \otimes I,(J-I)_{k\times k} \otimes (J-I) \rangle \\
+    &= \langle M'_{11}, M'_{12}, M'_{13}, M'_{14} \rangle \\ \\
+    \mathcal{W'}(A_2) 
+    &=\langle I_{n(n-k)\times n(n-k)}, I_{n-k\times n-k} \otimes (J-I),(J-I)_{n-k\times n-k} \otimes I,(J-I)_{n-k\times n-k} \otimes (J-I)\rangle, \\ 
+    &=\langle M'_{21}, M'_{22}, M'_{23}, M'_{24} \rangle \\ \\
+    \mathcal{W'}(C) 
+    &= \langle J_{k\times n-k}\otimes I, J_{k\times n-k}\otimes (J-I)\rangle \\
+    &= \langle M'_{31}, M'_{32} \rangle \\ \\
+    \mathcal{W'}(C^T) 
+    &= \langle J_{n-k \times k}\otimes I, J_{n-k \times k}\otimes (J-I)\rangle \\
+    &= \langle M'_{41}, M'_{42} \rangle
+\end{align*}
+
+\begin{itemize}
+    \item $\mathcal{W}(A_1)$ \\
+    Since the block matrices in $\mathcal{W}(A_1)$ are all in the same position, we can isolate the non-zero block of the matrices, i.e. $\begin{bmatrix}
+        A & 0 \\ 0 & 0
+    \end{bmatrix}\begin{bmatrix}
+        B&0\\0&0
+    \end{bmatrix} = \begin{bmatrix}
+        AB&0\\0&0
+    \end{bmatrix}\neq \mathbf{0}$, so we use the set $\mathcal{W'}(A_1)$.
+    
+    We know that $M'_{11}M'_{1i} = M'_{1i}M'_{11} = M'_{1i}$ since $M'_{11} = I$, so $M_{11}M_{1i} = M_{1i}M_{11} = M_{1i} \in \mathcal{W}(\Gamma)$.
+    
+    We now consider the multiplications between $M'_{12},M'_{13}\text{ and }M'_{14}$.
+    \begin{itemize}
+        \item $M_{12}M_{13}$ \\
+        \begin{align*}
+            M'_{12}M'_{13} &= (I \otimes (J-I))((J-I) \otimes I) \\
+            &= (I(J-I))\otimes((J-I)(I)) \\
+            &= (J-I)\otimes(J-I) \\
+            &= M'_{14} \\\\
+            \Rightarrow M_{12}M_{13} &= M_{14} \in \mathcal{W}(\Gamma)
+        \end{align*}
+        
+        \item $M_{13}M_{12}$ \\ \\
+        Let $A = I, C = J-I, B = J-I, D=I$, we can see that $AC=CA \text{ and } BD=DB$. Using Proposition \ref{prop:commutative_kronecker}, 
+        \begin{align*}
+            M'_{13}M'_{12} &= M'_{12}M'_{13} \\
+            &= M'_{14} \\\\
+            \Rightarrow M_{13}M_{12} &= M_{14}\in\mathcal{W}(\Gamma)
+        \end{align*} \\
+        
+        \item $M_{12}M_{14}$ 
+        \begin{align*}
+            M'_{12}M'_{14} 
+            &= (I \otimes (J-I))((J-I) \otimes (J-I)) \\
+            &= (I(J-I))\otimes((J-I)(J-I)) \\
+            &= (J-I)\otimes((n-2)J + I) \\
+            &= (n-2)((J-I)\otimes J) + (J-I)\otimes I \\
+            &= (n-2)((J-I)\otimes(J-I)) + (n-2)((J-I)\otimes I) + (J-I)\otimes I \\
+            &= (n-2)M'_{14} + (n-1)M'_{13} \\\\
+            \Rightarrow M_{12}M_{14} &= (n-2)M_{14} + (n-1)M_{13} \in \mathcal{W}(\Gamma)
+        \end{align*}
+        
+        \item $M_{14}M_{12}$ \\ \\
+        Let $A = I, C = J-I, B = J-I, D=J-I$, we can see that $AC=CA \text{ and } BD=DB$. Using Proposition \ref{prop:commutative_kronecker}, 
+        \begin{align*}
+            M'_{14}M'_{12} &= M'_{12}M'_{14} \\
+            &= (n-2)M'_{14} + (n-1)M'_{13} \\ \\
+            \Rightarrow M_{14}M_{12} &= (n-2)M_{14} + (n-1)M_{13} \in \mathcal{W}(\Gamma)
+        \end{align*} \\
+        
+        \item $M_{13}M_{14}$ 
+        \begin{align*}
+            M'_{13}M'_{14} 
+            &=((J-I) \otimes I)((J-I) \otimes (J-I)) \\
+            &= ((J-I)(J-I))\otimes(I(J-I)) \\
+            &= ((n-2)J + I)\otimes (J-I) \\
+            &= (n-2)(J\otimes (J-I)) + I\otimes (J-I) \\
+            &= (n-2)((J-I)\otimes(J-I)) + (n-2)(I\otimes (J-I)) + I\otimes (J-I) \\
+            &= (n-2)M'_{14} + (n-1)M'_{12}  \\ \\
+            \Rightarrow M_{13}M_{14} &= (n-2)M_{14} + (n-1)M_{12} \in \mathcal{W}(\Gamma)
+        \end{align*}
+
+        \item $M_{14}M_{13}$ \\ \\
+        Let $A = J-I, C = J-I, B = I, D=J-I$, we can see that $AC=CA \text{ and } BD=DB$. Using Proposition \ref{prop:commutative_kronecker}, 
+        \begin{align*}
+            M'_{14}M'_{13} 
+            &= M'_{13}M'_{14} \\
+            &= (n-2)M'_{14} + (n-1)M'_{12} \\ \\
+            \Rightarrow M_{14}M_{13} &= (n-2)M_{14} + (n-1)M_{12} \in \mathcal{W}(\Gamma)
+        \end{align*} \\
+    \end{itemize}
+    So we have shown that the matrices $M,N \in \mathcal{W}(A_1)$ satisfy the property $MN \in \mathcal{W}(A_1) \subset \mathcal{W}(\Gamma)$.
+
+    \item $\mathcal{W}(A_2)$ \\
+    Since the block matrices in $\mathcal{W}(A_2)$ are all in the same position, we can isolate the non-zero block of the matrices, i.e. $\begin{bmatrix}
+        0 & 0 \\ 0 & A
+    \end{bmatrix}\begin{bmatrix}
+        0&0\\0&B
+    \end{bmatrix} = \begin{bmatrix}
+        0&0\\0&AB
+    \end{bmatrix}\neq \mathbf{0}$, so we use the set $\mathcal{W'}(A_2)$.
+
+    Note that $\mathcal{W'}(A_2) = \mathcal{W'}(A_1)$ and by following the working above, we can derive that the matrices  $M,N \in \mathcal{W}(A_2)$ satisfy the property that $MN \in \mathcal{W}(A_2) \subset \mathcal{W}(\Gamma)$
+
+    \item $\mathcal{W}(C)$ \\
+    Since the block matrices in $\mathcal{W}(C)$ are all in the same position, we can isolate the non-zero block of the matrices, i.e. $\begin{bmatrix}
+        0 & A \\ 0 & 0
+    \end{bmatrix}\begin{bmatrix}
+        0&B\\0&0
+    \end{bmatrix} = \begin{bmatrix}
+        0&0\\0&0
+    \end{bmatrix}$. This shows that no matter which matrices $M,N \in \mathcal{W}(C)$ we choose, $MN=\mathbf{0} \in \mathcal{W}(\Gamma)$.
+
+    \item $\mathcal{W}(C^T)$ \\
+    Similar to $\mathcal{W}(C)$, we show that $\begin{bmatrix}
+        0 & 0 \\ A & 0
+    \end{bmatrix}\begin{bmatrix}
+        0&0\\B&0
+    \end{bmatrix} = \begin{bmatrix}
+        0&0\\0&0
+    \end{bmatrix}$, showing that no matter which matrices $M,N \in \mathcal{W}(C^T)$ we choose, $MN=\mathbf{0} \in \mathcal{W}(\Gamma)$.
+\end{itemize}
+
+We now consider multiplications between different subset partitions of $\mathcal{W}(\Gamma)$.
+
+\begin{itemize}
+    \item $\mathcal{W}(A_1)$ and $\mathcal{W}(A_2)$ \\
+    \begin{itemize}
+        \item For $M\in\mathcal{W}(A_1),N \in \mathcal{W}(A_2)$, matrix multiplications would be of the form \\
+        \begin{align*}
+            MN = \begin{bmatrix}
+                A & 0 \\ 0 & 0
+            \end{bmatrix}\begin{bmatrix}
+                0&0\\0&B
+            \end{bmatrix} = \begin{bmatrix}
+                0&0\\0&0
+            \end{bmatrix}
+        \end{align*}
+        This shows that for any matrices $M\in\mathcal{W}(A_1),N \in \mathcal{W}(A_2)$, the product would be $\mathbf{0}\in\mathcal{W}(\Gamma)$.
+
+        \item For $M\in\mathcal{W}(A_2),N \in \mathcal{W}(A_1)$, matrix multiplications would be of the form \\
+        \begin{align*}
+            MN = \begin{bmatrix}
+                0 & 0 \\ 0 & A
+            \end{bmatrix}\begin{bmatrix}
+                B&0\\0&0
+            \end{bmatrix} = \begin{bmatrix}
+                0&0\\0&0
+            \end{bmatrix}
+        \end{align*}
+        This shows that for any matrices $M\in\mathcal{W}(A_2),N \in \mathcal{W}(A_1)$, the product would also be $\mathbf{0}\in\mathcal{W}(\Gamma)$.
+    \end{itemize}
+    Thus, for any 2 matrices $M,N$ from subsets $\mathcal{W}(A_1)$ and $\mathcal{W}(A_2)$, the product $MN \in \mathcal{W}(\Gamma)$.
+
+    \item $\mathcal{W}(A_1)$ and $\mathcal{W}(C)$ \\
+    \begin{itemize}
+        \item For $M\in\mathcal{W}(A_1),N \in \mathcal{W}(C)$, matrix multiplications would be of the form \\
+        \begin{align*}
+            MN = \begin{bmatrix}
+                A & 0 \\ 0 & 0
+            \end{bmatrix}\begin{bmatrix}
+                0&B\\0&0
+            \end{bmatrix} = \begin{bmatrix}
+                0&AB\\0&0
+            \end{bmatrix} \neq \mathbf{0}
+        \end{align*}
+        so we use the sets $\mathcal{W'}(A_1)$ and $\mathcal{W'}(C)$.
+        
+        We know that $M'_{11}M'_{3i} = M'_{3i}$ since $M'_{11} = I$, so $M_{11}M_{31} =M_{31}\text{ and } M_{11}M_{32} = M_{32}$. So both $M_{11}M_{31}, M_{11}M_{32}  \in \mathcal{W}(C) \subset\mathcal{W}(\Gamma)$.
+        \begin{itemize}
+            \item $M'_{12}M'_{31}$ \\
+            \begin{align*}
+                M'_{12}M'_{31}
+                &= (I\otimes(J-I)(J\otimes I) \\
+                &= IJ\otimes(J-I)I \\
+                &= J\otimes (J-I) = M'_{32} \\ \\
+                \Rightarrow M_{12}M_{31} &= M_{32} \in \mathcal{W}(C) \subset \mathcal{W}(\Gamma)
+            \end{align*}
+            
+            \item $M'_{12}M'_{32}$ \\
+            \begin{align*}
+                M'_{12}M'_{32}
+                &= (I\otimes(J-I)(J\otimes (J-I)) \\
+                &= IJ\otimes(J-I)(J-I) \\
+                &= J\otimes((n-2)J + I)\\
+                &= (n-2)J\otimes J + J\otimes I\\
+                &= (n-2)J\otimes(J-I) +(n-2)J\otimes I + J\otimes I\\
+                &= (n-2)J\otimes(J-I) +(n-1)J\otimes I \\
+                &= (n-2)M'_{32} +(n-1)M'_{31}\\ \\
+                \Rightarrow M_{12}M_{32} &= (n-2)M_{32} +(n-1)M_{31} \in \mathcal{W}(C) \subset \mathcal{W}(\Gamma)
+            \end{align*}
+
+            \item $M_{13}M_{31}$ \\
+            \begin{align*}
+                M'_{13}M'_{31}
+                &= ((J-I)\otimes I)(J\otimes I) \\
+                &= (J-I)_{k\times k}J_{k\times n-k}\otimes II \\
+                &= (k-1)J\otimes I\\
+                &= (k-1)M'_{31} \\ \\
+                \Rightarrow M_{13}M_{31} &= (k-1)M_{31} \in \mathcal{W}(C) \subset \mathcal{W}(\Gamma)
+            \end{align*}
+
+            \item $M_{13}M_{32}$ \\
+            \begin{align*}
+                M'_{13}M'_{32}
+                &= ((J-I)\otimes I)(J\otimes (J-I)) \\
+                &= (J-I)_{k\times k}J_{k\times n-k}\otimes I(J-I) \\
+                &= (k-1)J\otimes (J-1)\\
+                &= (k-1)M'_{32} \\ \\
+                \Rightarrow M_{13}M_{32} &= (k-1)M_{32} \in \mathcal{W}(C) \subset \mathcal{W}(\Gamma)
+            \end{align*}
+
+            \item $M_{14}M_{31}$ \\
+            \begin{align*}
+                M'_{14}M'_{31}
+                &= ((J-I)\otimes (J-I))(J\otimes I) \\
+                &= (J-I)_{k\times k}J_{k\times n-k}\otimes (J-I)I \\
+                &= (k-1)J\otimes (J-I)\\
+                &= (k-1)M'_{32} \\ \\
+                \Rightarrow M_{14}M_{31} &= (k-1)M_{32} \in \mathcal{W}(C) \subset \mathcal{W}(\Gamma)
+            \end{align*}
+
+            \item $M_{14}M_{32}$ \\
+            \begin{align*}
+                M'_{14}M'_{32}
+                &= ((J-I)\otimes (J-I))(J\otimes (J-I)) \\
+                &= (J-I)_{k\times k}J_{k\times n-k}\otimes (J-I)(J-I) \\
+                &= (k-1)J\otimes ((n-2)J+I)\\
+                &= (k-1)(n-2)J\otimes J + (k-1)J\otimes I \\
+                &= (k-1)(n-2)J\otimes (J-I) + (k-1)(n-2)J\otimes I + (k-1)J\otimes I\\
+                &= (k-1)(n-2)J\otimes (J-I) + (k-1)(n-1)J\otimes I \\
+                &= (k-1)(n-2)M'_{32} + (k-1)(n-1)M'_{31} \\ \\
+                \Rightarrow M_{14}M_{32} &= (k-1)(n-2)M_{32} + (k-1)(n-1)M_{31} \in \mathcal{W}(C) \subset \mathcal{W}(\Gamma)
+            \end{align*}
+        \end{itemize}
+        
+        \item For $M\in\mathcal{W}(C),N \in \mathcal{W}(A_1)$, matrix multiplications would be of the form \\
+        \begin{align*}
+            MN = \begin{bmatrix}
+                0 & A \\ 0 & 0
+            \end{bmatrix}\begin{bmatrix}
+                B&0\\0&0
+            \end{bmatrix} = \begin{bmatrix}
+                0&0\\0&0
+            \end{bmatrix}
+        \end{align*}
+        This shows that for any matrices $M\in\mathcal{W}(C),N \in \mathcal{W}(A_1)$, the product would also be $\mathbf{0}\in\mathcal{W}(\Gamma)$.
+    \end{itemize}
+    Thus, for any 2 matrices $M,N$ from subsets $\mathcal{W}(A_1)$ and $\mathcal{W}(C)$, the product $MN \in \mathcal{W}(\Gamma)$.
+
+    \item $\mathcal{W}(A_1)$ and $\mathcal{W}(C^T)$ \\
+    \begin{itemize}
+        \item For $M\in\mathcal{W}(A_1),N \in \mathcal{W}(C^T)$, matrix multiplications would be of the form \\
+        \begin{align*}
+            MN = \begin{bmatrix}
+                A & 0 \\ 0 & 0
+            \end{bmatrix}\begin{bmatrix}
+                0&0\\B&0
+            \end{bmatrix} = \begin{bmatrix}
+                0&0\\0&0
+            \end{bmatrix}
+        \end{align*}
+        This shows that for any matrices $M\in\mathcal{W}(A_1),N \in \mathcal{W}(C^T)$, the product would also be $\mathbf{0}\in\mathcal{W}(\Gamma)$.
+
+        \item For $M\in\mathcal{W}(C^T),N \in \mathcal{W}(A_1)$, matrix multiplications would be of the form \\
+        \begin{align*}
+            MN = \begin{bmatrix}
+                0 & 0 \\ A & 0
+            \end{bmatrix}\begin{bmatrix}
+                B&0\\0&0
+            \end{bmatrix} = \begin{bmatrix}
+                0&0\\AB&0
+            \end{bmatrix}\neq \mathbf{0}
+        \end{align*}
+        so we use the sets $\mathcal{W'}(C^T)$ and $\mathcal{W'}(A_1)$. \\
+        
+        We know that $M'_{4i}M'_{11} = M'_{4i}$ since $M'_{11} = I$, so $M_{41}M_{11} = M_{41} \text{ and } M_{42}M_{11} = M_{42}$. So both $M_{41}M_{11}, M_{42}M_{11} \in \mathcal{W}(C^T) \subset\mathcal{W}(\Gamma)$.
+
+        \begin{itemize}
+            \item $M_{41}M_{12}$ \\
+            \begin{align*}
+                M'_{41}M'_{12}
+                &= (J_{n-k\times k}\otimes I)(I_{k\times k}\otimes(J-I)) \\
+                &= (J_{n-k\times k}I_{k\times k})\otimes(I(J-I)) \\
+                &= J\otimes (J-I) \\
+                &= M'_{42} \\ \\
+                \Rightarrow M_{41}M_{12} &= M_{42} \in \mathcal{W}(C^T) \subset \mathcal{W}(\Gamma)
+            \end{align*}
+
+            \item $M_{42}M_{12}$ \\
+            \begin{align*}
+                M'_{42}M'_{12}
+                &= (J_{n-k\times k}\otimes (J-I))(I_{k\times k}\otimes(J-I)) \\
+                &= (J_{n-k\times k}I_{k\times k})\otimes((J-I)(J-I)) \\
+                &= J\otimes ((n-2)J + I) \\
+                &= (n-2)J\otimes J +  J\otimes I\\
+                &= (n-2)J\otimes(J-I) + (n-2)J\otimes I + J\otimes I\\
+                &= (n-2)M'_{42} + (n-1)M'_{41} \\ \\
+                \Rightarrow M_{42}M_{12} &= (n-2)M_{42} + (n-1)M_{41} \in \mathcal{W}(C^T) \subset \mathcal{W}(\Gamma)
+            \end{align*}
+
+            \item $M_{41}M_{13}$ \\
+            \begin{align*}
+                M'_{41}M'_{13}
+                &= (J_{n-k\times k}\otimes I)((J-I)_{n\times n}\otimes I) \\
+                &= (J_{n-k\times k}(J-1)_{k\times k})\otimes I(I) \\
+                &= (k-1)J\otimes I\\
+                &= (k-1)M'_{41} \\ \\
+                \Rightarrow M_{41}M_{13} &= (k-1)M_{41} \in \mathcal{W}(C^T) \subset \mathcal{W}(\Gamma)
+            \end{align*}
+            
+            \item $M_{42}M_{13}$ \\
+            \begin{align*}
+                M'_{42}M'_{13}
+                &= (J_{n-k\times k}\otimes (J-I))((J-I)_{n\times n}\otimes I) \\
+                &= (J_{n-k\times k}(J-1)_{k\times k})\otimes (J-I)(I) \\
+                &= (k-1)J\otimes (J-I)\\
+                &= (k-1)M'_{42} \\ \\
+                \Rightarrow M_{42}M_{13} &= (k-1)M_{42} \in \mathcal{W}(C^T) \subset \mathcal{W}(\Gamma)
+            \end{align*}
+
+            \item $M_{41}M_{14}$ \\
+            \begin{align*}
+                M'_{41}M'_{14}
+                &= (J_{n-k\times k}\otimes I)((J-I)_{k\times k}\otimes (J-I)) \\
+                &= (J_{n-k\times k}(J-1)_{k\times k})\otimes I(J-I) \\
+                &= (k-1)J\otimes (J-I)\\
+                &= (k-1)M'_{42} \\ \\
+                \Rightarrow M_{41}M_{14} &= (k-1)M_{42} \in \mathcal{W}(C^T) \subset \mathcal{W}(\Gamma)
+            \end{align*}
+
+            \item $M_{42}M_{14}$ \\
+            \begin{align*}
+                M'_{42}M'_{14}
+                &= (J_{n-k\times k}\otimes (J-I))((J-I)_{k\times k}\otimes (J-I)) \\
+                &= (J_{n-k\times k}(J-I)_{k\times k})\otimes((J-I)(J-I)) \\
+                &= (k-1)J\otimes((n-2)J + I) \\
+                &= (k-1)(n-2)J\otimes J + (k-1)J\otimes I \\
+                &= (k-1)(n-2)J\otimes (J-I) +(k-1)(n-2)J\otimes I + (k-1)J\otimes I \\
+                &= (k-1)(n-2)J\otimes(J-I) +(k-1)(n-1)J\otimes I \\
+                &= (k-1)(n-2)M'_{42} + (k-1)(n-1)M'_{41} \\ \\
+                \Rightarrow M_{42}M_{14} &= (k-1)(n-2)M_{42} + (k-1)(n-1)M_{41} \in \mathcal{W}(C^T) \subset \mathcal{W}(\Gamma)
+            \end{align*}
+        \end{itemize}
+        This shows that for any matrices $M\in\mathcal{W}(C^T),N \in \mathcal{W}(A_1)$, the product $MN\in\mathcal{W}(\Gamma)$.
+    \end{itemize}
+    Thus, for any 2 matrices $M,N$ from subsets $\mathcal{W}(A_1)$ and $\mathcal{W}(C^T)$, the product $MN \in \mathcal{W}(\Gamma)$.
+
+    \item $\mathcal{W}(A_2)$ and $\mathcal{W}(C)$ \\
+    \begin{itemize}
+        \item For $M\in\mathcal{W}(A_2),N \in \mathcal{W}(C)$, matrix multiplications would be of the form \\
+        \begin{align*}
+            MN = \begin{bmatrix}
+                0 & 0 \\ 0 & A
+            \end{bmatrix}\begin{bmatrix}
+                0&B\\0&0
+            \end{bmatrix} = \begin{bmatrix}
+                0&0\\0&0
+            \end{bmatrix}
+        \end{align*}
+        This shows that for any matrices $M\in\mathcal{W}(A_2),N \in \mathcal{W}(C)$, the product $MN = \mathbf{0}\in\mathcal{W}(\Gamma)$.
+
+        \item For $M\in\mathcal{W}(C),N \in \mathcal{W}(A_2)$, matrix multiplications would be of the form \\
+        \begin{align*}
+            MN = \begin{bmatrix}
+                0 & A \\ 0 & 0
+            \end{bmatrix}\begin{bmatrix}
+                0&0\\0&B
+            \end{bmatrix} = \begin{bmatrix}
+                0&AB\\0&0
+            \end{bmatrix} \neq \mathbf{0}
+        \end{align*}
+        so we use the sets $\mathcal{W'}(C)$ and $\mathcal{W'}(A_2)$. \\
+        We know that $M'_{3i}M'_{21} = M'_{3i}$ since $M'_{21} = I$, so $M_{31}M_{21} = M_{31} \text{ and } M_{32}M_{21} = M_{32}$. So both $M_{31}M_{21}, M_{32}M_{21} \in \mathcal{W}(C) \subset\mathcal{W}(\Gamma)$.
+        \begin{itemize}
+            \item $M_{31}M_{22}$
+            \begin{align*}
+                (J_{k\times n-k}\otimes I)(I_{n-k\times n-k}\otimes (J-I))
+                &= J_{k\times n-k}I_{n-k\times n-k} \otimes I(J-I) \\
+                &= J_{k\times n-k}\otimes (J-I) \\
+                &= M'_{32} \\ \\
+                \Rightarrow M_{31}M_{12} &= M_{32} \in \mathcal{W}(C) \subset \mathcal{W}(\Gamma)
+            \end{align*}
+            \item $M_{32}M_{22}$
+            \begin{align*}
+                M'_{32}M'_{22}
+                &= (J_{k\times n-k}\otimes (J-I))(I_{n-k\times n-k} \otimes (J-I)) \\
+                &= J_{k\times n-k}I_{k\times n-k} \otimes (J-I)(J-I) \\
+                &= J_{k\times n-k}\otimes((n-2)J + I) \\
+                &= (n-2)J_{k\times n-k}\otimes J + J_{k\times n-k}\otimes I\\
+                &= (n-2)J_{k\times n-k}\otimes (J-I) + (n-2)J_{k\times n-k}\otimes I + J_{k\times n-k}\otimes I\\
+                &= (n-2)M'_{32} + (n-1)M'_{31} \\\\
+                \Rightarrow M_{32}M_{22} &= (n-2)M_{32} + (n-1)M_{31} \in \mathcal{W}(C) \subset \mathcal{W}(\Gamma)
+            \end{align*}
+            \item $M_{31}M_{23}$
+            \begin{align*}
+                M'_{31}M'_{23}
+                &= (J_{k\times n-k}\otimes I)((J-I)_{n-k\times n-k} \otimes I) \\
+                &= J_{k\times n-k}(J-I)_{n-k\times n-k} \otimes I(I) \\
+                &= (n-k-1)J_{k\times n-k}\otimes I \\
+                &= (n-k-1)M'_{31} \\\\
+                \Rightarrow M_{31}M_{23} &= (n-k-1)M_{31} \in \mathcal{W}(C) \subset\mathcal{W}(\Gamma)
+            \end{align*}
+            \item $M_{32}M_{23}$
+            \begin{align*}
+                M'_{32}M'_{23}
+                &= (J_{k\times n-k}\otimes (J-I))((J-I)_{n-k\times n-k} \otimes I) \\
+                &= J_{k\times n-k}(J-I)_{n-k\times n-k} \otimes (J-I)I \\
+                &= (n-k-1)J_{k\times n-k}\otimes (J-I) \\
+                &= (n-k-1)M'_{32} \\\\
+                \Rightarrow M_{32}M_{23} &= (n-k-1)M_{32} \in \mathcal{W}(C) \subset\mathcal{W}(\Gamma)
+            \end{align*}
+            \item $M_{31}M_{24}$
+            \begin{align*}
+                M'_{31}M'_{24}
+                &= (J_{k\times n-k}\otimes I)((J-I)_{n-k\times n-k} \otimes (J-I)) \\
+                &= J_{k\times n-k}(J-I)_{n-k\times n-k} \otimes I(J-I) \\
+                &= (n-k-1)J_{k\times n-k}\otimes (J-I) \\
+                &= (n-k-1)M'_{32} \\\\
+                \Rightarrow M_{31}M_{24} &= (n-k-1)M_{32} \in \mathcal{W}(C) \subset\mathcal{W}
+            \end{align*}
+            \item $M_{32}M_{24}$
+            \begin{align*}
+                M'_{32}M'_{24}
+                &= (J_{k\times n-k}\otimes (J-I))((J-I)_{n-k\times n-k} \otimes (J-I)) \\
+                &= J_{k\times n-k}(J-I)_{n-k\times n-k} \otimes (J-I)(J-I) \\
+                &= (n-k-1)J_{k\times n-k}\otimes ((n-2)J + I) \\
+                &= (n-k-1)(n-2)J_{k\times n-k}\otimes J + (n-k-1)J_{k\times n-k}\otimes I\\
+                &= (n-k-1)(n-2)J_{k\times n-k}\otimes (J-I) + (n-k-1)(n-2)J_{k\times n-k}\otimes I \\
+                &\quad+ (n-k-1)J_{k\times n-k}\otimes I\\
+                &= (n-k-1)(n-2)M'_{32} + (n-k-1)(n-1)M'_{31} \\\\
+                \Rightarrow M_{32}M_{24} &= (n-k-1)(n-2)M'_{32} + (n-k-1)(n-1)M'_{31} \in \mathcal{W}(C) \subset\mathcal{W}
+            \end{align*}
+        \end{itemize}
+        This shows that for any matrices $M\in\mathcal{W}(C),N \in \mathcal{W}(A_2)$, the product $MN\in\mathcal{W}(\Gamma)$.
+    \end{itemize}
+    Thus, for any 2 matrices $M,N$ from subsets $\mathcal{W}(A_2)$ and $\mathcal{W}(C)$, the product $MN \in \mathcal{W}(\Gamma)$.
+
+    \item $\mathcal{W}(A_2)$ and $\mathcal{W}(C^T)$ \\
+    \begin{itemize}
+        \item For $M\in\mathcal{W}(A_2),N \in \mathcal{W}(C^T)$, matrix multiplications would be of the form \\
+        \begin{align*}
+            MN = \begin{bmatrix}
+                0 & 0 \\ 0 & A
+            \end{bmatrix}\begin{bmatrix}
+                0&0\\B&0
+            \end{bmatrix} = \begin{bmatrix}
+                0&0\\AB&0
+            \end{bmatrix} \neq \mathbf{0}
+        \end{align*}
+        so we use the sets $\mathcal{W'}(A_2)$ and $\mathcal{W'}(C^T)$. \\
+        \begin{itemize}
+            \item $M_{22}M_{41}$
+            \begin{align*}
+                M'_{22}M'_{41}
+                &= (I_{n-k\times n-k} \otimes (J-I))(J_{n-k\times k}\otimes I) \\
+                &= I_{n-k\times n-k}J_{n-k\times k} \otimes (J-I)I \\
+                &= J_{n-k\times k} \otimes (J-I) \\
+                &= M'_{42} \\\\
+                \Rightarrow M_{22}M_{41} &= M_{42} \in \mathcal{W}(C^T) \subset\mathcal{W}(\Gamma)
+            \end{align*}
+            
+            \item $M_{22}M_{42}$
+            \begin{align*}
+                M'_{22}M'_{42}
+                &= (I_{n-k\times n-k} \otimes (J-I))(J_{n-k\times k}\otimes (J-I)) \\
+                &= I_{n-k\times n-k}J_{n-k\times k} \otimes (J-I)(J-I) \\
+                &= J_{n-k\times k} \otimes ((n-2)J+I) \\
+                &= (n-2)J_{n-k\times k}\otimes J + J\otimes I \\
+                &= (n-2)J_{n-k\times k}\otimes(J-I) + (n-2)J\otimes I + J\otimes I \\
+                &= (n-2)J_{n-k\times k}\otimes (J-I) + (n-1)J\otimes I \\
+                &= (n-2)M'_{42} + (n-1)M'_{41} \\\\
+                \Rightarrow M_{22}M_{42} &= (n-2)M_{42} + (n-1)M_{41} \in \mathcal{W}(C^T)\subset\mathcal{W}(\Gamma)
+            \end{align*}
+            
+            \item $M_{23}M_{41}$
+            \begin{align*}
+                M'_{23}M'_{41}
+                &= ((J-I)_{n-k\times n-k} \otimes I)(J_{n-k\times k}\otimes I) \\
+                &= (J-I)_{n-k\times n-k}J_{n-k\times k}\otimes I(I) \\
+                &= (n-k-1)J_{n-k\times k}\otimes I\\
+                &= (n-k-1)M'_{41} \\\\
+                \Rightarrow M_{23}M_{41} &= (n-k-1)M_{41}\in\mathcal{W}(C^T)\subset\mathcal{W}(\Gamma)
+            \end{align*}
+            
+            \item $M_{23}M_{42}$
+            \begin{align*}
+                M'_{23}M'_{42}
+                &= ((J-I)_{n-k\times n-k} \otimes I)(J_{n-k\times k}\otimes (J-I)) \\
+                &= (J-I)_{n-k\times n-k}J_{n-k\times k}\otimes I(J-I) \\
+                &= (n-k-1)J_{n-k\times k}\otimes (J-I)\\
+                &= (n-k-1)M'_{42} \\\\
+                \Rightarrow M_{23}M_{42} &= (n-k-1)M_{42}\in\mathcal{W}(C^T)\subset\mathcal{W}(\Gamma)
+            \end{align*}
+            
+            \item $M_{23}M_{41}$
+            \begin{align*}
+                M'_{24}M'_{41}
+                &= ((J-I)_{n-k\times n-k} \otimes (J-I))(J_{n-k\times k}\otimes I) \\
+                &= (J-I)_{n-k\times n-k}J_{n-k\times k}\otimes (J-I)I \\
+                &= (n-k-1)J_{n-k\times k}\otimes (J-I)\\
+                &= (n-k-1)M'_{42} \\\\
+                \Rightarrow M_{24}M_{41} &= (n-k-1)M_{42}\in\mathcal{W}(C^T)\subset\mathcal{W}(\Gamma)
+            \end{align*}
+            
+            \item $M_{23}M_{42}$
+            \begin{align*}
+                M'_{24}M'_{42}
+                &= ((J-I)_{n-k\times n-k} \otimes (J-I))(J_{n-k\times k}\otimes (J-I)) \\
+                &= (J-I)_{n-k\times n-k}J_{n-k\times k}\otimes (J-I)(J-I) \\
+                &= (n-k-1)J_{n-k\times k}\otimes ((n-2)J+I)\\
+                &= (n-k-1)(n-2)J_{n-k\times k}\otimes J + (n-k-1)J_{n-k\times k}\otimes I \\
+                &= (n-k-1)(n-2)J_{n-k\times k}\otimes (J-I) + (n-k-1)(n-2)J\otimes I \\
+                &\quad +(n-k-1)J\otimes I \\
+                &= (n-k-1)(n-2)M'_{42} + (n-k-1)(n-1)M'_{41} \\\\
+                \Rightarrow M_{24}M_{42} &= (n-k-1)(n-2)M_{42} + (n-k-1)(n-1)M_{41} \in\mathcal{W}(C^T)\subset\mathcal{W}(\Gamma)
+            \end{align*}
+        \end{itemize}
+        This shows that for any matrices $M\in\mathcal{W}(A_2),N \in \mathcal{W}(C^T)$, the product $MN \in\mathcal{W}(\Gamma)$.
+        
+        \item For $M\in\mathcal{W}(C^T),N \in \mathcal{W}(A_2)$, matrix multiplications would be of the form \\
+        \begin{align*}
+            MN = \begin{bmatrix}
+                0 & 0 \\ A & 0
+            \end{bmatrix}\begin{bmatrix}
+                0&0\\0&B
+            \end{bmatrix} = \begin{bmatrix}
+                0&0\\0&0
+            \end{bmatrix}
+        \end{align*}
+        This shows that for any matrices $M\in\mathcal{W}(C^T),N \in \mathcal{W}(A_2)$, the product $MN = \mathbf{0}\in\mathcal{W}(\Gamma)$.
+    \end{itemize}
+    Thus, for any 2 matrices $M,N$ from subsets $\mathcal{W}(A_2)$ and $\mathcal{W}(C^T)$, the product $MN \in \mathcal{W}(\Gamma)$.
+
+    \item $\mathcal{W}(C)$ and $\mathcal{W}(C^T)$ \\
+    \begin{itemize}
+        \item For $M\in\mathcal{W}(C),N \in \mathcal{W}(C^T)$, matrix multiplications would be of the form \\
+        \begin{align*}
+            MN = \begin{bmatrix}
+                0 & A \\ 0 & 0
+            \end{bmatrix}\begin{bmatrix}
+                0&0\\B&0
+            \end{bmatrix} = \begin{bmatrix}
+                AB&0\\0&0
+            \end{bmatrix} \neq \mathbf{0}
+        \end{align*}
+        so we use the sets $\mathcal{W'}(C)$ and $\mathcal{W'}(C^T)$. \\
+        \begin{itemize}
+            \item $M_{31}M_{41}$
+            \begin{align*}
+                M'_{31}M'_{41}
+                &= (J_{k\times(n-k)}\otimes I)(J_{(n-k)\times k}\otimes I) \\
+                &= J_{k\times(n-k)}J_{(n-k)\times k} \otimes I(I) \\
+                &= (n-k)J_{k\times k}\otimes I \\
+                &= (n-k)(J-I)_{k\times k}\otimes I + (n-k)I_{k\times k}\otimes I \\
+                &= (n-k)(J-I)_{k\times k}\otimes I + (n-k)I_{kn\times kn} \\
+                &= (n-k)M'_{13} + (n-k)M'_{11} \\\\
+                \Rightarrow M_{31}M_{41} &= (n-k)M_{13} + (n-k)M_{11} \in \mathcal{W}(A_1)\subset\mathcal{W}(\Gamma)
+            \end{align*}
+            
+            \item $M_{31}M_{42}$
+            \begin{align*}
+                M'_{31}M'_{42}
+                &= (J_{k\times(n-k)}\otimes I)(J_{(n-k)\times k}\otimes (J-I)) \\
+                &= J_{k\times(n-k)}J_{(n-k)\times k} \otimes I(J-I) \\
+                &= (n-k)J_{k\times k}\otimes (J-I) \\
+                &= (n-k)(J-I)_{k\times k}\otimes (J-I) + (n-k)I_{k\times k}\otimes (J-I) \\
+                &= (n-k)M'_{14} + (n-k)M'_{12} \\\\
+                \Rightarrow M_{31}M_{42} &= (n-k)M_{14} + (n-k)M_{12} \in \mathcal{W}(A_1)\subset\mathcal{W}(\Gamma)
+            \end{align*}
+            
+            \item $M_{32}M_{41}$
+            \begin{align*}
+                M'_{32}M'_{41}
+                &= (J_{k\times(n-k)}\otimes (J-I))(J_{(n-k)\times k}\otimes I) \\
+                &= J_{k\times(n-k)}J_{(n-k)\times k} \otimes (J-I)I \\
+                &= (n-k)J_{k\times k}\otimes (J-I) \\
+                &= (n-k)(J-I)_{k\times k}\otimes (J-I) + (n-k)I_{k\times k}\otimes (J-I) \\
+                &= (n-k)M'_{14} + (n-k)M'_{12} \\\\
+                \Rightarrow M_{32}M_{41} &= (n-k)M_{14} + (n-k)M_{12} \in \mathcal{W}(A_1)\subset\mathcal{W}(\Gamma)
+            \end{align*}
+            
+            \item $M_{32}M_{42}$
+            \begin{align*}
+                M'_{32}M'_{42}
+                &= (J_{k\times(n-k)}\otimes (J-I))(J_{(n-k)\times k}\otimes (J-I)) \\
+                &= J_{k\times(n-k)}J_{(n-k)\times k} \otimes (J-I)(J-I) \\
+                &= (n-k)J_{k\times k}\otimes ((n-2)J+I) \\
+                &= (n-k)(n-2)J_{k\times k}\otimes J + (n-k)J_{k\times k}\otimes I
+            \end{align*}
+            Note that $J_{k\times k}\otimes I = M'_{13} + M'_{11}$ from $M_{31}M_{41}$, so we break down $J_{k\times k}\otimes J$:
+            \begin{align*}
+                J_{k\times k}\otimes J
+                &= J_{k\times k}\otimes (J-I) + J_{k\times k}\otimes I \\
+                &= (J-I)_{k\times k}\otimes (J-I) + I_{k\times k}\otimes (J-I) + M'_{13} + M'_{11} \\
+                &= M'_{14}+M'_{12}+M'_{13} + M'_{11}
+            \end{align*}
+            Combining,
+            \begin{align*}
+                M'_{32}M'_{42}
+                &=(n-k)(n-2)J_{k\times k}\otimes J + (n-k)J_{k\times k}\otimes I \\
+                &= (n-k)(n-2)(M'_{11}+M'_{12}+M'_{13} + M'_{14}) + (n-k)(M'_{11} + M'_{13}) \\\\
+                \Rightarrow M_{32}M_{42} &= (n-k)(n-2)(M_{11}+M_{12}+M_{13} + M_{14}) + (n-k)(M_{11} + M_{13}) \\
+                \Rightarrow M_{32}M_{42} &\in\mathcal{W}(A_1)\subset\mathcal{W}(\Gamma)
+            \end{align*}
+        \end{itemize}
+        This shows that for any matrices $M\in\mathcal{W}(C),N \in \mathcal{W}(C^T)$, the product $MN \in\mathcal{W}(\Gamma)$.
+
+        \item For $M\in\mathcal{W}(C^T),N \in \mathcal{W}(C)$, matrix multiplications would be of the form \\
+        \begin{align*}
+            MN = \begin{bmatrix}
+                0 & 0 \\ A & 0
+            \end{bmatrix}\begin{bmatrix}
+                0&B\\0&0
+            \end{bmatrix} = \begin{bmatrix}
+                0&0\\0&AB
+            \end{bmatrix} \neq \mathbf{0}
+        \end{align*}
+        so we use the sets $\mathcal{W'}(C^T)$ and $\mathcal{W'}(C)$. \\
+        \begin{itemize}
+            \item $M_{41}M_{31}$
+            \begin{align*}
+                M'_{41}M'_{31}
+                &= (J_{(n-k)\times k}\otimes I)(J_{k\times (n-k)}\otimes I) \\
+                &= J_{(n-k)\times k}J_{k\times (n-k)} \otimes I(I) \\
+                &= kJ_{(n-k)\times (n-k)}\otimes I \\
+                &= k((J-I)_{(n-k)\times (n-k)}\otimes I + I_{(n-k)\times (n-k)}\otimes I )\\
+                &= k((J-I)_{(n-k)\times (n-k)}\otimes I + I_{(n-k)n\times (n-k)n} )\\
+                &= k(M'_{23} + M'_{21}) \\\\
+                \Rightarrow M_{41}M_{31} &= k(M_{23} + M_{21}) \in \mathcal{W}(A_2)\subset\mathcal{W}(\Gamma)
+            \end{align*}
+            
+            \item $M_{41}M_{32}$
+            \begin{align*}
+                M'_{41}M'_{32}
+                &= (J_{(n-k)\times k}\otimes I)(J_{k\times (n-k)}\otimes (J-I)) \\
+                &= J_{(n-k)\times k}J_{k\times (n-k)} \otimes I(J-I) \\
+                &= kJ_{(n-k)\times (n-k)}\otimes (J-I) \\
+                &= k((J-I)_{(n-k)\times (n-k)}\otimes (J-I) + I_{(n-k)\times (n-k)}\otimes (J-I) )\\
+                &= k(M'_{24} + M'_{22}) \\\\
+                \Rightarrow M_{41}M_{32} &= k(M_{24} + M_{22}) \in \mathcal{W}(A_2)\subset\mathcal{W}(\Gamma)
+            \end{align*}
+            
+            \item $M_{42}M_{31}$
+            \begin{align*}
+                M'_{42}M'_{31}
+                &= (J_{(n-k)\times k}\otimes (J-I))(J_{k\times (n-k)}\otimes I) \\
+                &= J_{(n-k)\times k}J_{k\times (n-k)} \otimes (J-I)I \\
+                &= kJ_{(n-k)\times (n-k)}\otimes (J-I) \\
+                &= k((J-I)_{(n-k)\times (n-k)}\otimes (J-I) + I_{(n-k)\times (n-k)}\otimes (J-I) )\\
+                &= k(M'_{24} + M'_{22}) \\\\
+                \Rightarrow M_{42}M_{31} &= k(M_{24} + M_{22}) \in \mathcal{W}(A_2)\subset\mathcal{W}(\Gamma)
+            \end{align*}
+            
+            \item $M_{42}M_{32}$
+            \begin{align*}
+                M'_{42}M'_{32}
+                &= (J_{(n-k)\times k}\otimes (J-I))(J_{k\times (n-k)}\otimes (J-I)) \\
+                &= J_{(n-k)\times k}J_{k\times (n-k)} \otimes (J-I)(J-I) \\
+                &= kJ_{(n-k)\times (n-k)}\otimes ((n-2)J+I) \\
+                &= k(n-2)J_{(n-k)\times (n-k)}\otimes J + kJ_{(n-k)\times (n-k)}\otimes I
+            \end{align*}
+            Note that $kJ_{(n-k)\times (n-k)}\otimes I = k(M'_{23} + M'_{21})$ from $M_{41}M_{31}$, so we break down $J_{(n-k)\times (n-k)}\otimes J$:
+            \begin{align*}
+                J_{(n-k)\times (n-k)}\otimes J
+                &= J_{(n-k)\times (n-k)}\otimes (J-I) + J_{(n-k)\times (n-k)}\otimes I \\
+                &= (J-I)_{(n-k)\times (n-k)}\otimes (J-I) + I_{(n-k)\times (n-k)}\otimes (J-I) + M'_{23} + M'_{21} \\
+                &= M'_{24}+M'_{22}+M'_{23} + M'_{21}
+            \end{align*}
+            Combining,
+            \begin{align*}
+                M'_{42}M'_{32}
+                &= k(n-2)J_{(n-k)\times (n-k)}\otimes J + kJ_{(n-k)\times (n-k)}\otimes I \\
+                &= k(n-2)(M'_{21}+M'_{22}+M'_{23} + M'_{24}) + k(M'_{21} + M'_{23}) \\\\
+                \Rightarrow M_{42}M_{32} &= k(n-2)(M_{21}+M_{22}+M_{23} + M_{24}) + k(M_{21} + M_{23}) \\
+                \Rightarrow M_{42}M_{32} &\in\mathcal{W}(A_2)\subset\mathcal{W}(\Gamma)
+            \end{align*}
+        \end{itemize}
+        This shows that for any matrices $M\in\mathcal{W}(C^T),N \in \mathcal{W}(C)$, the product $MN \in\mathcal{W}(\Gamma)$.
+    \end{itemize}
+    Thus, for any 2 matrices $M,N$ from subsets $\mathcal{W}(C)$ and $\mathcal{W}(C^T)$, the product $MN \in \mathcal{W}(\Gamma)$.
+\end{itemize}
+Finally, we have shown that (A3) is fulfilled, and have shown that $\mathcal{W}(\Gamma)$ is a coherent configuration and a coherent algebra.
+
+As a result, the coherent rank of this graph $r$ has an upper bound of 12.
+
+\section{Showing Lower Bound}
+Recall the coherent algebra given by:
+
+% \begin{align*}
+%     \mathcal{W}(\Gamma) = \langle
+%     &\begin{bmatrix}
+%         I_{kn\times kn} & 0 \\
+%         0 & 0
+%     \end{bmatrix},
+%     \begin{bmatrix}
+%         I_{k\times k} \otimes (J-I) & 0 \\
+%         0 & 0
+%     \end{bmatrix},
+%     \begin{bmatrix}
+%         (J-I)_{k\times k} \otimes I & 0 \\
+%         0 & 0
+%     \end{bmatrix},
+%     \begin{bmatrix}
+%         (J-I)_{k\times k} \otimes (J-I) & 0 \\
+%         0 & 0
+%     \end{bmatrix}, \\
+%     &\begin{bmatrix}
+%         0 & 0 \\
+%         0 & I_{(n-k)n\times (n-k)n}
+%     \end{bmatrix},
+%     \begin{bmatrix}
+%         0 & 0 \\
+%         0 & I_{(n-k)\times (n-k)} \otimes (J-I)
+%     \end{bmatrix},
+%     \begin{bmatrix}
+%         0 & 0 \\
+%         0 & (J-I)_{(n-k)\times (n-k)} \otimes I
+%     \end{bmatrix},
+%     \begin{bmatrix}
+%         0 & 0 \\
+%         0 & (J-I)_{(n-k)\times (n-k)} \otimes (J-I)
+%     \end{bmatrix}, \\
+%     &\begin{bmatrix}
+%         0 & J_{k\times (n-k)}\otimes I \\
+%         0 & 0
+%     \end{bmatrix},
+%     \begin{bmatrix}
+%         0 & J_{k\times (n-k)}\otimes (J-I) \\
+%         0 & 0
+%     \end{bmatrix}, 
+%     \begin{bmatrix}
+%         0 & 0 \\
+%         J_{(n-k)\times k}\otimes I & 0
+%     \end{bmatrix},
+%     \begin{bmatrix}
+%         0 & 0 \\
+%         J_{(n-k)\times k}\otimes (J-I) & 0
+%     \end{bmatrix}
+%     \rangle
+% \end{align*}
+\begin{align*}
+    \mathcal{W}(\Gamma) = \langle
+    &\begin{bmatrix}
+        I & 0 \\
+        0 & 0
+    \end{bmatrix},
+    \begin{bmatrix}
+        I \otimes (J-I) & 0 \\
+        0 & 0
+    \end{bmatrix},
+    \begin{bmatrix}
+        (J-I) \otimes I & 0 \\
+        0 & 0
+    \end{bmatrix},
+    \begin{bmatrix}
+        (J-I) \otimes (J-I) & 0 \\
+        0 & 0
+    \end{bmatrix}, \\
+    &\begin{bmatrix}
+        0 & 0 \\
+        0 & I
+    \end{bmatrix},
+    \begin{bmatrix}
+        0 & 0 \\
+        0 & I \otimes (J-I)
+    \end{bmatrix},
+    \begin{bmatrix}
+        0 & 0 \\
+        0 & (J-I) \otimes I
+    \end{bmatrix},
+    \begin{bmatrix}
+        0 & 0 \\
+        0 & (J-I) \otimes (J-I)
+    \end{bmatrix}, \\
+    &\begin{bmatrix}
+        0 & J\otimes I \\
+        0 & 0
+    \end{bmatrix},
+    \begin{bmatrix}
+        0 & J\otimes (J-I) \\
+        0 & 0
+    \end{bmatrix}, 
+    \begin{bmatrix}
+        0 & 0 \\
+        J\otimes I & 0
+    \end{bmatrix},
+    \begin{bmatrix}
+        0 & 0 \\
+        J\otimes (J-I) & 0
+    \end{bmatrix}
+    \rangle
+\end{align*}
+Note that for every two matrices $M,N\in\mathcal{W}(\Gamma)$, its entrywise product is $\mathbf{0}$, i.e.
+\begin{align*}
+    M\circ N = \mathbf{0}, \quad M,N\in\mathcal{W}(\Gamma)
+\end{align*}
+
+Since the elements in $\mathcal{W}(\Gamma)$ are 0s and 1s, it shows that the elements have no overlapping entries that are 1.
+
+As such, if we remove any matrix from this set, the resulting matrices will not sum to $J$, which fails to satisfy the axiom (CC1)
+If we remove $A_k\in \mathcal{W}(\Gamma)$, resulting in a smaller set we call $\mathcal{W}(\Gamma')$, we will have
+\begin{align*}
+    \Sigma_{i=1}^{r'} A_i= J -A_k,\quad |\mathcal{W}(\Gamma')| = r'
+\end{align*}
+
+Therefore, the set $\mathcal{W}(\Gamma)$ and its elements form a minimal coherent algebra, and thus the lower bound of its rank $r$ is 12.
+
+\section*{Conclusion}
+Since we have shown the upper and loewr bound of the coherent rank of the graph $\Gamma$ to be 12 in both cases, we conclude that the coherent rank of $\Gamma$ is 12, i.e. $cr(\Gamma) = |\mathcal{W}(\Gamma)| = 12$
+\end{document}

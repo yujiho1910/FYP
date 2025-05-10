@@ -444,12 +444,64 @@ Explicitly:
 \end{bmatrix}.
 \]
 
-With this constructed matrix \(\mathbf{C}\), we can now identify the parameters of a strongly regular design.
+To simplify, we introduce a simpler notation for the matrix \(\mathbf{C}\):
+
+\[
+\mathbf{C} =
+\begin{bmatrix}
+    I & I & I & \cdots & I \\
+    R_1 & R_2 & R_3 & \cdots & R_{n-1}
+\end{bmatrix}
+\]
+where 
+\[
+(R_k)_{i,j} = 
+\begin{cases}
+    1, \text{ if }i=k \\
+    0, \text{ otherwise}
+\end{cases}
+\]
+
+In words, \(R_k\) represents a \((n-1)\times (n-1)\) matrix where the \(k\)-th row consists of 1s and all other rows are filled with 0s.
+
+With this constructed matrix \(\mathbf{C}\), we will show that the parameters of this matrix decomposition admit a strongly regular design from definition 3.
 
 \begin{enumerate}
-    \item The row sum of \(\mathbf{C}\) is \(n-1\), which is equal to \(S_2\).
-    \item The column sum of \(\mathbf{C}\) is 2, which is equal to \(S_1\).
+    \item \(\mathbf{C}\) has row sum \(S_2\) and column sum \(S_1\).
+    
+    It is clear that the row sum is \(n-1\) and the column sum is 2 \(\Rightarrow \) \boxed{S_1 = 2, S_2 = n-1}
+    \item \(\mathbf{CC^T} = (S_2-b_2)I + (a_2 - b_2)\mathbf{A_1} +b_2J\).
+
+    \begin{align*}
+        \mathbf{CC^T} &=
+        \begin{bmatrix}
+            I_{n-1} & I_{n-1} & I_{n-1} & \cdots & I_{n-1} \\
+            R_1 & R_2 & R_3 & \cdots & R_{n-1}
+        \end{bmatrix} 
+        \begin{bmatrix}
+            I_{n-1} & R_1^T \\
+            I_{n-1} & R_2^T \\
+            \vdots & \vdots \\
+            I_{n-1} & R_{n-1}^T
+        \end{bmatrix} \\
+        &= 
+        \begin{bmatrix}
+            \sum^{n-1}_{k=1}I_{n-1} & \sum_{k=1}^{n-1} R_k^T \\ \\
+            \sum^{n-1}_{k=1}R_k & \sum_{k=1}^{n-1}R_kR_k^T
+        \end{bmatrix}\\ \\
+        &=
+        \begin{bmatrix}
+            (n-1)I_{n-1} & J_{n-1} \\
+            J_{n-1} & (n-1)I_{n-1}
+        \end{bmatrix}\\
+        &= (n-2)I_{2(n-1)} + \mathbf{A_1} + J_{2(n-1)}, \text{ (which corresponds to)}\\
+        &= (S_2-b_2)I + (a_2-b_2)\mathbf{A_1} + b_2J
+    \end{align*}
+    \item \(\mathbf{C^T C} = (S_1-b_1)I + (a_1-b_1)\mathbf{A_2}+b_1J\);
+    \item \(\mathbf{CA_2} = (N_2-P_2)\mathbf{C}+P_2J\);
+    \item \(\mathbf{A_1C} = (N_1-P_1)\mathbf{C}+P_1J\).
 \end{enumerate}
+
 
 We now calculate the following matrices in order to obtain the parameters and check if the equations hold:
 

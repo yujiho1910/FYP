@@ -1,1 +1,4 @@
 sagemath_files/input.txt
+venv/
+.ipynb_checkpoints/
+
